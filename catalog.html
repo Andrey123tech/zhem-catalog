@@ -1,33 +1,85 @@
-<!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Кольца · Жемчужина</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header class="header">
-    <div class="header-inner container">
-      <div class="brand">ЖЕМЧУЖИНА · КОЛЬЦА</div>
-      <div>
-        <a href="index.html" class="btn sm">Меню</a>
-        <a href="order.html" class="btn sm">Корзина <span id="cartCount" class="badge">0</span></a>
-      </div>
-    </div>
-  </header>
+// catalog_data.js
+// Каталог колец (жесткие с камнем и без)
 
-  <main class="container">
-    <div id="grid" class="grid"></div>
-  </main>
+const PRODUCTS = [
+  // --- Жесткие кольца с камнем ---
+  {
+    sku: "190131",
+    title: "Кольцо с камнем",
+    avgWeight: 1.72,
+    images: ["img/190131_900.jpg"],
+    category: "с камнем"
+  },
+  {
+    sku: "190059",
+    title: "Кольцо с камнем",
+    avgWeight: 1.12,
+    images: ["img/190059_900.jpg"],
+    category: "с камнем"
+  },
+  {
+    sku: "190037",
+    title: "Кольцо с камнем",
+    avgWeight: 1.12,
+    images: ["img/190037_900.jpg"],
+    category: "с камнем"
+  },
+  {
+    sku: "190020",
+    title: "Кольцо с камнем",
+    avgWeight: 1.14,
+    images: ["img/190020_900.jpg"],
+    category: "с камнем"
+  },
+  {
+    sku: "190024",
+    title: "Кольцо с камнем",
+    avgWeight: 0.97,
+    images: ["img/190024_900.jpg"],
+    category: "с камнем"
+  },
+  {
+    sku: "190548",
+    title: "Кольцо с камнем",
+    avgWeight: 1.15,
+    images: ["img/190548_900.jpg"],
+    category: "с камнем"
+  },
+  {
+    sku: "190056",
+    title: "Кольцо с камнем",
+    avgWeight: 1.50,
+    images: ["img/190056_900.jpg"],
+    category: "с камнем"
+  },
+  {
+    sku: "190573",
+    title: "Кольцо с камнем",
+    avgWeight: 1.39,
+    images: ["img/190573_900.jpg"],
+    category: "с камнем"
+  },
+  {
+    sku: "190567",
+    title: "Кольцо с камнем",
+    avgWeight: 1.84,
+    images: ["img/190567_900.jpg"],
+    category: "с камнем"
+  },
+  {
+    sku: "190026",
+    title: "Кольцо с камнем",
+    avgWeight: 0.93,
+    images: ["img/190026_900.jpg"],
+    category: "с камнем"
+  },
 
-  <script src="catalog_data.js"></script>
-  <script src="script.js"></script>
-
-  <nav class="tabbar"><div class="tabbar-inner">
-    <a href="index.html">Главная</a>
-    <a href="catalog.html" class="active">Каталог</a>
-    <a href="order.html">Корзина</a>
-  </div></nav>
-</body>
-</html>
+  // --- Кольца без камня ---
+  {
+    sku: "185800",
+    title: "Кольцо без камня",
+    avgWeight: 2.57,
+    images: ["img/185800_900.jpg"],
+    category: "без камня"
+  }
+];
