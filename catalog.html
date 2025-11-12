@@ -1,70 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Каталог — Жемчужина</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Кольца · Жемчужина</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index.html">Жемчужина • B2B</a>
-      <nav class="nav">
-        <a class="nav-link active" href="catalog.html">Каталог</a>
-        <a class="nav-link" href="order.html">Корзина <span id="cart-count" class="badge">0</span></a>
-      </nav>
+  <header class="header">
+    <div class="header-inner container">
+      <div class="brand">ЖЕМЧУЖИНА · КОЛЬЦА</div>
+      <div>
+        <a href="index.html" class="btn sm">Меню</a>
+        <a href="order.html" class="btn sm">Корзина <span id="cartCount" class="badge">0</span></a>
+      </div>
     </div>
   </header>
+
   <main class="container">
-    <div class="catalog-toolbar">
-      <div class="toolbar-left">
-        <h2>Кольца</h2>
-        <div class="muted">Всего: <span id="total-count">0</span></div>
-      </div>
-      <div class="toolbar-right">
-        <button class="btn btn-secondary" id="filter-all">Все</button>
-        <button class="btn btn-secondary" id="filter-stone">С камнем</button>
-        <button class="btn btn-secondary" id="filter-plain">Без камня</button>
-      </div>
-    </div>
-    <div id="grid" class="grid grid-3x4"></div>
+    <div id="grid" class="grid"></div>
   </main>
-  <script src="utils.js"></script>
+
   <script src="catalog_data.js"></script>
-  <script>
-    const grid = document.getElementById('grid');
-    const totalEl = document.getElementById('total-count');
-    function cardTpl(p) {
-      const img = (p.images && p.images[0]) ? p.images[0] : 'https://picsum.photos/seed/' + p.sku + '/900/900';
-      return `
-        <a class="card" href="product.html?sku=${encodeURIComponent(p.sku)}">
-          <div class="card-media"><img src="${img}" alt="${p.title || p.sku}" loading="lazy"></div>
-          <div class="card-body">
-            <div class="sku">Арт. ${p.sku}</div>
-            <div class="title">${p.title || 'Кольцо'}</div>
-            <div class="meta-row">
-              <span class="weight">~${(p.avgWeight || 0).toFixed(2)} г</span>
-              <span class="category">${p.category || ''}</span>
-            </div>
-          </div>
-        </a>`;
-    }
-    function render(list) { grid.innerHTML = list.map(cardTpl).join(''); totalEl.textContent = list.length; updateCartBadge(); }
-    let current = PRODUCTS.slice();
-    function applyFilter(type) {
-      if (type === 'stone') current = PRODUCTS.filter(p => (p.category || '').includes('камн'));
-      else if (type === 'plain') current = PRODUCTS.filter(p => (p.category || '').includes('без камня'));
-      else current = PRODUCTS.slice();
-      render(current);
-    }
-    document.getElementById('filter-all').addEventListener('click', () => applyFilter('all'));
-    document.getElementById('filter-stone').addEventListener('click', () => applyFilter('stone'));
-    document.getElementById('filter-plain').addEventListener('click', () => applyFilter('plain'));
-    document.addEventListener('DOMContentLoaded', () => applyFilter('all'));
-  </script>
+  <script src="script.js"></script>
+
+  <nav class="tabbar"><div class="tabbar-inner">
+    <a href="index.html">Главная</a>
+    <a href="catalog.html" class="active">Каталог</a>
+    <a href="order.html">Корзина</a>
+  </div></nav>
 </body>
 </html>

@@ -1,32 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Жемчужина — B2B каталог</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Жемчужина · Каталог</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="brand">Жемчужина • B2B</div>
-      <nav class="nav">
-        <a class="nav-link" href="catalog.html">Каталог</a>
-        <a class="nav-link" href="order.html">Корзина <span id="cart-count" class="badge">0</span></a>
-      </nav>
+  <header class="header">
+    <div class="header-inner container">
+      <div class="brand">ЖЕМЧУЖИНА · B2B</div>
+      <a href="order.html" class="btn sm">Корзина <span id="cartCount" class="badge">0</span></a>
     </div>
   </header>
+
   <main class="container">
-    <section class="hero">
-      <h1>Каталог для оптовых заказов</h1>
-      <p>Сетка 3×4, карточка с размерами и количеством, быстрый «в корзину» без перехода.</p>
-      <a class="btn btn-primary" href="catalog.html">Перейти в каталог</a>
-    </section>
+    <h1 style="font-size:18px; font-weight:600; margin:10px 0 12px">Каталог</h1>
+    <div class="grid">
+      <a class="tile" href="catalog.html">
+        <div class="square"><img src="https://picsum.photos/seed/rings/900" alt=""></div>
+        <div class="tile-body"><div class="tile-title">Кольца</div></div>
+      </a>
+      <div class="tile">
+        <div class="square"><img src="https://picsum.photos/seed/earrings/900" alt=""></div>
+        <div class="tile-body"><div class="tile-title">Серьги</div><div class="tile-sub">скоро</div></div>
+      </div>
+      <div class="tile">
+        <div class="square"><img src="https://picsum.photos/seed/bracelets/900" alt=""></div>
+        <div class="tile-body"><div class="tile-title">Браслеты</div><div class="tile-sub">скоро</div></div>
+      </div>
+      <div class="tile">
+        <div class="square"><img src="https://picsum.photos/seed/pendants/900" alt=""></div>
+        <div class="tile-body"><div class="tile-title">Подвески</div><div class="tile-sub">скоро</div></div>
+      </div>
+    </div>
   </main>
-  <script src="utils.js"></script>
-  <script>document.addEventListener('DOMContentLoaded', updateCartBadge);</script>
+
+  <footer class="footer container">MVP · цены скрыты · цель: быстрый сбор заявок</footer>
+  <script src="catalog_data.js"></script>
+  <script src="script.js"></script>
+
+  <nav class="tabbar"><div class="tabbar-inner">
+    <a href="index.html" class="active">Главная</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="order.html">Корзина</a>
+  </div></nav>
 </body>
 </html>
