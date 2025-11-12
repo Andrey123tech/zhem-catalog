@@ -9,7 +9,7 @@ const PRODUCTS = [
   { sku: "R1254787", title: "Кольцо", avgWeight: 3.40, images: ["https://picsum.photos/seed/r7/900"] },
   { sku: "R1254788", title: "Кольцо", avgWeight: 3.20, images: ["https://picsum.photos/seed/r8/900"] },
   { sku: "R1254789", title: "Кольцо", avgWeight: 3.85, images: ["https://picsum.photos/seed/r9/900"] },
-  { sku: "R1254790", title: "Кольцо", avgWeight: 3.75, images: ["httpsum.photos/seed/r10/900"] },
+  { sku: "R1254790", title: "Кольцо", avgWeight: 3.75, images: ["https://picsum.photos/seed/r10/900"] },
   { sku: "R1254791", title: "Кольцо", avgWeight: 3.65, images: ["https://picsum.photos/seed/r11/900"] },
   { sku: "R1254792", title: "Кольцо", avgWeight: 3.95, images: ["https://picsum.photos/seed/r12/900"] }
 ];
@@ -21,21 +21,36 @@ for (let v = 15.0; v <= 23.5; v += 0.5) SIZES.push(v.toFixed(1));
 const $ = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-function getCart() {
-  try { return JSON.parse(localStorage.getItem("cart") || "[]"); }
-  catch { return []; }
-}
+function getCart() { try { return JSON.parse(localStorage.getItem("cart") || "[]"); } catch { return []; } }
 function setCart(items) { localStorage.setItem("cart", JSON.stringify(items)); }
+function cartWeight(items) { return items.reduce((s, it) => s + it.qty * (Number(it.avgWeight) || 0), 0); }
+function formatWeight(g) { return (Math.round(g*100)/100).toFixed(2); }
+function param(name) { const u = new URL(location.href); return u.searchParams.get(name); }
+
+function updateCartBadge() {
+  const el = $("#cartCount");
+  if (!el) return;
+  const count = getCart().reduce((s, it) => s + it.qty, 0);
+  el.textContent = count || "0";
+}
+
+function showToast(text="Добавлено в заказ") {
+  let t = $("#toast");
+  if (!t) { t = document.createElement("div"); t.id = "toast"; t.className = "toast"; document.body.appendChild(t); }
+  t.textContent = text;
+  t.classList.add("show");
+  if (navigator.vibrate) navigator.vibrate(30);
+  setTimeout(()=> t.classList.remove("show"), 1200);
+}
+
 function addToCart(item) {
   const cart = getCart();
   const idx = cart.findIndex(x => x.sku === item.sku && x.size === item.size);
   if (idx >= 0) cart[idx].qty += item.qty;
   else cart.push(item);
   setCart(cart);
+  updateCartBadge();
 }
-function cartWeight(items) { return items.reduce((s, it) => s + it.qty * (Number(it.avgWeight) || 0), 0); }
-function formatWeight(g) { return (Math.round(g*100)/100).toFixed(2); }
-function param(name) { const u = new URL(location.href); return u.searchParams.get(name); }
 
 /* ========================== РЕНДЕРЫ ========================== */
 function renderGrid() {
@@ -63,7 +78,7 @@ function renderProduct() {
     <div class="square"><img id="big" src="${p.images[active]}" alt="${p.title}"></div>
     <div class="gallery">
       ${p.images.map((src,i)=>`
-        <button class="thumb ${i===active?"active":""}" data-i="${i}">
+        <button class="thumb ${i===active?"active":""}" data-i="${i}" type="button">
           <img src="${src}" alt="">
         </button>
       `).join("")}
@@ -72,7 +87,7 @@ function renderProduct() {
 
   const sizesCol = () => `
     <div class="size-col" id="sizes">
-      ${SIZES.map(s => `<button class="size-btn ${s===size?"active":""}" data-s="${s}">${s}</button>`).join("")}
+      ${SIZES.map(s => `<button class="size-btn ${s===size?"active":""}" data-s="${s}" type="button">${s}</button>`).join("")}
     </div>
   `;
 
@@ -88,7 +103,7 @@ function renderProduct() {
         <div class="card">
           <div class="section-title">Средний вес (г)</div>
           <input id="avgw" type="number" step="0.01" min="0.1" value="${avgWeight}"
-                 style="width:120px; padding:8px; border:1px solid var(--line); border-radius:12px;">
+                 style="width:120px; padding:8px; border:1px solid var(--line); border-radius:12px; font-size:16px;">
           <div class="badge" style="margin-top:6px">Позже подтянем из 1С</div>
         </div>
 
@@ -98,33 +113,27 @@ function renderProduct() {
           <div class="section-title">Размер</div>
           <div class="row">
             ${sizesCol()}
-            <div class="badge" style="align-self:flex-start">Прокрутите список ↑/↓ и выберите размер</div>
+            <div class="badge" style="align-self:flex-start">Прокрутите список ↑/↓</div>
           </div>
         </div>
 
-        <div style="height:8px"></div>
-
-        <div>
-          <div class="section-title">Количество</div>
-          <div class="qty">
-            <button id="minus">−</button>
-            <span id="qty">1</span>
-            <button id="plus">+</button>
-          </div>
-        </div>
-
-        <div style="height:12px"></div>
-
-        <div class="row">
-          <button id="add" class="btn primary" style="flex:1">Добавить в заказ</button>
-          <a class="btn" href="catalog.html">К списку</a>
-        </div>
-
-        <div class="badge" style="margin-top:8px">
-          Цена не отображается (сухой сбор заявки). Разные размеры могут иметь разный вес.
-        </div>
+        <div style="height:100px"></div> <!-- место под нижнюю панель -->
       </div>
     </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-inner">
+        <div class="qty" aria-label="Количество">
+          <button id="minus" type="button">−</button>
+          <span id="qty">1</span>
+          <button id="plus" type="button">+</button>
+        </div>
+        <div class="badge">Размер: <span id="sizeView">${size}</span></div>
+        <button id="add" class="btn primary bottom-btn" type="button">В корзину</button>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
   `;
 
   $("#avgw").addEventListener("input", e => { avgWeight = Number(e.target.value) || avgWeight; });
@@ -135,11 +144,12 @@ function renderProduct() {
     const btn = e.target.closest(".size-btn");
     if (!btn) return;
     size = btn.dataset.s;
+    $("#sizeView").textContent = size;
     $$("#sizes .size-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
   });
 
-  $$(".thumb").forEach(b => b.addEventListener("click", e => {
+  $$(".thumb").forEach(b => b.addEventListener("click", () => {
     active = Number(b.dataset.i);
     $("#big").src = p.images[active];
     $$(".thumb").forEach(x=>x.classList.remove("active"));
@@ -147,9 +157,15 @@ function renderProduct() {
   }));
 
   $("#add").addEventListener("click", () => {
-    addToCart({ sku: p.sku, title: p.title, size, qty, avgWeight });
-    location.href = "order.html";
+    addToCart({
+      sku: p.sku, title: p.title, size, qty, avgWeight,
+      image: p.images?.[0] || ""
+    });
+    showToast("Добавлено в заказ");
+    qty = 1; $("#qty").textContent = "1";
   });
+
+  updateCartBadge();
 }
 
 function renderOrder() {
@@ -159,36 +175,44 @@ function renderOrder() {
 
   if (!cart.length) {
     box.innerHTML = `<div class="card">Корзина пуста. Добавьте изделия из каталога.</div>`;
+    updateCartBadge();
     return;
   }
 
   const rows = cart.map((it, i) => `
     <div class="list-item">
-      <div class="badge">Арт. ${it.sku}</div>
-      <div style="font-weight:600">${it.title}</div>
-
-      <div class="row" style="margin-top:8px; align-items:flex-end">
-        <div class="card" style="flex:1">
-          <div class="section-title">Размер</div>
-          <div>${it.size}</div>
+      <div class="cart-row">
+        <div class="cart-thumb">
+          <img src="${it.image || 'https://picsum.photos/seed/placeholder/200'}" alt="">
         </div>
+        <div class="cart-meta">
+          <div class="badge">Арт. ${it.sku}</div>
+          <div style="font-weight:600; margin:4px 0 8px">${it.title}</div>
 
-        <div class="card">
-          <div class="section-title">Кол-во</div>
-          <div class="qty">
-            <button data-i="${i}" data-act="dec">−</button>
-            <span>${it.qty}</span>
-            <button data-i="${i}" data-act="inc">+</button>
+          <div class="cart-actions">
+            <div class="card" style="flex:0 0 auto">
+              <div class="section-title">Размер</div>
+              <div>${it.size}</div>
+            </div>
+
+            <div class="card" style="flex:0 0 auto">
+              <div class="section-title">Кол-во</div>
+              <div class="qty">
+                <button data-i="${i}" data-act="dec" type="button">−</button>
+                <span>${it.qty}</span>
+                <button data-i="${i}" data-act="inc" type="button">+</button>
+              </div>
+            </div>
+
+            <div class="card" style="flex:0 0 auto">
+              <div class="section-title">Средний вес (г)</div>
+              <input data-i="${i}" data-act="w" type="number" step="0.01" min="0.1"
+                value="${it.avgWeight}" style="width:110px; padding:8px; border:1px solid var(--line); border-radius:12px; font-size:16px;">
+            </div>
+
+            <button class="btn icon" data-i="${i}" data-act="rm" type="button">Удалить</button>
           </div>
         </div>
-
-        <div class="card">
-          <div class="section-title">Средний вес (г)</div>
-          <input data-i="${i}" data-act="w" type="number" step="0.01" min="0.1"
-            value="${it.avgWeight}" style="width:120px; padding:8px; border:1px solid var(--line); border-radius:12px;">
-        </div>
-
-        <button class="btn sm" data-i="${i}" data-act="rm">Удалить</button>
       </div>
     </div>
   `).join("");
@@ -204,23 +228,29 @@ function renderOrder() {
     </div>
     <div style="height:10px"></div>
     <div class="card">
-      <div class="section-title">Заявка (JSON) для менеджера / 1С</div>
-      <textarea id="json" readonly style="width:100%; height:160px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; border:1px solid var(--line); border-radius:12px; padding:8px;"></textarea>
-      <div class="row" style="margin-top:10px">
-        <button id="copy" class="btn">Скопировать JSON</button>
-        <button id="send" class="btn primary">Отправить менеджеру</button>
-        <button id="clear" class="btn">Очистить корзину</button>
+      <div class="section-title">Заявка для менеджера / 1С</div>
+      <details>
+        <summary style="cursor:pointer">Показать / скрыть JSON</summary>
+        <textarea id="json" readonly style="width:100%; height:160px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; border:1px solid var(--line); border-radius:12px; padding:8px; margin-top:8px;"></textarea>
+      </details>
+      <div class="row" style="margin-top:10px; flex-wrap:wrap">
+        <button id="copy" class="btn" type="button">Скопировать JSON</button>
+        <button id="send" class="btn primary" type="button">Отправить менеджеру</button>
+        <button id="clear" class="btn" type="button">Очистить корзину</button>
       </div>
     </div>
+
+    <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
   `;
 
   const json = {
     created_at: new Date().toISOString(),
     items: cart,
     est_total_weight_g: Number(total),
-    note: "Цена не отображается. Сухой сбор заявки. Позже — 1С/БД.",
+    note: "Цена не отображается. Сухой сбор заявки. Позже — 1С/БД."
   };
-  $("#json").value = JSON.stringify(json, null, 2);
+  const jsonEl = $("#json");
+  if (jsonEl) jsonEl.value = JSON.stringify(json, null, 2);
 
   box.addEventListener("click", (e) => {
     const btn = e.target.closest("button");
@@ -233,7 +263,9 @@ function renderOrder() {
     if (act === "dec") items[i].qty = Math.max(1, items[i].qty - 1);
     if (act === "rm") items.splice(i,1);
 
-    setCart(items); renderOrder();
+    setCart(items);
+    renderOrder();
+    updateCartBadge();
   });
 
   box.addEventListener("input", (e) => {
@@ -242,20 +274,22 @@ function renderOrder() {
     const i = Number(inp.dataset.i);
     const items = getCart();
     items[i].avgWeight = Number(inp.value) || items[i].avgWeight;
-    setCart(items); renderOrder();
+    setCart(items);
+    renderOrder();
   });
 
   $("#copy").onclick = async () => {
-    await navigator.clipboard.writeText($("#json").value);
-    alert("JSON заявки скопирован.");
+    await navigator.clipboard.writeText(JSON.stringify(json, null, 2));
+    showToast("JSON скопирован");
   };
 
   $("#send").onclick = () => {
-    const body = encodeURIComponent($("#json").value);
+    const body = encodeURIComponent(JSON.stringify(json, null, 2));
     location.href = `mailto:orders@zhem.kz?subject=Заявка%20каталог&body=${body}`;
   };
 
-  $("#clear").onclick = () => { setCart([]); renderOrder(); };
+  $("#clear").onclick = () => { setCart([]); renderOrder(); updateCartBadge(); };
+  updateCartBadge();
 }
 
 /* ========================== ROUTER ========================== */
@@ -263,4 +297,5 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("#grid")) renderGrid();
   if ($("#product")) renderProduct();
   if ($("#order")) renderOrder();
+  updateCartBadge();
 });
