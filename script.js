@@ -1,22 +1,3 @@
-/* ========================== ДАННЫЕ ========================== */
-const PRODUCTS = [
-  { sku: "R1254781", title: "Кольцо с фианитом", avgWeight: 3.85, images: ["https://picsum.photos/seed/r1a/900","https://picsum.photos/seed/r1b/900","https://picsum.photos/seed/r1c/900"] },
-  { sku: "R1254782", title: "Кольцо", avgWeight: 3.70, images: ["https://picsum.photos/seed/r2/900"] },
-  { sku: "R1254783", title: "Кольцо", avgWeight: 3.95, images: ["https://picsum.photos/seed/r3/900"] },
-  { sku: "R1254784", title: "Кольцо", avgWeight: 4.10, images: ["https://picsum.photos/seed/r4/900"] },
-  { sku: "R1254785", title: "Кольцо", avgWeight: 3.60, images: ["https://picsum.photos/seed/r5/900"] },
-  { sku: "R1254786", title: "Кольцо", avgWeight: 3.55, images: ["https://picsum.photos/seed/r6/900"] },
-  { sku: "R1254787", title: "Кольцо", avgWeight: 3.40, images: ["https://picsum.photos/seed/r7/900"] },
-  { sku: "R1254788", title: "Кольцо", avgWeight: 3.20, images: ["https://picsum.photos/seed/r8/900"] },
-  { sku: "R1254789", title: "Кольцо", avgWeight: 3.85, images: ["https://picsum.photos/seed/r9/900"] },
-  { sku: "R1254790", title: "Кольцо", avgWeight: 3.75, images: ["https://picsum.photos/seed/r10/900"] },
-  { sku: "R1254791", title: "Кольцо", avgWeight: 3.65, images: ["https://picsum.photos/seed/r11/900"] },
-  { sku: "R1254792", title: "Кольцо", avgWeight: 3.95, images: ["https://picsum.photos/seed/r12/900"] }
-];
-
-const SIZES = [];
-for (let v = 15.0; v <= 23.5; v += 0.5) SIZES.push(v.toFixed(1));
-
 /* ========================== УТИЛИТЫ ========================== */
 const $ = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
@@ -52,7 +33,20 @@ function addToCart(item) {
   updateCartBadge();
 }
 
-/* ========================== РЕНДЕРЫ ========================== */
+/* ========================== КОМПОНЕНТЫ ========================== */
+function Tabbar(active) {
+  return `
+    <nav class="tabbar" role="navigation">
+      <div class="tabbar-inner">
+        <a href="index.html" class="${active==='home'?'active':''}">Главная</a>
+        <a href="catalog.html" class="${active==='cat'?'active':''}">Каталог</a>
+        <a href="order.html" class="${active==='cart'?'active':''}">Корзина</a>
+      </div>
+    </nav>
+  `;
+}
+
+/* ========================== СТРАНИЦЫ ========================== */
 function renderGrid() {
   const wrap = $("#grid");
   if (!wrap) return;
@@ -62,21 +56,10 @@ function renderGrid() {
       <div class="tile-body">
         <div class="tile-sub">Арт. ${p.sku}</div>
         <div class="tile-title">${p.title}</div>
+        <div class="tile-sub">${(p.avgWeight ?? 0).toFixed(2)} г</div>
       </div>
     </a>
   `).join("");
-}
-
-function Tabbar(active) {
-  return `
-    <nav class="tabbar">
-      <div class="tabbar-inner">
-        <a href="index.html" class="${active==='home'?'active':''}">Главная</a>
-        <a href="catalog.html" class="${active==='cat'?'active':''}">Каталог</a>
-        <a href="order.html" class="${active==='cart'?'active':''}">Корзина</a>
-      </div>
-    </nav>
-  `;
 }
 
 function renderProduct() {
@@ -142,7 +125,9 @@ function renderProduct() {
         </div>
         <div class="badge">Размер: <span id="sizeView">${size}</span></div>
         <button id="add" class="btn primary bottom-btn" type="button">В корзину</button>
-        <a href="catalog.html" class="btn sm" style="margin-left:6px">← К кольцам</a>
+      </div>
+      <div style="margin-top:8px; display:flex; justify-content:flex-end">
+        <a href="catalog.html" class="secondary">← К кольцам</a>
       </div>
     </div>
 
