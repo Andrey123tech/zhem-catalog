@@ -67,6 +67,18 @@ function renderGrid() {
   `).join("");
 }
 
+function Tabbar(active) {
+  return `
+    <nav class="tabbar">
+      <div class="tabbar-inner">
+        <a href="index.html" class="${active==='home'?'active':''}">Главная</a>
+        <a href="catalog.html" class="${active==='cat'?'active':''}">Каталог</a>
+        <a href="order.html" class="${active==='cart'?'active':''}">Корзина</a>
+      </div>
+    </nav>
+  `;
+}
+
 function renderProduct() {
   const sku = param("sku");
   const p = PRODUCTS.find(x => x.sku === sku);
@@ -103,7 +115,7 @@ function renderProduct() {
         <div class="card">
           <div class="section-title">Средний вес (г)</div>
           <input id="avgw" type="number" step="0.01" min="0.1" value="${avgWeight}"
-                 style="width:120px; padding:8px; border:1px solid var(--line); border-radius:12px; font-size:16px;">
+                 style="width:140px; padding:10px; border:1px solid var(--line); border-radius:12px; font-size:16px;">
           <div class="badge" style="margin-top:6px">Позже подтянем из 1С</div>
         </div>
 
@@ -117,7 +129,7 @@ function renderProduct() {
           </div>
         </div>
 
-        <div style="height:100px"></div> <!-- место под нижнюю панель -->
+        <div style="height:120px"></div> <!-- место под нижние панели -->
       </div>
     </div>
 
@@ -130,8 +142,11 @@ function renderProduct() {
         </div>
         <div class="badge">Размер: <span id="sizeView">${size}</span></div>
         <button id="add" class="btn primary bottom-btn" type="button">В корзину</button>
+        <a href="catalog.html" class="btn sm" style="margin-left:6px">← К кольцам</a>
       </div>
     </div>
+
+    ${Tabbar('cat')}
 
     <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
   `;
@@ -174,7 +189,7 @@ function renderOrder() {
   const cart = getCart();
 
   if (!cart.length) {
-    box.innerHTML = `<div class="card">Корзина пуста. Добавьте изделия из каталога.</div>`;
+    box.innerHTML = `<div class="card">Корзина пуста. Добавьте изделия из каталога.</div>` + Tabbar('cart');
     updateCartBadge();
     return;
   }
@@ -207,7 +222,7 @@ function renderOrder() {
             <div class="card" style="flex:0 0 auto">
               <div class="section-title">Средний вес (г)</div>
               <input data-i="${i}" data-act="w" type="number" step="0.01" min="0.1"
-                value="${it.avgWeight}" style="width:110px; padding:8px; border:1px solid var(--line); border-radius:12px; font-size:16px;">
+                value="${it.avgWeight}" style="width:120px; padding:10px; border:1px solid var(--line); border-radius:12px; font-size:16px;">
             </div>
 
             <button class="btn icon" data-i="${i}" data-act="rm" type="button">Удалить</button>
@@ -231,7 +246,7 @@ function renderOrder() {
       <div class="section-title">Заявка для менеджера / 1С</div>
       <details>
         <summary style="cursor:pointer">Показать / скрыть JSON</summary>
-        <textarea id="json" readonly style="width:100%; height:160px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; border:1px solid var(--line); border-radius:12px; padding:8px; margin-top:8px;"></textarea>
+        <textarea id="json" readonly style="width:100%; height:160px; font-family: ui-monospace, Menlo, monospace; font-size:12px; border:1px solid var(--line); border-radius:12px; padding:8px; margin-top:8px;"></textarea>
       </details>
       <div class="row" style="margin-top:10px; flex-wrap:wrap">
         <button id="copy" class="btn" type="button">Скопировать JSON</button>
@@ -239,6 +254,8 @@ function renderOrder() {
         <button id="clear" class="btn" type="button">Очистить корзину</button>
       </div>
     </div>
+
+    ${Tabbar('cart')}
 
     <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
   `;
@@ -294,7 +311,7 @@ function renderOrder() {
 
 /* ========================== ROUTER ========================== */
 document.addEventListener("DOMContentLoaded", () => {
-  if ($("#grid")) renderGrid();
+  if ($("#grid")) { renderGrid(); document.body.insertAdjacentHTML('beforeend', Tabbar('cat')); }
   if ($("#product")) renderProduct();
   if ($("#order")) renderOrder();
   updateCartBadge();
