@@ -1,33 +1,104 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Заявка · Жемчужина</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Корзина — Жемчужина</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner container">
-      <div class="brand">ЖЕМЧУЖИНА · ЗАЯВКА</div>
-      <div>
-        <a href="catalog.html" class="btn sm">Каталог</a>
-        <a href="index.html" class="btn sm">Меню</a>
-      </div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="catalog.html">Жемчужина • B2B</a>
+      <nav class="nav">
+        <a class="nav-link" href="catalog.html">Каталог</a>
+        <a class="nav-link active" href="order.html">Корзина <span id="cart-count" class="badge">0</span></a>
+      </nav>
     </div>
   </header>
-
   <main class="container">
-    <div id="order"></div>
+    <h2>Корзина</h2>
+    <div id="cart-list" class="cart-list"></div>
+    <div class="cart-summary">
+      <div class="muted">Позиции: <span id="sum-items">0</span></div>
+      <div class="muted">Примерный общий вес: <span id="sum-weight">0.00</span> г</div>
+    </div>
+    <div class="cart-actions">
+      <a class="btn btn-ghost" href="catalog.html">Продолжить отбор</a>
+      <button id="send-order" class="btn btn-primary">Отправить менеджеру</button>
+    </div>
+    <details class="debug"><summary>Показать/Скрыть код заказа (JSON)</summary><pre id="debug-json">{}</pre></details>
   </main>
-
-  <script src="catalog_data.js"></script>
-  <script src="script.js"></script>
-
-  <nav class="tabbar"><div class="tabbar-inner">
-    <a href="index.html">Главная</a>
-    <a href="catalog.html">Каталог</a>
-    <a href="order.html" class="active">Корзина</a>
-  </div></nav>
+  <div id="toast" class="toast">Обновлено</div>
+  <script src="utils.js"></script>
+  <script>
+    const host = document.getElementById('cart-list');
+    const sumItems = document.getElementById('sum-items');
+    const sumWeight = document.getElementById('sum-weight');
+    const debugPre = document.getElementById('debug-json');
+    function rowTpl(it, idx) {
+      return `<div class="cart-row">
+        <div class="cart-media"><img src="${it.image || 'https://picsum.photos/seed/' + it.sku + '/200/200'}" alt="Арт. ${it.sku}"></div>
+        <div class="cart-main">
+          <div class="sku">Арт. ${it.sku}</div>
+          <div class="meta-row"><span class="pill">р-р ${it.size}</span></div>
+          <div class="qty">
+            <button class="stepper" data-act="minus" data-idx="${idx}">−</button>
+            <input class="qty-input" data-idx="${idx}" type="text" inputmode="numeric" pattern="\d*" value="${it.qty}"/>
+            <button class="stepper" data-act="plus" data-idx="${idx}">+</button>
+          </div>
+        </div>
+        <div class="cart-side">
+          <div class="weight">~${(Number(it.avgWeight || 0) * Number(it.qty || 1)).toFixed(2)} г</div>
+          <button class="icon-btn danger" data-act="del" data-idx="${idx}" aria-label="Удалить">✕</button>
+        </div>
+      </div>`;
+    }
+    function render() {
+      const cart = getCart();
+      host.innerHTML = cart.map(rowTpl).join('') || '<p class="muted">Корзина пуста.</p>';
+      const totalItems = cart.reduce((a, b) => a + Number(b.qty || 0), 0);
+      const totalWeight = cart.reduce((a, b) => a + (Number(b.avgWeight || 0) * Number(b.qty || 0)), 0);
+      sumItems.textContent = totalItems; sumWeight.textContent = totalWeight.toFixed(2);
+      debugPre.textContent = JSON.stringify(cart, null, 2);
+      updateCartBadge();
+    }
+    function onHostClick(e) {
+      const t = e.target;
+      if (t.matches('.stepper')) {
+        const idx = Number(t.dataset.idx); const act = t.dataset.act;
+        const cart = getCart(); const item = cart[idx];
+        let q = Number(item.qty || 1);
+        q = act === 'plus' ? Math.min(999, q + 1) : Math.max(1, q - 1);
+        item.qty = q; setCart(cart); render(); showToast('Обновлено');
+      } else if (t.matches('.icon-btn[data-act="del"]')) {
+        const idx = Number(t.dataset.idx); const cart = getCart();
+        cart.splice(idx, 1); setCart(cart); render(); showToast('Удалено');
+      }
+    }
+    function onQtyInput(e) {
+      if (!e.target.matches('.qty-input')) return;
+      const idx = Number(e.target.dataset.idx);
+      const v = parseInt(e.target.value.replace(/\D/g, ''), 10);
+      const cart = getCart(); cart[idx].qty = isNaN(v) ? 1 : Math.max(1, Math.min(999, v));
+      setCart(cart); render();
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      render();
+      host.addEventListener('click', onHostClick);
+      host.addEventListener('input', onQtyInput);
+      document.getElementById('send-order').addEventListener('click', () => {
+        const cart = getCart();
+        if (!cart.length) { showToast('Корзина пуста'); return; }
+        const lines = cart.map(it => `Арт. ${it.sku}, р-р ${it.size}, ${it.qty} шт (~${(it.avgWeight*it.qty).toFixed(2)} г)`);
+        const totalW = cart.reduce((a,b)=>a+(b.avgWeight*b.qty),0).toFixed(2);
+        const body = encodeURIComponent(lines.join('\n') + '\n\nИтого ~ ' + totalW + ' г');
+        location.href = 'mailto:manager@example.com?subject=' + encodeURIComponent('Заказ с каталога') + '&body=' + body;
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,27 +1,110 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Карточка · Жемчужина</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>Карточка товара — Жемчужина</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner container">
-      <div class="brand">ЖЕМЧУЖИНА</div>
-      <div>
-        <a href="catalog.html" class="btn sm">К списку</a>
-        <a href="order.html" class="btn sm">Корзина <span id="cartCount" class="badge">0</span></a>
-      </div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="catalog.html">Жемчужина • B2B</a>
+      <nav class="nav">
+        <a class="nav-link" href="order.html">Корзина <span id="cart-count" class="badge">0</span></a>
+      </nav>
     </div>
   </header>
-
   <main class="container">
-    <div id="product"></div>
+    <div id="product-view" class="product-view"></div>
   </main>
-
+  <div id="toast" class="toast">Добавлено в заказ</div>
+  <script src="utils.js"></script>
   <script src="catalog_data.js"></script>
-  <script src="script.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const sku = params.get('sku');
+    const product = PRODUCTS.find(p => p.sku === sku);
+    const sizes = ["15.0","15.5","16.0","16.5","17.0","17.5","18.0","18.5","19.0","19.5","20.0","20.5","21.0","21.5","22.0","22.5","23.0","23.5"];
+    let selectedSize = "18.0"; let qty = 1;
+    function renderGallery(imgs) {
+      const main = (imgs && imgs[0]) ? imgs[0] : 'https://picsum.photos/seed/' + sku + '/900/900';
+      const thumbs = (imgs || []).slice(0, 6);
+      return `<div class="gallery">
+        <div class="gallery-main"><img id="main-img" src="${main}" alt="Арт. ${sku}"></div>
+        <div class="gallery-thumbs">
+          ${thumbs.map((src, i) => `<button class="thumb ${i===0?'active':''}" data-src="${src}"><img src="${src}" alt="thumb"></button>`).join('')}
+        </div>
+      </div>`;
+    }
+    function renderSizeScroller() {
+      return `<div class="size-scroller" role="listbox" aria-label="Выбор размера">
+        ${sizes.map(s => `<button class="chip ${s===selectedSize?'chip-active':''}" data-size="${s}">${s}</button>`).join('')}
+      </div>`;
+    }
+    function renderQty() {
+      return `<div class="qty">
+        <button class="stepper" id="minus" aria-label="Уменьшить">−</button>
+        <input id="qty" type="text" inputmode="numeric" pattern="\d*" value="${qty}" />
+        <button class="stepper" id="plus" aria-label="Увеличить">+</button>
+      </div>`;
+    }
+    function tpl(p) {
+      return `<div class="product-card">
+        ${renderGallery(p.images)}
+        <div class="product-info">
+          <div class="breadcrumbs"><a href="catalog.html">К кольцам</a><span>•</span><span>Арт. ${p.sku}</span></div>
+          <h1>Арт. ${p.sku}</h1>
+          <div class="meta-row"><span class="weight">Средний вес ~ ${(p.avgWeight||0).toFixed(2)} г</span><span class="category">${p.category || ''}</span></div>
+          <div class="controls">
+            <div class="control-block"><div class="label">Размер</div>${renderSizeScroller()}</div>
+            <div class="control-block"><div class="label">Штук</div>${renderQty()}</div>
+          </div>
+          <div class="actions"><button id="add-to-cart" class="btn btn-primary">Добавить в заказ</button><a class="btn btn-ghost" href="catalog.html">К кольцам</a></div>
+        </div>
+      </div>`;
+    }
+    function mount() {
+      const host = document.getElementById('product-view');
+      if (!product) { host.innerHTML = '<p>Модель не найдена.</p>'; return; }
+      host.innerHTML = tpl(product);
+      document.querySelectorAll('.thumb').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.getElementById('main-img').src = btn.dataset.src;
+          document.querySelectorAll('.thumb').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+      document.querySelectorAll('.size-scroller .chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          selectedSize = chip.dataset.size;
+          document.querySelectorAll('.size-scroller .chip').forEach(c => c.classList.remove('chip-active'));
+          chip.classList.add('chip-active');
+        });
+      });
+      const qtyInput = document.getElementById('qty');
+      document.getElementById('minus').addEventListener('click', () => {
+        const val = Math.max(1, (parseInt(qtyInput.value || '1', 10) || 1) - 1);
+        qtyInput.value = val; qty = val;
+      });
+      document.getElementById('plus').addEventListener('click', () => {
+        const val = Math.min(999, (parseInt(qtyInput.value || '1', 10) || 1) + 1);
+        qtyInput.value = val; qty = val;
+      });
+      qtyInput.addEventListener('input', () => {
+        const v = parseInt(qtyInput.value.replace(/\D/g, ''), 10);
+        qty = isNaN(v) ? 1 : Math.max(1, Math.min(999, v));
+      });
+      document.getElementById('add-to-cart').addEventListener('click', () => {
+        const item = { sku: product.sku, title: product.title || 'Кольцо', size: selectedSize, qty: qty, avgWeight: product.avgWeight || 0, image: (product.images && product.images[0]) || null };
+        addToCart(item); showToast('Добавлено в заказ'); updateCartBadge();
+      });
+      updateCartBadge();
+    }
+    document.addEventListener('DOMContentLoaded', mount);
+  </script>
 </body>
 </html>
