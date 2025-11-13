@@ -2,32 +2,51 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
+  <title>Корзина · Жемчужина</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Заявка · Жемчужина</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner container">
-      <div class="brand">ЖЕМЧУЖИНА · ЗАЯВКА</div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-dot"></div>
       <div>
-        <a href="catalog.html" class="btn sm">Каталог</a>
-        <a href="index.html" class="btn sm">Меню</a>
+        <div class="topbar-title">Жемчужина</div>
+        <div class="topbar-sub">Корзина заказа</div>
       </div>
     </div>
+    <nav class="topbar-nav">
+      <a href="index.html">Главная</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="order.html" class="cart-link">
+        Заказ
+        <span class="cart-count" id="cartCount">0</span>
+      </a>
+    </nav>
   </header>
 
   <main class="container">
-    <div id="order"></div>
+    <section class="hero">
+      <div class="hero-title">Корзина</div>
+      <div class="hero-sub">
+        Проверка позиций перед отправкой заявки менеджеру.
+      </div>
+    </section>
+
+    <section style="margin-bottom:10px;">
+      <a href="catalog.html" class="btn primary" style="text-decoration:none;">
+        Продолжить отбор
+      </a>
+    </section>
+
+    <section>
+      <div id="order"></div>
+    </section>
   </main>
+
+  <div class="toast"></div>
 
   <script src="catalog_data.js"></script>
   <script src="script.js"></script>
-
-  <nav class="tabbar"><div class="tabbar-inner">
-    <a href="index.html">Главная</a>
-    <a href="catalog.html">Каталог</a>
-    <a href="order.html" class="active">Корзина</a>
-  </div></nav>
 </body>
 </html>
