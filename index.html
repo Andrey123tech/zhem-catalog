@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Жемчужина · B2B каталог</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- запрет зума на iOS, чтобы при тапах по +/− не масштабировало страницу -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -29,7 +30,7 @@
     <section class="hero">
       <div class="hero-title">Заказ ювелирных изделий<br>для оптовиков и партнёров</div>
       <div class="hero-sub">
-        Выбирайте позиции прямо из каталога: веса, размеры, количество. 
+        Выбирайте позиции прямо из каталога: веса, размеры, количество.
         Заявка собирается автоматически — остаётся только отправить менеджеру.
       </div>
     </section>
@@ -37,10 +38,10 @@
     <section>
       <div class="section-title" style="margin-bottom:8px;">Разделы каталога</div>
       <div class="grid">
-        <!-- КОЛЬЦА — с реальной фотографией (можно заменить на 190023) -->
+        <!-- КОЛЬЦА — превью с артикулом 190023 -->
         <a href="catalog.html" class="tile">
           <div class="square">
-            <img src="img/190059_900.jpg" alt="Кольца Жемчужина">
+            <img src="img/190023_900.jpg" alt="Кольца Жемчужина">
           </div>
           <div class="tile-body">
             <div class="tile-title">Кольца</div>
@@ -48,7 +49,7 @@
           </div>
         </a>
 
-        <!-- Остальные категории пока с заглушками -->
+        <!-- остальные категории пока заглушки -->
         <div class="tile">
           <div class="square">
             <img src="https://picsum.photos/seed/earrings/900" alt="">
