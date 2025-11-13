@@ -498,3 +498,221 @@ body {
   opacity: 0.96;
   transition: transform 0.7s ease, opacity 0.7s ease;
 }
+
+/* ================== КАРТОЧКА ИЗДЕЛИЯ (новый макет) ================== */
+
+.product-card {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #e2e8f0;
+  padding: 16px 16px 18px;
+  box-shadow: 0 16px 38px rgba(15,23,42,0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.product-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-breadcrumbs {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.product-breadcrumbs a {
+  color: #64748b;
+  text-decoration: none;
+}
+
+.product-breadcrumbs span {
+  color: #111827;
+}
+
+.product-photo-wrap {
+  border-radius: 20px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.product-photo-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.product-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.product-art {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.product-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+}
+
+.product-weight {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* нижний блок, как на макете (размер + количество + кнопка) */
+
+.product-controls {
+  margin-top: 4px;
+  border-radius: 20px;
+  padding: 12px 12px 14px;
+  background: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-controls-row {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 420px) {
+  .product-controls-row {
+    gap: 8px;
+  }
+}
+
+.field {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b7280;
+}
+
+.field-control {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* select размера */
+
+.size-select {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: #111827;
+  padding: 2px 0;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align-last: left;
+}
+
+/* маленькая стрелка в select */
+
+.field-control.size-control {
+  position: relative;
+}
+
+.field-control.size-control::after {
+  content: "▾";
+  position: absolute;
+  right: 10px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* количество */
+
+.qty-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.qty-inline button {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0 4px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.qty-inline span {
+  min-width: 22px;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* кнопка "В корзину" — Pantone 1955C */
+
+.btn-primary {
+  border-radius: 999px;
+  border: none;
+  width: 100%;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #6A1F2A;  /* близко к Pantone 1955C */
+  color: #f9fafb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* чтобы контейнер не уезжал за нижнюю панель браузера */
+
+.container {
+  padding-bottom: 110px;
+}
+
+/* шапка (минимальные правки, чтобы не рушить твой текущий стиль)
+   если не нужно — можно удалить этот блок */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.topbar-left img.logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
