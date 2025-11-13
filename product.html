@@ -2,24 +2,35 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
+  <title>Карточка изделия · Жемчужина</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Карточка · Жемчужина</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner container">
-      <div class="brand">ЖЕМЧУЖИНА</div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-dot"></div>
       <div>
-        <a href="catalog.html" class="btn sm">К списку</a>
-        <a href="order.html" class="btn sm">Корзина <span id="cartCount" class="badge">0</span></a>
+        <div class="topbar-title">Жемчужина</div>
+        <div class="topbar-sub">Карточка изделия</div>
       </div>
     </div>
+    <nav class="topbar-nav">
+      <a href="index.html">Главная</a>
+      <a href="catalog.html" class="active">Каталог</a>
+      <a href="order.html" class="cart-link">
+        Заказ
+        <span class="cart-count" id="cartCount">0</span>
+      </a>
+    </nav>
   </header>
 
   <main class="container">
+    <a href="catalog.html" class="back-link">← Каталог</a>
     <div id="product"></div>
   </main>
+
+  <div class="toast"></div>
 
   <script src="catalog_data.js"></script>
   <script src="script.js"></script>
