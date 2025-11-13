@@ -208,10 +208,15 @@ function renderProduct() {
   const addBtn = $("#addToCart", box);
 
   if (sizeSelect) {
-    sizeSelect.addEventListener("change", () => {
-      currentSize = sizeSelect.value;
-    });
-  }
+  const sizeWrapper = sizeSelect.closest(".size-control");
+  sizeSelect.addEventListener("change", () => {
+    currentSize = sizeSelect.value;
+    if (sizeWrapper) {
+      sizeWrapper.classList.add("active");
+      setTimeout(() => sizeWrapper.classList.remove("active"), 350);
+    }
+  });
+}
 
   if (btnPlus && btnMinus && qtyValEl) {
     btnPlus.addEventListener("click", () => {
