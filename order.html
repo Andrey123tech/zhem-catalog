@@ -3,39 +3,29 @@
 <head>
   <meta charset="utf-8">
   <title>Корзина · Жемчужина</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Шапка -->
   <header class="topbar">
     <div class="topbar-left">
       <img src="img/logo_zhem.jpg" alt="Жемчужина" class="logo-img">
     </div>
 
-    <div class="topbar-right">
-      <nav class="topbar-nav-main">
-        <a href="index.html">Главная</a>
-        <a href="catalog.html">Каталог</a>
-      </nav>
-      <a href="order.html" class="cart-link">
-        Заказ
-        <span id="cartCount" class="cart-count">0</span>
-      </a>
-    </div>
+    <a href="order.html" class="cart-link">
+      Заказ
+      <span id="cartCount" class="cart-count">0</span>
+    </a>
   </header>
 
-  <!-- Контент -->
   <main class="container">
     <section class="hero">
-      <div class="hero-title">Корзина</div>
-      <div class="hero-sub">
+      <h1 class="hero-title">Корзина</h1>
+      <p class="hero-sub">
         Проверка позиций перед отправкой заявки менеджеру.
-      </div>
+      </p>
     </section>
 
-    <!-- Здесь JS сам отрисует позиции, итог и кнопки:
-         "Скопировать заявку", "Очистить", "Продолжить отбор", "Менеджеру" -->
     <section id="order"></section>
   </main>
 
