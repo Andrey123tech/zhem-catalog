@@ -644,6 +644,11 @@ body {
   color: #9ca3af;
 }
 
+.field-control.size-control.active {
+  border-color: #6A1F2A;
+  box-shadow: 0 0 0 1px rgba(106,31,42,0.25);
+}
+
 /* количество */
 
 .qty-inline {
