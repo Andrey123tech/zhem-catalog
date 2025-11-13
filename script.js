@@ -260,6 +260,9 @@ function renderOrder() {
       ? formatWeight(it.avgWeight)
       : (prod.avgWeight != null ? formatWeight(prod.avgWeight) : null);
 
+    // строка с цифрами: размер · вес
+    const digitsLine = w ? `${it.size} · ${w} г / шт` : it.size;
+
     return `
       <div class="list-item cart-row" data-idx="${idx}">
         <div class="cart-thumb">
@@ -271,7 +274,7 @@ function renderOrder() {
             ${it.title || ("Кольцо " + it.sku)}
           </div>
           <div class="cart-sub">
-            Размер: ${it.size}${w ? ` · вес ~ ${w} г / шт` : ""}
+            ${digitsLine}
           </div>
 
           <div class="cart-actions">
@@ -301,17 +304,23 @@ function renderOrder() {
     <div style="height:10px"></div>
     <div class="card">
       <div class="section-title">Итого</div>
-      <div style="margin-bottom:8px;">
+      <div style="margin-bottom:10px;">
         Позиции: ${cart.length}, штук: ${totalQty}, вес ~ ${formatWeight(totalWeight)} г
       </div>
-      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;">
-        <button id="copyOrder" class="btn-primary" type="button">Скопировать заявку</button>
-        <button id="clearOrder" class="btn" type="button">Очистить</button>
+
+      <button id="copyOrder" class="btn-primary" type="button">
+        Скопировать заявку
+      </button>
+
+      <div class="btn-row">
+        <button id="clearOrder" class="btn small" type="button">Очистить</button>
+        <button id="continueOrder" class="btn small" type="button">Продолжить отбор</button>
+        <button id="sendToManager" class="btn small" type="button">Менеджеру</button>
       </div>
     </div>
   `;
 
-  // изменение количества / удаление
+  // обработка +/-/Удалить
   box.onclick = function(e) {
     const btn = e.target.closest("button");
     if (!btn || !btn.dataset.act) return;
@@ -357,11 +366,20 @@ function renderOrder() {
     }
   };
 
-  // очистка
+  // кнопки снизу
   $("#clearOrder").onclick = () => {
     if (!confirm("Очистить корзину?")) return;
     saveCart([]);
     renderOrder();
+  };
+
+  $("#continueOrder").onclick = () => {
+    window.location.href = "catalog.html";
+  };
+
+  $("#sendToManager").onclick = () => {
+    // пока просто уведомление, потом привяжем WhatsApp/бота
+    toast("Заявка будет отправляться менеджеру (логику позже подключим)");
   };
 
   updateCartBadge();
