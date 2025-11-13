@@ -34,16 +34,12 @@ body {
 /* ============= ТОПБАР ============= */
 
 .topbar {
-  position: fixed;
-  inset: 0 0 auto 0;
-  padding: 8px 14px 6px;
-  background: #ffffff;
-  border-bottom: 1px solid rgba(148,163,184,0.35);
-  box-shadow: 0 8px 24px rgba(15,23,42,0.12);
+  position: sticky;
+  top: 0;
   z-index: 20;
-}
-
-.topbar-main {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 6px 10px 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -52,13 +48,62 @@ body {
 .topbar-left {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
 .logo-img {
-  height: 32px;
+  height: 40px;        /* +20–30% как просил */
   width: auto;
   object-fit: contain;
+}
+
+.topbar-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.topbar-nav-main {
+  display: flex;
+  gap: 14px;
+}
+
+.topbar-nav-main a {
+  font-size: 14px;
+  color: #374151;
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+}
+
+.topbar-nav-main a[href$="index.html"].active,
+.topbar-nav-main a[href$="catalog.html"].active {
+  border-bottom-color: #6A1F2A;
+}
+
+.cart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #111827;
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.7);
+  background: #ffffff;
+}
+
+.cart-count {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #6A1F2A;
+  color: #f9fafb;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* тонкая бордовая полоска сверху — фирменный цвет только здесь */
