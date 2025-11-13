@@ -7,7 +7,8 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 const CART_KEY = "zhem_cart_v1";
 
-/* ================== ХРАНЕНИЕ КОРЗИНЫ ================== */
+/* === ХРАНЕНИЕ КОРЗИНЫ === */
+
 function loadCart() {
   try { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); }
   catch { return []; }
@@ -35,6 +36,8 @@ function updateCartBadge() {
   });
 }
 
+/* === ТОСТ === */
+
 function toast(msg) {
   let el = $(".toast");
   if (!el) {
@@ -47,7 +50,8 @@ function toast(msg) {
   setTimeout(() => el.classList.remove("show"), 1400);
 }
 
-/* ================== ПОЛЁТ В КОРЗИНУ ================== */
+/* === ПОЛЁТ В КОРЗИНУ === */
+
 function flyToCart(sourceEl) {
   const cartCount = $("#cartCount");
   if (!cartCount || !sourceEl) return;
@@ -81,7 +85,8 @@ function flyToCart(sourceEl) {
   setTimeout(() => dot.remove(), 750);
 }
 
-/* ================== КАТАЛОГ (сеткой) ================== */
+/* === КАТАЛОГ (сеткой) === */
+
 function renderGrid() {
   const grid = $("#grid");
   if (!grid || !Array.isArray(PRODUCTS)) return;
@@ -104,7 +109,8 @@ function renderGrid() {
   }).join("");
 }
 
-/* ================== ДОБАВЛЕНИЕ В КОРЗИНУ ================== */
+/* === ДОБАВЛЕНИЕ В КОРЗИНУ === */
+
 function addToCart(product, size, qty) {
   const cart = loadCart();
   const key = `${product.sku}_${size}`;
@@ -126,7 +132,8 @@ function addToCart(product, size, qty) {
   saveCart(cart);
 }
 
-/* ================== КАРТОЧКА ТОВАРА ================== */
+/* === КАРТОЧКА ТОВАРА === */
+
 function renderProduct() {
   const box = $("#product");
   if (!box || !Array.isArray(PRODUCTS)) return;
@@ -134,7 +141,7 @@ function renderProduct() {
   const sku = getParam("sku");
   const product = PRODUCTS.find(p => p.sku === sku) || PRODUCTS[0];
   if (!product) {
-    box.innerHTML = "<div class='card'>Товар не найден</div>";
+    box.innerHTML = "<div class='card'>Товар не найден.</div>";
     return;
   }
 
@@ -208,15 +215,15 @@ function renderProduct() {
   const addBtn = $("#addToCart", box);
 
   if (sizeSelect) {
-  const sizeWrapper = sizeSelect.closest(".size-control");
-  sizeSelect.addEventListener("change", () => {
-    currentSize = sizeSelect.value;
-    if (sizeWrapper) {
-      sizeWrapper.classList.add("active");
-      setTimeout(() => sizeWrapper.classList.remove("active"), 350);
-    }
-  });
-}
+    const sizeWrapper = sizeSelect.closest(".size-control");
+    sizeSelect.addEventListener("change", () => {
+      currentSize = sizeSelect.value;
+      if (sizeWrapper) {
+        sizeWrapper.classList.add("active");
+        setTimeout(() => sizeWrapper.classList.remove("active"), 350);
+      }
+    });
+  }
 
   if (btnPlus && btnMinus && qtyValEl) {
     btnPlus.addEventListener("click", () => {
@@ -240,7 +247,8 @@ function renderProduct() {
   }
 }
 
-/* ================== КОРЗИНА ================== */
+/* === КОРЗИНА === */
+
 function renderOrder() {
   const box = $("#order");
   if (!box) { updateCartBadge(); return; }
@@ -260,7 +268,6 @@ function renderOrder() {
       ? formatWeight(it.avgWeight)
       : (prod.avgWeight != null ? formatWeight(prod.avgWeight) : null);
 
-    // строка с цифрами: размер · вес
     const digitsLine = w ? `${it.size} · ${w} г / шт` : it.size;
 
     return `
@@ -270,19 +277,23 @@ function renderOrder() {
         </div>
         <div class="cart-meta">
           <div class="badge">Арт. ${it.sku}</div>
-          <div class="cart-title">
-            ${it.title || ("Кольцо " + it.sku)}
-          </div>
-          <div class="cart-sub">
-            ${digitsLine}
-          </div>
 
-          <div class="cart-actions">
+          <div class="cart-header-row">
+            <div class="cart-title">
+              ${it.title || ("Кольцо " + it.sku)}
+            </div>
             <div class="qty-inline">
               <button type="button" data-act="dec" data-idx="${idx}">−</button>
               <span>${it.qty}</span>
               <button type="button" data-act="inc" data-idx="${idx}">+</button>
             </div>
+          </div>
+
+          <div class="cart-sub">
+            ${digitsLine}
+          </div>
+
+          <div class="cart-actions">
             <button class="btn icon" type="button" data-act="rm" data-idx="${idx}">
               Удалить
             </button>
@@ -320,7 +331,6 @@ function renderOrder() {
     </div>
   `;
 
-  // обработка +/-/Удалить
   box.onclick = function(e) {
     const btn = e.target.closest("button");
     if (!btn || !btn.dataset.act) return;
@@ -345,7 +355,6 @@ function renderOrder() {
     renderOrder();
   };
 
-  // копирование заявки
   $("#copyOrder").onclick = () => {
     const cartNow = loadCart();
     if (!cartNow.length) return;
@@ -366,7 +375,6 @@ function renderOrder() {
     }
   };
 
-  // кнопки снизу
   $("#clearOrder").onclick = () => {
     if (!confirm("Очистить корзину?")) return;
     saveCart([]);
@@ -378,14 +386,14 @@ function renderOrder() {
   };
 
   $("#sendToManager").onclick = () => {
-    // пока просто уведомление, потом привяжем WhatsApp/бота
-    toast("Заявка будет отправляться менеджеру (логику позже подключим)");
+    toast("Логику отправки менеджеру подключим позже");
   };
 
   updateCartBadge();
 }
 
-/* ================== ROUTER ================== */
+/* === ROUTER === */
+
 document.addEventListener("DOMContentLoaded", () => {
   if ($("#grid")) renderGrid();
   if ($("#product")) renderProduct();
