@@ -1,6 +1,5 @@
 /* Жемчужина · B2B каталог
- * Карточка: фото сверху, снизу блок с размерами + количеством + большой кнопкой.
- * В корзине плавное изменение кол-ва и заготовка под "Передать менеджеру".
+ * Каталог, карточка, корзина.
  */
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -31,7 +30,9 @@ function getParam(name) {
 
 function updateCartBadge() {
   const count = loadCart().reduce((s, it) => s + (it.qty || 0), 0);
-  $$("#cartCount").forEach(el => el.textContent = count || "0");
+  $$("#cartCount").forEach(el => {
+    if (el) el.textContent = count || "0";
+  });
 }
 
 function toast(msg) {
@@ -56,22 +57,31 @@ function flyToCart(sourceEl) {
 
   const dot = document.createElement("div");
   dot.className = "fly-dot";
+  dot.style.position = "fixed";
+  dot.style.width = "26px";
+  dot.style.height = "26px";
+  dot.style.borderRadius = "999px";
+  dot.style.background = "#6A1F2A";
+  dot.style.boxShadow = "0 0 0 2px rgba(248,250,252,0.9)";
   dot.style.left = (s.left + s.width / 2) + "px";
   dot.style.top = (s.top + s.height / 2) + "px";
+  dot.style.transform = "translate(0,0) scale(1)";
+  dot.style.opacity = "0.97";
+  dot.style.zIndex = "999";
+  dot.style.transition = "transform 0.7s ease, opacity 0.7s ease";
   document.body.appendChild(dot);
 
-  // чуть паузы, чтобы видно начало
   requestAnimationFrame(() => {
     const dx = (c.left + c.width / 2) - (s.left + s.width / 2);
     const dy = (c.top + c.height / 2) - (s.top + s.height / 2);
-    dot.style.transform = `translate(${dx}px, ${dy}px) scale(0.6)`; // чуть увеличена точка
+    dot.style.transform = `translate(${dx}px, ${dy}px) scale(0.5)`;
     dot.style.opacity = "0";
   });
 
-  setTimeout(() => dot.remove(), 750); // дольше живёт
+  setTimeout(() => dot.remove(), 750);
 }
 
-/* ================== КАТАЛОГ (сеткой 2/3/4) ================== */
+/* ================== КАТАЛОГ (сеткой) ================== */
 function renderGrid() {
   const grid = $("#grid");
   if (!grid || !Array.isArray(PRODUCTS)) return;
@@ -99,7 +109,7 @@ function addToCart(product, size, qty) {
   const cart = loadCart();
   const key = `${product.sku}_${size}`;
   const idx = cart.findIndex(it => it.key === key);
-  const itemBase = {
+  const base = {
     key,
     sku: product.sku,
     title: product.title || ("Кольцо " + product.sku),
@@ -111,7 +121,7 @@ function addToCart(product, size, qty) {
   if (idx >= 0) {
     cart[idx].qty = Math.min(999, (cart[idx].qty || 0) + qty);
   } else {
-    cart.push({ ...itemBase, qty });
+    cart.push({ ...base, qty });
   }
   saveCart(cart);
 }
@@ -128,137 +138,101 @@ function renderProduct() {
     return;
   }
 
-  let activeIndex = 0;
-  let currentSize = (Array.isArray(SIZES) && SIZES.length) ? SIZES[0] : "18.0";
-  let qty = 1;
-
-  const mainImage = () => {
-    const src =
-      (product.images && product.images[activeIndex]) ||
-      (product.images && product.images[0]) ||
-      "https://picsum.photos/seed/placeholder/900";
-    return `
-      <div class="square product-photo-img">
-        <img id="bigImage" src="${src}" alt="${product.title || product.sku}">
-      </div>
-    `;
-  };
-
-  const thumbs = () => {
-    if (!product.images || product.images.length <= 1) return "";
-    return `
-      <div class="gallery">
-        ${product.images.map((src, i) => `
-          <button type="button" class="thumb ${i === activeIndex ? "active" : ""}" data-i="${i}">
-            <img src="${src}" alt="">
-          </button>
-        `).join("")}
-      </div>
-    `;
-  };
-
-  const sizesList = () => `
-    <div class="sizes-scroll" id="sizesCol">
-      ${(Array.isArray(SIZES) ? SIZES : ["16.0","17.0","18.0","19.0"]).map(s => `
-        <button type="button" class="size-btn ${s === currentSize ? "active" : ""}" data-size="${s}">
-          ${s}
-        </button>
-      `).join("")}
-    </div>
-  `;
+  const imgSrc =
+    (product.images && product.images[0]) ||
+    "https://picsum.photos/seed/placeholder/900";
 
   const w = product.avgWeight != null ? formatWeight(product.avgWeight) : null;
 
+  const sizes = Array.isArray(SIZES) && SIZES.length
+    ? SIZES
+    : ["15.5", "16.0", "16.5", "17.0", "17.5", "18.0"];
+
+  let currentSize = sizes[0];
+  let qty = 1;
+
   box.innerHTML = `
-    <div class="card product-card">
-      <div class="product-photo">
-        ${mainImage()}
-        ${thumbs()}
+    <div class="product-card">
+      <div class="product-main">
+        <div class="product-breadcrumbs">
+          <a href="catalog.html">Каталог</a> &nbsp;›&nbsp; <span>Кольца</span>
+        </div>
+
+        <div class="product-photo-wrap">
+          <img src="${imgSrc}" alt="${product.title || product.sku}">
+        </div>
+
+        <div class="product-meta">
+          <div class="product-art">Арт. ${product.sku}</div>
+          <h1 class="product-title">${product.title || ("Кольцо " + product.sku)}</h1>
+          ${w ? `<div class="product-weight">Средний вес ~ ${w} г</div>` : ""}
+        </div>
       </div>
 
-      <div class="product-info">
-        <div class="badge">Арт. ${product.sku}</div>
-        <h1 class="product-title">
-          ${product.title || ("Кольцо " + product.sku)}
-        </h1>
-        ${w ? `<div class="product-weight">Средний вес ~ ${w} г</div>` : ""}
-
-        <div class="product-controls">
-          <div>
-            <div class="section-title">Размер</div>
-            ${sizesList()}
-          </div>
-
-          <div>
-            <div class="section-title">Кол-во</div>
-            <div class="qty">
-              <button id="qtyMinus" type="button">−</button>
-              <span id="qtyVal">1</span>
-              <button id="qtyPlus" type="button">+</button>
+      <div class="product-controls">
+        <div class="product-controls-row">
+          <div class="field">
+            <div class="field-label">Размер</div>
+            <div class="field-control size-control">
+              <select id="sizeSelect" class="size-select">
+                ${sizes.map(s => `
+                  <option value="${s}">${s}</option>
+                `).join("")}
+              </select>
             </div>
           </div>
 
-          <div>
-            <button id="addToCart" class="btn primary full-width" type="button">
-              В корзину
-            </button>
+          <div class="field">
+            <div class="field-label">Кол-во</div>
+            <div class="field-control">
+              <div class="qty-inline">
+                <button id="qtyMinus" type="button">−</button>
+                <span id="qtyVal">1</span>
+                <button id="qtyPlus" type="button">+</button>
+              </div>
+            </div>
           </div>
         </div>
+
+        <button id="addToCart" class="btn-primary" type="button">
+          В корзину
+        </button>
       </div>
     </div>
   `;
 
-  /* ===== обработчики ===== */
+  const sizeSelect = $("#sizeSelect", box);
+  const qtyValEl = $("#qtyVal", box);
+  const btnPlus = $("#qtyPlus", box);
+  const btnMinus = $("#qtyMinus", box);
+  const addBtn = $("#addToCart", box);
 
-  // смена миниатюр
-  box.addEventListener("click", e => {
-    const thumb = e.target.closest(".thumb");
-    if (!thumb) return;
-    const i = Number(thumb.dataset.i || "0");
-    if (isNaN(i)) return;
-    activeIndex = i;
-    const src = product.images && product.images[activeIndex];
-    if (src) {
-      $("#bigImage", box).src = src;
-    }
-    $$(".thumb", box).forEach((b, idx) =>
-      b.classList.toggle("active", idx === activeIndex)
-    );
-  });
-
-  // выбор размера
-  const sizesCol = $("#sizesCol", box);
-  if (sizesCol) {
-    sizesCol.addEventListener("click", e => {
-      const btn = e.target.closest(".size-btn");
-      if (!btn) return;
-      currentSize = btn.dataset.size;
-      $$(".size-btn", sizesCol).forEach(b =>
-        b.classList.toggle("active", b === btn)
-      );
+  if (sizeSelect) {
+    sizeSelect.addEventListener("change", () => {
+      currentSize = sizeSelect.value;
     });
   }
 
-  // +/- количество
-  const qtyValEl = $("#qtyVal", box);
-  $("#qtyPlus", box).addEventListener("click", () => {
-    qty = Math.min(999, qty + 1);
-    qtyValEl.textContent = String(qty);
-  });
-  $("#qtyMinus", box).addEventListener("click", () => {
-    qty = Math.max(1, qty - 1);
-    qtyValEl.textContent = String(qty);
-  });
+  if (btnPlus && btnMinus && qtyValEl) {
+    btnPlus.addEventListener("click", () => {
+      qty = Math.min(999, qty + 1);
+      qtyValEl.textContent = String(qty);
+    });
+    btnMinus.addEventListener("click", () => {
+      qty = Math.max(1, qty - 1);
+      qtyValEl.textContent = String(qty);
+    });
+  }
 
-  // добавить в корзину
-  const addBtn = $("#addToCart", box);
-  addBtn.addEventListener("click", () => {
-    addToCart(product, currentSize, qty);
-    flyToCart(addBtn);
-    toast("Добавлено в заказ");
-    qty = 1;
-    qtyValEl.textContent = "1";
-  });
+  if (addBtn) {
+    addBtn.addEventListener("click", () => {
+      addToCart(product, currentSize, qty);
+      flyToCart(addBtn);
+      toast("Добавлено в заказ");
+      qty = 1;
+      qtyValEl.textContent = "1";
+    });
+  }
 }
 
 /* ================== КОРЗИНА ================== */
@@ -296,7 +270,7 @@ function renderOrder() {
           </div>
 
           <div class="cart-actions">
-            <div class="qty">
+            <div class="qty-inline">
               <button type="button" data-act="dec" data-idx="${idx}">−</button>
               <span>${it.qty}</span>
               <button type="button" data-act="inc" data-idx="${idx}">+</button>
@@ -326,14 +300,13 @@ function renderOrder() {
         Позиции: ${cart.length}, штук: ${totalQty}, вес ~ ${formatWeight(totalWeight)} г
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;">
-        <button id="copyOrder" class="btn primary" type="button">Скопировать заявку</button>
-        <button id="sendToManager" class="btn" type="button">Передать менеджеру</button>
+        <button id="copyOrder" class="btn-primary" type="button">Скопировать заявку</button>
         <button id="clearOrder" class="btn" type="button">Очистить</button>
       </div>
     </div>
   `;
 
-  // один обработчик на всю корзину
+  // изменение количества / удаление
   box.onclick = function(e) {
     const btn = e.target.closest("button");
     if (!btn || !btn.dataset.act) return;
@@ -378,14 +351,6 @@ function renderOrder() {
       toast("Заявка скопирована");
     }
   };
-
-  // пока "Передать менеджеру" просто существует визуально
-  const sendBtn = $("#sendToManager");
-  if (sendBtn) {
-    sendBtn.onclick = () => {
-      toast("Позже привяжем отправку менеджеру");
-    };
-  }
 
   // очистка
   $("#clearOrder").onclick = () => {
