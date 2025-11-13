@@ -1,302 +1,367 @@
+/* Жемчужина · B2B каталог
+ * Упрощённая и компактная карточка товара:
+ * - Фото + артикул + вес
+ * - Размеры (колонка с прокруткой)
+ * - Кол-во + кнопка "Добавить в заказ"
+ * Карточка помещается в один экран телефона без лишней "бороды".
+ */
+
 /* ========================== УТИЛИТЫ ========================== */
-const $ = sel => document.querySelector(sel);
-const $$ = sel => Array.from(document.querySelectorAll(sel));
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-function getCart() { try { return JSON.parse(localStorage.getItem("cart") || "[]"); } catch { return []; } }
-function setCart(items) { localStorage.setItem("cart", JSON.stringify(items)); }
-function cartWeight(items) { return items.reduce((s, it) => s + it.qty * (Number(it.avgWeight) || 0), 0); }
-function formatWeight(g) { return (Math.round(g*100)/100).toFixed(2); }
-function param(name) { const u = new URL(location.href); return u.searchParams.get(name); }
+const CART_KEY = "zhem_cart_v1";
 
-function updateCartBadge() {
-  const el = $("#cartCount");
-  if (!el) return;
-  const count = getCart().reduce((s, it) => s + it.qty, 0);
-  el.textContent = count || "0";
+function loadCart() {
+  try { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); }
+  catch { return []; }
 }
 
-function showToast(text="Добавлено в заказ") {
-  let t = $("#toast");
-  if (!t) { t = document.createElement("div"); t.id = "toast"; t.className = "toast"; document.body.appendChild(t); }
-  t.textContent = text;
-  t.classList.add("show");
-  if (navigator.vibrate) navigator.vibrate(30);
-  setTimeout(()=> t.classList.remove("show"), 1200);
-}
-
-function addToCart(item) {
-  const cart = getCart();
-  const idx = cart.findIndex(x => x.sku === item.sku && x.size === item.size);
-  if (idx >= 0) cart[idx].qty += item.qty;
-  else cart.push(item);
-  setCart(cart);
+function saveCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
   updateCartBadge();
 }
 
-/* ========================== КОМПОНЕНТЫ ========================== */
-function Tabbar(active) {
-  return `
-    <nav class="tabbar" role="navigation">
-      <div class="tabbar-inner">
-        <a href="index.html" class="${active==='home'?'active':''}">Главная</a>
-        <a href="catalog.html" class="${active==='cat'?'active':''}">Каталог</a>
-        <a href="order.html" class="${active==='cart'?'active':''}">Корзина</a>
-      </div>
-    </nav>
-  `;
+function formatWeight(g) {
+  const num = Number(g) || 0;
+  return (Math.round(num * 100) / 100).toFixed(2);
 }
 
-/* ========================== СТРАНИЦЫ ========================== */
+function getParam(name) {
+  const u = new URL(location.href);
+  return u.searchParams.get(name);
+}
+
+function updateCartBadge() {
+  const count = loadCart().reduce((s, it) => s + (it.qty || 0), 0);
+  $$("#cartCount").forEach(el => el.textContent = count || "0");
+}
+
+function toast(msg) {
+  let el = $(".toast");
+  if (!el) {
+    el = document.createElement("div");
+    el.className = "toast";
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 1400);
+}
+
+/* ========================== КАТАЛОГ ========================== */
 function renderGrid() {
-  const wrap = $("#grid");
-  if (!wrap) return;
-  wrap.innerHTML = PRODUCTS.map(p => `
-    <a class="tile" href="product.html?sku=${p.sku}">
-      <div class="square"><img src="${p.images?.[0]}" alt="${p.title}"></div>
-      <div class="tile-body">
-        <div class="tile-sub">Арт. ${p.sku}</div>
-        <div class="tile-title">${p.title}</div>
-        <div class="tile-sub">${(p.avgWeight ?? 0).toFixed(2)} г</div>
-      </div>
-    </a>
-  `).join("");
+  const grid = $("#grid");
+  if (!grid || !Array.isArray(PRODUCTS)) return;
+
+  grid.innerHTML = PRODUCTS.map(p => {
+    const img = (p.images && p.images[0]) || "https://picsum.photos/seed/placeholder/900";
+    const w = p.avgWeight != null ? formatWeight(p.avgWeight) + " г" : "";
+    return `
+      <a class="tile" href="product.html?sku=${encodeURIComponent(p.sku)}">
+        <div class="square"><img src="${img}" alt="${p.title || p.sku}"></div>
+        <div class="tile-body">
+          <div class="tile-title">${p.title || ("Кольцо " + p.sku)}</div>
+          <div class="tile-sub">
+            <span>Арт. ${p.sku}</span>
+            ${w ? `<span style="float:right;">${w}</span>` : ""}
+          </div>
+        </div>
+      </a>
+    `;
+  }).join("");
 }
 
+/* ========================== ДОБАВЛЕНИЕ В КОРЗИНУ ========================== */
+function addToCart(product, size, qty) {
+  const cart = loadCart();
+  const key = `${product.sku}_${size}`;
+  const idx = cart.findIndex(it => it.key === key);
+  const itemBase = {
+    key,
+    sku: product.sku,
+    title: product.title || ("Кольцо " + product.sku),
+    size,
+    avgWeight: product.avgWeight,
+    image: (product.images && product.images[0]) || null
+  };
+
+  if (idx >= 0) {
+    cart[idx].qty = Math.min(999, (cart[idx].qty || 0) + qty);
+  } else {
+    cart.push({ ...itemBase, qty: qty });
+  }
+  saveCart(cart);
+  toast("Добавлено в заказ");
+}
+
+/* ========================== КАРТОЧКА ТОВАРА ========================== */
 function renderProduct() {
-  const sku = param("sku");
-  const p = PRODUCTS.find(x => x.sku === sku);
-  if (!p) { $("#product").innerHTML = "<div class='card'>Товар не найден</div>"; return; }
+  const box = $("#product");
+  if (!box || !Array.isArray(PRODUCTS)) return;
 
-  let active = 0, size = "18.0", qty = 1, avgWeight = p.avgWeight;
+  const sku = getParam("sku");
+  const product = PRODUCTS.find(p => p.sku === sku) || PRODUCTS[0];
+  if (!product) {
+    box.innerHTML = "<div class='card'>Товар не найден</div>";
+    return;
+  }
 
-  const gallery = () => `
-    <div class="square"><img id="big" src="${p.images[active]}" alt="${p.title}"></div>
-    <div class="gallery">
-      ${p.images.map((src,i)=>`
-        <button class="thumb ${i===active?"active":""}" data-i="${i}" type="button">
-          <img src="${src}" alt="">
+  let activeIndex = 0;
+  let currentSize = (Array.isArray(SIZES) && SIZES.length) ? SIZES[0] : "18.0";
+  let qty = 1;
+
+  const mainImage = () => {
+    const src =
+      (product.images && product.images[activeIndex]) ||
+      (product.images && product.images[0]) ||
+      "https://picsum.photos/seed/placeholder/900";
+    return `
+      <div class="square">
+        <img id="bigImage" src="${src}" alt="${product.title || product.sku}">
+      </div>
+    `;
+  };
+
+  const thumbs = () => {
+    if (!product.images || product.images.length <= 1) return "";
+    return `
+      <div class="gallery">
+        ${product.images.map((src, i) => `
+          <button type="button" class="thumb ${i === activeIndex ? "active" : ""}" data-i="${i}">
+            <img src="${src}" alt="">
+          </button>
+        `).join("")}
+      </div>
+    `;
+  };
+
+  const sizesCol = () => `
+    <div class="size-col" id="sizesCol">
+      ${(Array.isArray(SIZES) ? SIZES : ["16.0","17.0","18.0","19.0"]).map(s => `
+        <button type="button" class="size-btn ${s === currentSize ? "active" : ""}" data-size="${s}">
+          ${s}
         </button>
       `).join("")}
     </div>
   `;
 
-  const sizesCol = () => `
-    <div class="size-col" id="sizes">
-      ${SIZES.map(s => `<button class="size-btn ${s===size?"active":""}" data-s="${s}" type="button">${s}</button>`).join("")}
-    </div>
-  `;
+  const w = product.avgWeight != null ? formatWeight(product.avgWeight) : null;
 
-  $("#product").innerHTML = `
-    <div class="row">
-      <div class="col">
-        ${gallery()}
-      </div>
-      <div class="col">
-        <div class="badge">Артикул: ${p.sku}</div>
-        <h1 style="margin:6px 0 10px 0">${p.title}</h1>
-
-        <div class="card">
-          <div class="section-title">Средний вес (г)</div>
-          <input id="avgw" type="number" step="0.01" min="0.1" value="${avgWeight}"
-                 style="width:140px; padding:10px; border:1px solid var(--line); border-radius:12px; font-size:16px;">
-          <div class="badge" style="margin-top:6px">Позже подтянем из 1С</div>
+  box.innerHTML = `
+    <div class="card">
+      <div class="row">
+        <div class="col">
+          ${mainImage()}
+          ${thumbs()}
         </div>
+        <div class="col">
+          <div class="badge">Арт. ${product.sku}</div>
+          <h1 style="margin:6px 0 8px 0; font-size:20px;">
+            ${product.title || ("Кольцо " + product.sku)}
+          </h1>
+          ${w ? `<div class="tile-sub" style="margin-bottom:10px;">Средний вес ~ ${w} г</div>` : ""}
 
-        <div style="height:8px"></div>
-
-        <div>
           <div class="section-title">Размер</div>
-          <div class="row">
+          <div class="row" style="align-items:flex-start; margin-bottom:10px;">
             ${sizesCol()}
-            <div class="badge" style="align-self:flex-start">Прокрутите список ↑/↓</div>
+            <div>
+              <div class="section-title">Кол-во</div>
+              <div class="qty" style="margin-top:4px;">
+                <button id="qtyMinus" type="button">−</button>
+                <span id="qtyVal">1</span>
+                <button id="qtyPlus" type="button">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="bottom-bar">
+            <div class="bottom-inner">
+              <button id="addToCart" class="btn primary" type="button">
+                В корзину
+              </button>
+            </div>
           </div>
         </div>
-
-        <div style="height:120px"></div> <!-- место под нижние панели -->
       </div>
     </div>
-
-    <div class="bottom-bar">
-      <div class="bottom-inner">
-        <div class="qty" aria-label="Количество">
-          <button id="minus" type="button">−</button>
-          <span id="qty">1</span>
-          <button id="plus" type="button">+</button>
-        </div>
-        <div class="badge">Размер: <span id="sizeView">${size}</span></div>
-        <button id="add" class="btn primary bottom-btn" type="button">В корзину</button>
-      </div>
-      <div style="margin-top:8px; display:flex; justify-content:flex-end">
-        <a href="catalog.html" class="secondary">← К кольцам</a>
-      </div>
-    </div>
-
-    ${Tabbar('cat')}
-
-    <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
   `;
 
-  $("#avgw").addEventListener("input", e => { avgWeight = Number(e.target.value) || avgWeight; });
-  $("#minus").addEventListener("click", ()=> { qty = Math.max(1, qty-1); $("#qty").textContent = qty; });
-  $("#plus").addEventListener("click", ()=> { qty += 1; $("#qty").textContent = qty; });
+  /* обработчики */
 
-  $("#sizes").addEventListener("click", e => {
-    const btn = e.target.closest(".size-btn");
-    if (!btn) return;
-    size = btn.dataset.s;
-    $("#sizeView").textContent = size;
-    $$("#sizes .size-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
+  // смена миниатюры
+  box.addEventListener("click", e => {
+    const thumb = e.target.closest(".thumb");
+    if (!thumb) return;
+    const i = Number(thumb.dataset.i || "0");
+    if (isNaN(i)) return;
+    activeIndex = i;
+    const src = product.images && product.images[activeIndex];
+    if (src) {
+      $("#bigImage", box).src = src;
+    }
+    $$(".thumb", box).forEach((b, idx) =>
+      b.classList.toggle("active", idx === activeIndex)
+    );
   });
 
-  $$(".thumb").forEach(b => b.addEventListener("click", () => {
-    active = Number(b.dataset.i);
-    $("#big").src = p.images[active];
-    $$(".thumb").forEach(x=>x.classList.remove("active"));
-    b.classList.add("active");
-  }));
-
-  $("#add").addEventListener("click", () => {
-    addToCart({
-      sku: p.sku, title: p.title, size, qty, avgWeight,
-      image: p.images?.[0] || ""
+  // выбор размера
+  const sizesEl = $("#sizesCol", box);
+  if (sizesEl) {
+    sizesEl.addEventListener("click", e => {
+      const btn = e.target.closest(".size-btn");
+      if (!btn) return;
+      currentSize = btn.dataset.size;
+      $$(".size-btn", sizesEl).forEach(b =>
+        b.classList.toggle("active", b === btn)
+      );
     });
-    showToast("Добавлено в заказ");
-    qty = 1; $("#qty").textContent = "1";
+  }
+
+  // +/- количество
+  const qtyValEl = $("#qtyVal", box);
+  $("#qtyPlus", box).addEventListener("click", () => {
+    qty = Math.min(999, qty + 1);
+    qtyValEl.textContent = String(qty);
+  });
+  $("#qtyMinus", box).addEventListener("click", () => {
+    qty = Math.max(1, qty - 1);
+    qtyValEl.textContent = String(qty);
   });
 
-  updateCartBadge();
+  // добавить в корзину
+  $("#addToCart", box).addEventListener("click", () => {
+    addToCart(product, currentSize, qty);
+  });
 }
 
+/* ========================== КОРЗИНА ========================== */
 function renderOrder() {
   const box = $("#order");
-  if (!box) return;
-  const cart = getCart();
+  if (!box) { updateCartBadge(); return; }
 
+  const cart = loadCart();
   if (!cart.length) {
-    box.innerHTML = `<div class="card">Корзина пуста. Добавьте изделия из каталога.</div>` + Tabbar('cart');
+    box.innerHTML = "<div class='card'>Корзина пуста.</div>";
     updateCartBadge();
     return;
   }
 
-  const rows = cart.map((it, i) => `
-    <div class="list-item">
-      <div class="cart-row">
+  const rows = cart.map((it, idx) => {
+    const prod = PRODUCTS.find(p => p.sku === it.sku) || {};
+    const img = it.image || (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/200";
+    const w = it.avgWeight != null
+      ? formatWeight(it.avgWeight)
+      : (prod.avgWeight != null ? formatWeight(prod.avgWeight) : null);
+
+    return `
+      <div class="list-item cart-row" data-idx="${idx}">
         <div class="cart-thumb">
-          <img src="${it.image || 'https://picsum.photos/seed/placeholder/200'}" alt="">
+          <img src="${img}" alt="">
         </div>
         <div class="cart-meta">
           <div class="badge">Арт. ${it.sku}</div>
-          <div style="font-weight:600; margin:4px 0 8px">${it.title}</div>
+          <div style="font-weight:600; margin:4px 0 6px;">
+            ${it.title || ("Кольцо " + it.sku)}
+          </div>
+          <div style="font-size:12px; color:var(--muted); margin-bottom:8px;">
+            Размер: ${it.size}${w ? ` · вес ~ ${w} г / шт` : ""}
+          </div>
 
           <div class="cart-actions">
-            <div class="card" style="flex:0 0 auto">
-              <div class="section-title">Размер</div>
-              <div>${it.size}</div>
+            <div class="qty">
+              <button type="button" data-act="dec" data-idx="${idx}">−</button>
+              <span>${it.qty}</span>
+              <button type="button" data-act="inc" data-idx="${idx}">+</button>
             </div>
-
-            <div class="card" style="flex:0 0 auto">
-              <div class="section-title">Кол-во</div>
-              <div class="qty">
-                <button data-i="${i}" data-act="dec" type="button">−</button>
-                <span>${it.qty}</span>
-                <button data-i="${i}" data-act="inc" type="button">+</button>
-              </div>
-            </div>
-
-            <div class="card" style="flex:0 0 auto">
-              <div class="section-title">Средний вес (г)</div>
-              <input data-i="${i}" data-act="w" type="number" step="0.01" min="0.1"
-                value="${it.avgWeight}" style="width:120px; padding:10px; border:1px solid var(--line); border-radius:12px; font-size:16px;">
-            </div>
-
-            <button class="btn icon" data-i="${i}" data-act="rm" type="button">Удалить</button>
+            <button class="btn icon" type="button" data-act="rm" data-idx="${idx}">
+              Удалить
+            </button>
           </div>
         </div>
       </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 
-  const total = formatWeight(cartWeight(cart));
+  const totalWeight = cart.reduce((s, it) => {
+    const prod = PRODUCTS.find(p => p.sku === it.sku) || {};
+    const w = it.avgWeight != null ? it.avgWeight : prod.avgWeight;
+    return s + (Number(w) || 0) * (it.qty || 0);
+  }, 0);
+  const totalQty = cart.reduce((s, it) => s + (it.qty || 0), 0);
 
   box.innerHTML = `
     <div class="list">${rows}</div>
     <div style="height:10px"></div>
     <div class="card">
-      <div class="section-title">Примерный общий вес заявки</div>
-      <div style="font-size:22px; font-weight:600">${total} г</div>
-    </div>
-    <div style="height:10px"></div>
-    <div class="card">
-      <div class="section-title">Заявка для менеджера / 1С</div>
-      <details>
-        <summary style="cursor:pointer">Показать / скрыть JSON</summary>
-        <textarea id="json" readonly style="width:100%; height:160px; font-family: ui-monospace, Menlo, monospace; font-size:12px; border:1px solid var(--line); border-radius:12px; padding:8px; margin-top:8px;"></textarea>
-      </details>
-      <div class="row" style="margin-top:10px; flex-wrap:wrap">
-        <button id="copy" class="btn" type="button">Скопировать JSON</button>
-        <button id="send" class="btn primary" type="button">Отправить менеджеру</button>
-        <button id="clear" class="btn" type="button">Очистить корзину</button>
+      <div class="section-title">Итого</div>
+      <div style="margin-bottom:8px;">
+        Позиции: ${cart.length}, штук: ${totalQty}, вес ~ ${formatWeight(totalWeight)} г
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;">
+        <button id="copyOrder" class="btn primary" type="button">Скопировать заявку</button>
+        <button id="clearOrder" class="btn" type="button">Очистить</button>
       </div>
     </div>
-
-    ${Tabbar('cart')}
-
-    <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
   `;
 
-  const json = {
-    created_at: new Date().toISOString(),
-    items: cart,
-    est_total_weight_g: Number(total),
-    note: "Цена не отображается. Сухой сбор заявки. Позже — 1С/БД."
-  };
-  const jsonEl = $("#json");
-  if (jsonEl) jsonEl.value = JSON.stringify(json, null, 2);
-
-  box.addEventListener("click", (e) => {
+  // обработчик +/- и удалить
+  box.addEventListener("click", e => {
     const btn = e.target.closest("button");
-    if (!btn) return;
-    const i = Number(btn.dataset.i);
+    if (!btn || !btn.dataset.act) return;
     const act = btn.dataset.act;
-    const items = getCart();
+    const idx = Number(btn.dataset.idx);
+    if (isNaN(idx)) return;
 
-    if (act === "inc") items[i].qty += 1;
-    if (act === "dec") items[i].qty = Math.max(1, items[i].qty - 1);
-    if (act === "rm") items.splice(i,1);
+    const cartNow = loadCart();
+    const item = cartNow[idx];
+    if (!item) return;
 
-    setCart(items);
+    if (act === "inc") {
+      item.qty = Math.min(999, (item.qty || 0) + 1);
+    } else if (act === "dec") {
+      item.qty = Math.max(1, (item.qty || 0) - 1);
+    } else if (act === "rm") {
+      cartNow.splice(idx, 1);
+    }
+    saveCart(cartNow);
     renderOrder();
-    updateCartBadge();
+  }, { once: false });
+
+  // копирование заявки
+  $("#copyOrder").addEventListener("click", () => {
+    const cartNow = loadCart();
+    if (!cartNow.length) return;
+    const lines = cartNow.map(it => {
+      return `Арт. ${it.sku}, размер ${it.size}, кол-во ${it.qty}`;
+    });
+    const txt = "Заявка Жемчужина\n" + lines.join("\n");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
+    } else {
+      // fallback
+      const ta = document.createElement("textarea");
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      toast("Заявка скопирована");
+    }
   });
 
-  box.addEventListener("input", (e) => {
-    const inp = e.target;
-    if (inp.dataset?.act !== "w") return;
-    const i = Number(inp.dataset.i);
-    const items = getCart();
-    items[i].avgWeight = Number(inp.value) || items[i].avgWeight;
-    setCart(items);
+  $("#clearOrder").addEventListener("click", () => {
+    if (!confirm("Очистить корзину?")) return;
+    saveCart([]);
     renderOrder();
   });
 
-  $("#copy").onclick = async () => {
-    await navigator.clipboard.writeText(JSON.stringify(json, null, 2));
-    showToast("JSON скопирован");
-  };
-
-  $("#send").onclick = () => {
-    const body = encodeURIComponent(JSON.stringify(json, null, 2));
-    location.href = `mailto:orders@zhem.kz?subject=Заявка%20каталог&body=${body}`;
-  };
-
-  $("#clear").onclick = () => { setCart([]); renderOrder(); updateCartBadge(); };
   updateCartBadge();
 }
 
 /* ========================== ROUTER ========================== */
 document.addEventListener("DOMContentLoaded", () => {
-  if ($("#grid")) { renderGrid(); document.body.insertAdjacentHTML('beforeend', Tabbar('cat')); }
+  if ($("#grid")) renderGrid();
   if ($("#product")) renderProduct();
   if ($("#order")) renderOrder();
   updateCartBadge();
