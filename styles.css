@@ -442,6 +442,23 @@ body {
   font-size: 13px;
 }
 
+.btn-row {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.btn.small {
+  flex: 1 1 0;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  font-size: 13px;
+  padding: 8px 6px;
+  cursor: pointer;
+}
+
 .full-width {
   width: 100%;
 }
