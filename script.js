@@ -1,8 +1,6 @@
 /* Жемчужина · B2B каталог
- * Удобная карточка:
- * - фото сверху
- * - под фото: арт, вес, размеры (прокрутка), кол-во, кнопка
- * - полёт в корзину + тост
+ * Карточка: фото сверху, снизу блок с размерами + количеством + большой кнопкой.
+ * В корзине плавное изменение кол-ва и заготовка под "Передать менеджеру".
  */
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -62,14 +60,15 @@ function flyToCart(sourceEl) {
   dot.style.top = (s.top + s.height / 2) + "px";
   document.body.appendChild(dot);
 
+  // чуть паузы, чтобы видно начало
   requestAnimationFrame(() => {
     const dx = (c.left + c.width / 2) - (s.left + s.width / 2);
     const dy = (c.top + c.height / 2) - (s.top + s.height / 2);
-    dot.style.transform = `translate(${dx}px, ${dy}px) scale(0.4)`;
+    dot.style.transform = `translate(${dx}px, ${dy}px) scale(0.6)`; // чуть увеличена точка
     dot.style.opacity = "0";
   });
 
-  setTimeout(() => dot.remove(), 450);
+  setTimeout(() => dot.remove(), 750); // дольше живёт
 }
 
 /* ================== КАТАЛОГ (сеткой 2/3/4) ================== */
@@ -270,7 +269,6 @@ function renderOrder() {
   const cart = loadCart();
   if (!cart.length) {
     box.innerHTML = "<div class='card'>Корзина пуста.</div>";
-    // убираем старый обработчик, чтобы он не висел
     box.onclick = null;
     updateCartBadge();
     return;
@@ -329,12 +327,13 @@ function renderOrder() {
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;">
         <button id="copyOrder" class="btn primary" type="button">Скопировать заявку</button>
+        <button id="sendToManager" class="btn" type="button">Передать менеджеру</button>
         <button id="clearOrder" class="btn" type="button">Очистить</button>
       </div>
     </div>
   `;
 
-  // ЕДИНСТВЕННЫЙ обработчик клика по всей корзине
+  // один обработчик на всю корзину
   box.onclick = function(e) {
     const btn = e.target.closest("button");
     if (!btn || !btn.dataset.act) return;
@@ -379,6 +378,14 @@ function renderOrder() {
       toast("Заявка скопирована");
     }
   };
+
+  // пока "Передать менеджеру" просто существует визуально
+  const sendBtn = $("#sendToManager");
+  if (sendBtn) {
+    sendBtn.onclick = () => {
+      toast("Позже привяжем отправку менеджеру");
+    };
+  }
 
   // очистка
   $("#clearOrder").onclick = () => {
