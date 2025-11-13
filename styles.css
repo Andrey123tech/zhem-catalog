@@ -468,8 +468,8 @@ body {
 }
 
 .cart-thumb {
-  width: 72px;
-  height: 72px;
+  width: 110px;      /* было 72 */
+  height: 110px;
   border-radius: 16px;
   overflow: hidden;
   flex-shrink: 0;
@@ -494,9 +494,8 @@ body {
 }
 
 .cart-sub {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 6px;
+  font-size: 15px;   /* было 13 */
+  color: #111827;    /* цифры поярче */
 }
 
 .cart-actions {
