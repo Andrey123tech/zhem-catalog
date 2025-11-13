@@ -2,48 +2,90 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
+  <title>Жемчужина · B2B каталог</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Жемчужина · Каталог</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner container">
-      <div class="brand">ЖЕМЧУЖИНА · B2B</div>
-      <a href="order.html" class="btn sm">Корзина <span id="cartCount" class="badge">0</span></a>
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-dot"></div>
+      <div>
+        <div class="topbar-title">Жемчужина</div>
+        <div class="topbar-sub">B2B каталог изделий</div>
+      </div>
     </div>
+    <nav class="topbar-nav">
+      <a href="index.html" class="active">Главная</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="order.html" class="cart-link">
+        Заказ
+        <span class="cart-count" id="cartCount">0</span>
+      </a>
+    </nav>
   </header>
 
   <main class="container">
-    <h1 style="font-size:18px; font-weight:600; margin:10px 0 12px">Каталог</h1>
-    <div class="grid">
-      <a class="tile" href="catalog.html">
-        <div class="square"><img src="https://picsum.photos/seed/rings/900" alt=""></div>
-        <div class="tile-body"><div class="tile-title">Кольца</div></div>
-      </a>
-      <div class="tile">
-        <div class="square"><img src="https://picsum.photos/seed/earrings/900" alt=""></div>
-        <div class="tile-body"><div class="tile-title">Серьги</div><div class="tile-sub">скоро</div></div>
+    <section class="hero">
+      <div class="hero-title">Заказ ювелирных изделий<br>для оптовиков и партнёров</div>
+      <div class="hero-sub">
+        Выбирайте позиции прямо из каталога: веса, размеры, количество. 
+        Заявка собирается автоматически — остаётся только отправить менеджеру.
       </div>
-      <div class="tile">
-        <div class="square"><img src="https://picsum.photos/seed/bracelets/900" alt=""></div>
-        <div class="tile-body"><div class="tile-title">Браслеты</div><div class="tile-sub">скоро</div></div>
+    </section>
+
+    <section>
+      <div class="section-title" style="margin-bottom:8px;">Разделы каталога</div>
+      <div class="grid">
+        <!-- КОЛЬЦА — здесь уже реальная фотография -->
+        <a href="catalog.html" class="tile">
+          <div class="square">
+            <!-- Используем одну из реальных фоток колец -->
+            <img src="img/190059_900.jpg" alt="Кольца Жемчужина">
+          </div>
+          <div class="tile-body">
+            <div class="tile-title">Кольца</div>
+            <div class="tile-sub">Жёсткие, с камнями и без</div>
+          </div>
+        </a>
+
+        <!-- Остальные категории пока с заглушками -->
+        <div class="tile">
+          <div class="square">
+            <img src="https://picsum.photos/seed/earrings/900" alt="">
+          </div>
+          <div class="tile-body">
+            <div class="tile-title">Серьги</div>
+            <div class="tile-sub">скоро</div>
+          </div>
+        </div>
+
+        <div class="tile">
+          <div class="square">
+            <img src="https://picsum.photos/seed/bracelets/900" alt="">
+          </div>
+          <div class="tile-body">
+            <div class="tile-title">Браслеты</div>
+            <div class="tile-sub">скоро</div>
+          </div>
+        </div>
+
+        <div class="tile">
+          <div class="square">
+            <img src="https://picsum.photos/seed/pendants/900" alt="">
+          </div>
+          <div class="tile-body">
+            <div class="tile-title">Подвески</div>
+            <div class="tile-sub">скоро</div>
+          </div>
+        </div>
       </div>
-      <div class="tile">
-        <div class="square"><img src="https://picsum.photos/seed/pendants/900" alt=""></div>
-        <div class="tile-body"><div class="tile-title">Подвески</div><div class="tile-sub">скоро</div></div>
-      </div>
-    </div>
+    </section>
   </main>
 
-  <footer class="footer container">MVP · цены скрыты · цель: быстрый сбор заявок</footer>
+  <div class="toast"></div>
+
   <script src="catalog_data.js"></script>
   <script src="script.js"></script>
-
-  <nav class="tabbar"><div class="tabbar-inner">
-    <a href="index.html" class="active">Главная</a>
-    <a href="catalog.html">Каталог</a>
-    <a href="order.html">Корзина</a>
-  </div></nav>
 </body>
 </html>
