@@ -1,5 +1,5 @@
 /* Жемчужина · B2B каталог
- * Версия с удобной карточкой:
+ * Удобная карточка:
  * - фото сверху
  * - под фото: арт, вес, размеры (прокрутка), кол-во, кнопка
  * - полёт в корзину + тост
@@ -227,7 +227,7 @@ function renderProduct() {
     );
   });
 
-  // выбор размера — вертикальный список, скролл
+  // выбор размера
   const sizesCol = $("#sizesCol", box);
   if (sizesCol) {
     sizesCol.addEventListener("click", e => {
@@ -257,7 +257,6 @@ function renderProduct() {
     addToCart(product, currentSize, qty);
     flyToCart(addBtn);
     toast("Добавлено в заказ");
-    // сброс количества
     qty = 1;
     qtyValEl.textContent = "1";
   });
@@ -271,6 +270,8 @@ function renderOrder() {
   const cart = loadCart();
   if (!cart.length) {
     box.innerHTML = "<div class='card'>Корзина пуста.</div>";
+    // убираем старый обработчик, чтобы он не висел
+    box.onclick = null;
     updateCartBadge();
     return;
   }
@@ -333,10 +334,11 @@ function renderOrder() {
     </div>
   `;
 
-  // обработка +/- и удалить
-  box.addEventListener("click", e => {
+  // ЕДИНСТВЕННЫЙ обработчик клика по всей корзине
+  box.onclick = function(e) {
     const btn = e.target.closest("button");
     if (!btn || !btn.dataset.act) return;
+
     const act = btn.dataset.act;
     const idx = Number(btn.dataset.idx);
     if (isNaN(idx)) return;
@@ -352,12 +354,13 @@ function renderOrder() {
     } else if (act === "rm") {
       cartNow.splice(idx, 1);
     }
+
     saveCart(cartNow);
     renderOrder();
-  }, { once: false });
+  };
 
   // копирование заявки
-  $("#copyOrder").addEventListener("click", () => {
+  $("#copyOrder").onclick = () => {
     const cartNow = loadCart();
     if (!cartNow.length) return;
     const lines = cartNow.map(it =>
@@ -375,13 +378,14 @@ function renderOrder() {
       document.body.removeChild(ta);
       toast("Заявка скопирована");
     }
-  });
+  };
 
-  $("#clearOrder").addEventListener("click", () => {
+  // очистка
+  $("#clearOrder").onclick = () => {
     if (!confirm("Очистить корзину?")) return;
     saveCart([]);
     renderOrder();
-  });
+  };
 
   updateCartBadge();
 }
