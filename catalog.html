@@ -3,31 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Кольца · Жемчужина</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Каталог — Жемчужина</title>
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Ubuntu,Helvetica Neue,Arial,sans-serif;margin:0;padding:20px;background:#0f172a;color:#e2e8f0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+    .tile{display:block;text-decoration:none;color:inherit;background:#0b1224;border:1px solid #1e293b;border-radius:14px;overflow:hidden}
+    .square{aspect-ratio:1/1;background:#0b1224;display:flex;align-items:center;justify-content:center}
+    .square img{width:100%;height:100%;object-fit:cover;display:block}
+    .tile-body{padding:10px}
+    .tile-title{font-weight:600;margin-bottom:4px}
+    .tile-sub{opacity:.7;font-size:12px}
+  </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner container">
-      <div class="brand">ЖЕМЧУЖИНА · КОЛЬЦА</div>
-      <div>
-        <a href="index.html" class="btn sm">Меню</a>
-        <a href="order.html" class="btn sm">Корзина <span id="cartCount" class="badge">0</span></a>
-      </div>
-    </div>
-  </header>
+  <h1 style="margin:0 0 16px">Каталог</h1>
+  <div id="grid" class="grid"></div>
 
-  <main class="container">
-    <div id="grid" class="grid"></div>
-  </main>
-
-  <script src="catalog_data.js"></script>
-  <script src="script.js"></script>
-
-  <nav class="tabbar"><div class="tabbar-inner">
-    <a href="index.html">Главная</a>
-    <a href="catalog.html" class="active">Каталог</a>
-    <a href="order.html">Корзина</a>
-  </div></nav>
+  <!-- ВАЖНО: только module-скрипт -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
