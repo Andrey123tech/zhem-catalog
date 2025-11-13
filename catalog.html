@@ -5,29 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Кольца · Жемчужина</title>
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Локальная сетка для каталога: 2 / 3 / 4 в ряд -->
+  <style>
+    .products-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (min-width: 480px) {
+      .products-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 768px) {
+      .products-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- верхняя плашка, как на главной -->
   <header class="header">
     <div class="header-inner container">
       <div class="brand">ЖЕМЧУЖИНА · КОЛЬЦА</div>
-      <div>
-        <a href="index.html" class="btn sm">Меню</a>
-        <a href="order.html" class="btn sm">Корзина <span id="cartCount" class="badge">0</span></a>
-      </div>
+      <a href="order.html" class="btn sm">
+        Корзина <span id="cartCount" class="badge">0</span>
+      </a>
     </div>
   </header>
 
   <main class="container">
-    <div id="grid" classs="grid"></div>
+    <section class="hero">
+      <div class="hero-title">Каталог колец</div>
+      <div class="hero-sub">
+        Выберите нужные модели, размеры и количество. 
+        Заявка автоматически соберётся в корзине.
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title" style="margin-bottom:8px;">Кольца · текущая подборка</div>
+      <!-- ВАЖНО: id="grid" — сюда рендерит script.js -->
+      <!-- класс products-grid даёт сетку 2/3/4 в ряд -->
+      <div id="grid" class="products-grid"></div>
+    </section>
   </main>
+
+  <footer class="footer container">
+    MVP · цены скрыты · цель: быстрый сбор заявок
+  </footer>
 
   <script src="catalog_data.js"></script>
   <script src="script.js"></script>
 
-  <nav class="tabbar"><div class="tabbar-inner">
-    <a href="index.html">Главная</a>
-    <a href="catalog.html" class="active">Каталог</a>
-    <a href="order.html">Корзина</a>
-  </div></nav>
+  <nav class="tabbar">
+    <div class="tabbar-inner">
+      <a href="index.html">Главная</a>
+      <a href="catalog.html" class="active">Каталог</a>
+      <a href="order.html">Корзина</a>
+    </div>
+  </nav>
 </body>
 </html>
