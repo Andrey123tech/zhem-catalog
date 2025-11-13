@@ -3,10 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Кольца · Жемчужина</title>
+  <title>Каталог · Жемчужина</title>
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Локальная сетка для каталога: 2 / 3 / 4 в ряд -->
   <style>
     .products-grid {
       display: grid;
@@ -26,14 +25,22 @@
   </style>
 </head>
 <body>
-  <!-- верхняя плашка, как на главной -->
-  <header class="header">
-    <div class="header-inner container">
-      <div class="brand">ЖЕМЧУЖИНА · КОЛЬЦА</div>
-      <a href="order.html" class="btn sm">
-        Корзина <span id="cartCount" class="badge">0</span>
-      </a>
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-dot"></div>
+      <div>
+        <div class="topbar-title">Жемчужина</div>
+        <div class="topbar-sub">Каталог колец</div>
+      </div>
     </div>
+    <nav class="topbar-nav">
+      <a href="index.html">Главная</a>
+      <a href="catalog.html" class="active">Каталог</a>
+      <a href="order.html" class="cart-link">
+        Заказ
+        <span class="cart-count" id="cartCount">0</span>
+      </a>
+    </nav>
   </header>
 
   <main class="container">
@@ -47,25 +54,13 @@
 
     <section>
       <div class="section-title" style="margin-bottom:8px;">Кольца · текущая подборка</div>
-      <!-- ВАЖНО: id="grid" — сюда рендерит script.js -->
-      <!-- класс products-grid даёт сетку 2/3/4 в ряд -->
       <div id="grid" class="products-grid"></div>
     </section>
   </main>
 
-  <footer class="footer container">
-    MVP · цены скрыты · цель: быстрый сбор заявок
-  </footer>
+  <div class="toast"></div>
 
   <script src="catalog_data.js"></script>
   <script src="script.js"></script>
-
-  <nav class="tabbar">
-    <div class="tabbar-inner">
-      <a href="index.html">Главная</a>
-      <a href="catalog.html" class="active">Каталог</a>
-      <a href="order.html">Корзина</a>
-    </div>
-  </nav>
 </body>
 </html>
