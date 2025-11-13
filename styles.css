@@ -23,7 +23,7 @@ body {
   color: var(--fg);
 }
 
-/* layout */
+/* ============= ЛЕЯУТ ============= */
 
 .container {
   max-width: 1080px;
@@ -31,7 +31,7 @@ body {
   padding: 72px 14px 90px;
 }
 
-/* topbar */
+/* ============= ТОПБАР ============= */
 
 .topbar {
   position: fixed;
@@ -80,10 +80,10 @@ body {
 }
 
 .topbar-nav a {
-  font-size: 13px;
+  font-size: 14px; /* +20% */
   text-decoration: none;
   color: var(--muted);
-  padding: 6px 10px;
+  padding: 7px 12px;
   border-radius: 999px;
   border: 1px solid transparent;
 }
@@ -101,15 +101,15 @@ body {
   background: #0f172a;
   color: #f9fafb;
   border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 13px;
+  padding: 7px 14px;
+  font-size: 14px;
 }
 
 .topbar-nav .cart-count {
-  min-width: 18px;
-  height: 18px;
+  min-width: 20px;
+  height: 20px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 12px;
   background: #f97316;
   color: #111827;
   display: inline-flex;
@@ -117,7 +117,7 @@ body {
   justify-content: center;
 }
 
-/* hero */
+/* ============= HERO ============= */
 
 .hero {
   margin-bottom: 18px;
@@ -130,7 +130,7 @@ body {
 }
 
 .hero-sub {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
   margin-top: 6px;
 }
@@ -141,7 +141,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
   text-decoration: none;
   margin-bottom: 8px;
@@ -157,14 +157,14 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 3px 9px;
+  padding: 4px 10px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 12px;
   background: #e5e7eb;
   color: #111827;
 }
 
-/* grid */
+/* ============= GRID КАТАЛОГА ============= */
 
 .grid,
 .products-grid {
@@ -187,14 +187,14 @@ body {
   }
 }
 
-/* tile */
+/* плитка */
 
 .tile {
   display: block;
   text-decoration: none;
   color: inherit;
   background: rgba(255,255,255,0.98);
-  border-radius: 14px;
+  border-radius: 16px;
   border: 1px solid rgba(226,232,240,0.95);
   overflow: hidden;
   box-shadow: 0 10px 26px rgba(15,23,42,0.12);
@@ -210,7 +210,7 @@ body {
 .square {
   aspect-ratio: 1 / 1;
   background: #f8fafc;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
 }
 
@@ -222,46 +222,46 @@ body {
 }
 
 .tile-body {
-  padding: 8px 10px 10px;
+  padding: 9px 10px 11px;
 }
 
 .tile-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .tile-sub {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
 }
 
-/* card */
+/* ============= ОБЩАЯ CARD ============= */
 
 .card {
   background: rgba(255,255,255,0.98);
-  border-radius: 18px;
+  border-radius: 20px;
   border: 1px solid rgba(226,232,240,0.95);
   padding: 14px;
   box-shadow: 0 16px 40px rgba(15,23,42,0.2);
 }
 
-/* product card */
+/* ============= КАРТОЧКА ТОВАРА ============= */
 
 .product-card {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .product-photo {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .product-photo-img {
-  border-radius: 16px;
+  border-radius: 18px;
 }
 
 .product-info {
@@ -271,26 +271,26 @@ body {
 }
 
 .product-title {
-  margin: 6px 0 2px;
-  font-size: 20px;
+  margin: 8px 0 4px;
+  font-size: 22px;
 }
 
 .product-weight {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
 }
 
 .product-controls {
-  margin-top: 10px;
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .section-title {
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
 }
 
@@ -303,9 +303,9 @@ body {
 }
 
 .thumb {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--line);
   cursor: pointer;
@@ -324,29 +324,32 @@ body {
   box-shadow: 0 0 0 1px rgba(248,250,252,0.9), 0 0 0 3px rgba(249,115,22,0.4);
 }
 
-/* размеры — вертикальный список с прокруткой */
+/* ============= РАЗМЕРЫ (СКРОЛЛ 3+) ============= */
 
 .sizes-scroll {
   margin-top: 6px;
-  padding: 4px;
-  border-radius: 12px;
+  padding: 6px;
+  border-radius: 14px;
   border: 1px solid var(--line);
   background: #f9fafb;
-  max-height: 140px;   /* видно ~3 размера, остальные — скролл */
+  max-height: 150px;      /* видно примерно 3–4 размера */
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* плавный скролл на iOS */
 }
 
 .size-btn {
   width: 100%;
   border: none;
   border-radius: 999px;
-  padding: 6px 11px;
-  font-size: 14px;
+  padding: 7px 12px;
+  font-size: 16px;  /* крупнее */
   background: #e5e7eb;
-  color: #374151;
+  color: #111827;
   cursor: pointer;
   text-align: left;
-  margin: 2px 0;
+  margin: 3px 0;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .size-btn.active {
@@ -354,46 +357,50 @@ body {
   color: #f9fafb;
 }
 
-/* qty */
+/* ============= КОЛ-ВО (QTY) ============= */
 
 .qty {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  padding: 6px 14px;
+  padding: 7px 16px;
   background: #f9fafb;
 }
 
 .qty button {
   border: none;
   background: transparent;
-  font-size: 20px;
+  font-size: 22px; /* чуть крупнее */
   line-height: 1;
   padding: 0 4px;
   cursor: pointer;
-  min-width: 24px;
+  min-width: 26px;
+  touch-action: manipulation;           /* не даём Safari думать, что это зум */
+  -webkit-tap-highlight-color: transparent;
 }
 
 .qty span {
-  min-width: 18px;
+  min-width: 20px;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
 }
 
-/* buttons */
+/* ============= КНОПКИ ============= */
 
 .btn {
   border-radius: 999px;
   border: none;
-  padding: 8px 16px;
-  font-size: 13px;
+  padding: 10px 18px;
+  font-size: 15px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn.primary {
@@ -406,15 +413,15 @@ body {
 }
 
 .btn.icon {
-  padding: 6px 10px;
-  font-size: 12px;
+  padding: 7px 12px;
+  font-size: 13px;
 }
 
 .full-width {
   width: 100%;
 }
 
-/* списки / корзина */
+/* ============= КОРЗИНА ============= */
 
 .list {
   display: flex;
@@ -424,7 +431,7 @@ body {
 
 .list-item {
   background: rgba(255,255,255,0.98);
-  border-radius: 16px;
+  border-radius: 18px;
   border: 1px solid var(--line);
   padding: 10px;
   box-shadow: 0 10px 25px rgba(15,23,42,0.14);
@@ -436,9 +443,9 @@ body {
 }
 
 .cart-thumb {
-  width: 70px;
-  height: 70px;
-  border-radius: 14px;
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
   overflow: hidden;
   flex-shrink: 0;
   background: #f8fafc;
@@ -458,11 +465,11 @@ body {
 .cart-title {
   font-weight: 600;
   margin: 4px 0 4px;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .cart-sub {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   margin-bottom: 6px;
 }
@@ -473,18 +480,18 @@ body {
   gap: 10px;
 }
 
-/* toast */
+/* ============= TOAST ============= */
 
 .toast {
   position: fixed;
   left: 50%;
   bottom: 72px;
   transform: translateX(-50%) translateY(20px);
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 999px;
   background: #0f172a;
   color: #f9fafb;
-  font-size: 13px;
+  font-size: 14px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease, transform 0.15s ease;
@@ -496,7 +503,7 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
-/* "летящая" точка в корзину */
+/* ============= ЛЕТАЮЩАЯ ТОЧКА В КОРЗИНУ ============= */
 
 .fly-dot {
   position: fixed;
