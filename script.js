@@ -339,7 +339,6 @@ function renderOrder() {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
     } else {
-      // fallback
       const ta = document.createElement("textarea");
       ta.value = txt;
       document.body.appendChild(ta);
