@@ -292,12 +292,6 @@ function renderOrder() {
           <div class="cart-sub">
             ${digitsLine}
           </div>
-
-          <div class="cart-actions">
-            <button class="btn icon" type="button" data-act="rm" data-idx="${idx}">
-              Удалить
-            </button>
-          </div>
         </div>
       </div>
     `;
@@ -331,6 +325,7 @@ function renderOrder() {
     </div>
   `;
 
+  // обработка +/-
   box.onclick = function(e) {
     const btn = e.target.closest("button");
     if (!btn || !btn.dataset.act) return;
@@ -347,14 +342,13 @@ function renderOrder() {
       item.qty = Math.min(999, (item.qty || 0) + 1);
     } else if (act === "dec") {
       item.qty = Math.max(1, (item.qty || 0) - 1);
-    } else if (act === "rm") {
-      cartNow.splice(idx, 1);
     }
 
     saveCart(cartNow);
     renderOrder();
   };
 
+  // копирование заявки
   $("#copyOrder").onclick = () => {
     const cartNow = loadCart();
     if (!cartNow.length) return;
