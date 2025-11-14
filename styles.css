@@ -51,7 +51,7 @@ img {
 }
 
 .logo-img {
-  height: 52px;   /* было 40 */
+  height: 52px; /* увеличили логотип */
   width: auto;
   object-fit: contain;
 }
@@ -457,10 +457,9 @@ img {
   box-shadow: 0 14px 32px rgba(15,23,42,0.12);
   display: flex;
   gap: 10px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Корзина: свайп и кнопка Удалить */
+/* свайп + внутренняя часть */
 
 .cart-row {
   position: relative;
@@ -548,21 +547,6 @@ img {
 .cart-header-row .qty-inline span {
   min-width: 20px;
   font-size: 16px;
-}
-
-.cart-actions {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 4px;
-}
-
-.btn.icon {
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #f3f4f6;
-  font-size: 13px;
-  padding: 6px 12px;
-  cursor: pointer;
 }
 
 /* низ корзины */
