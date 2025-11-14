@@ -435,41 +435,46 @@ function renderOrder() {
 function initSwipeToDelete() {
   let startX = 0;
   let currentRow = null;
-  let swiped = false;
+  let currentInner = null;
+  let lastDx = 0;
 
   document.addEventListener("touchstart", e => {
     const row = e.target.closest(".cart-row");
     if (!row) return;
+
     startX = e.touches[0].clientX;
     currentRow = row;
-    swiped = false;
+    currentInner = row.querySelector(".cart-row-inner");
+    lastDx = 0;
   }, { passive: true });
 
   document.addEventListener("touchmove", e => {
-    if (!currentRow) return;
+    if (!currentRow || !currentInner) return;
+
     const dx = e.touches[0].clientX - startX;
-    if (dx < -30) {               // смахнули влево
-      swiped = true;
-      currentRow.style.transform = "translateX(-60px)";
-      currentRow.style.opacity = "0.7";
+    if (dx < 0) {
+      // ограничиваем смещение, максимум -90px
+      const limited = Math.max(dx, -90);
+      lastDx = limited;
+      currentInner.style.transform = `translateX(${limited}px)`;
     }
   }, { passive: true });
 
   document.addEventListener("touchend", () => {
-    if (!currentRow) return;
-    if (swiped) {
-      const idx = Number(currentRow.dataset.idx);
-      const cartNow = loadCart();
-      if (!isNaN(idx) && cartNow[idx]) {
-        cartNow.splice(idx, 1);
-        saveCart(cartNow);
-        renderOrder();
-      }
+    if (!currentRow || !currentInner) return;
+
+    // если потянули довольно сильно (≈ в 3 раза длиннее, чем раньше)
+    if (lastDx <= -80) {
+      // оставляем сдвиг, чтобы была видна кнопка "Удалить"
+      currentInner.style.transform = "translateX(-90px)";
     } else {
-      currentRow.style.transform = "";
-      currentRow.style.opacity = "";
+      // короткий свайп — возвращаем назад
+      currentInner.style.transform = "";
     }
+
     currentRow = null;
+    currentInner = null;
+    lastDx = 0;
   });
 }
 
