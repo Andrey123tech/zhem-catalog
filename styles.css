@@ -460,6 +460,34 @@ img {
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
+/* Корзина: свайп и кнопка Удалить */
+
+.cart-row {
+  position: relative;
+}
+
+.cart-row-inner {
+  display: flex;
+  gap: 10px;
+  flex: 1 1 auto;
+  transition: transform 0.2s ease;
+}
+
+.swipe-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 90px;
+  border: none;
+  border-radius: 0 22px 22px 0;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .cart-thumb {
   width: 110px;
   height: 110px;
