@@ -272,27 +272,33 @@ function renderOrder() {
 
     return `
       <div class="list-item cart-row" data-idx="${idx}">
-        <div class="cart-thumb">
-          <img src="${img}" alt="">
-        </div>
-        <div class="cart-meta">
-          <div class="badge">Арт. ${it.sku}</div>
+        <div class="cart-row-inner">
+          <div class="cart-thumb">
+            <img src="${img}" alt="">
+          </div>
+          <div class="cart-meta">
+            <div class="badge">Арт. ${it.sku}</div>
 
-          <div class="cart-header-row">
-            <div class="cart-title">
-              ${it.title || ("Кольцо " + it.sku)}
+            <div class="cart-header-row">
+              <div class="cart-title">
+                ${it.title || ("Кольцо " + it.sku)}
+              </div>
+              <div class="qty-inline">
+                <button type="button" data-act="dec" data-idx="${idx}">−</button>
+                <span>${it.qty}</span>
+                <button type="button" data-act="inc" data-idx="${idx}">+</button>
+              </div>
             </div>
-            <div class="qty-inline">
-              <button type="button" data-act="dec" data-idx="${idx}">−</button>
-              <span>${it.qty}</span>
-              <button type="button" data-act="inc" data-idx="${idx}">+</button>
+
+            <div class="cart-sub">
+              ${digitsLine}
             </div>
           </div>
-
-          <div class="cart-sub">
-            ${digitsLine}
-          </div>
         </div>
+
+        <button class="swipe-delete" type="button" data-act="rm" data-idx="${idx}">
+          Удалить
+        </button>
       </div>
     `;
   }).join("");
@@ -325,7 +331,7 @@ function renderOrder() {
     </div>
   `;
 
-  // обработка +/-
+  // обработка + / − и кнопки Удалить
   box.onclick = function(e) {
     const btn = e.target.closest("button");
     if (!btn || !btn.dataset.act) return;
@@ -342,11 +348,51 @@ function renderOrder() {
       item.qty = Math.min(999, (item.qty || 0) + 1);
     } else if (act === "dec") {
       item.qty = Math.max(1, (item.qty || 0) - 1);
+    } else if (act === "rm") {
+      cartNow.splice(idx, 1);
     }
 
     saveCart(cartNow);
     renderOrder();
   };
+
+  // копирование заявки
+  $("#copyOrder").onclick = () => {
+    const cartNow = loadCart();
+    if (!cartNow.length) return;
+    const lines = cartNow.map(it =>
+      `Арт. ${it.sku}, размер ${it.size}, кол-во ${it.qty}`
+    );
+    const txt = "Заявка Жемчужина\n" + lines.join("\n");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      toast("Заявка скопирована");
+    }
+  };
+
+  $("#clearOrder").onclick = () => {
+    if (!confirm("Очистить корзину?")) return;
+    saveCart([]);
+    renderOrder();
+  };
+
+  $("#continueOrder").onclick = () => {
+    window.location.href = "catalog.html";
+  };
+
+  $("#sendToManager").onclick = () => {
+    toast("Логику отправки менеджеру подключим позже");
+  };
+
+  updateCartBadge();
+}
 
   // копирование заявки
   $("#copyOrder").onclick = () => {
