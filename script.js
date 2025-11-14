@@ -272,33 +272,33 @@ function renderOrder() {
 
     return `
       <div class="list-item cart-row" data-idx="${idx}">
-        <div class="cart-row-inner">
-          <div class="cart-thumb">
-            <img src="${img}" alt="">
+        <div class="cart-thumb">
+          <img src="${img}" alt="">
+        </div>
+        <div class="cart-meta">
+          <div class="badge">Арт. ${it.sku}</div>
+
+          <div class="cart-header-row">
+            <div class="cart-title">
+              ${it.title || ("Кольцо " + it.sku)}
+            </div>
+            <div class="qty-inline">
+              <button type="button" data-act="dec" data-idx="${idx}">−</button>
+              <span>${it.qty}</span>
+              <button type="button" data-act="inc" data-idx="${idx}">+</button>
+            </div>
           </div>
-          <div class="cart-meta">
-            <div class="badge">Арт. ${it.sku}</div>
 
-            <div class="cart-header-row">
-              <div class="cart-title">
-                ${it.title || ("Кольцо " + it.sku)}
-              </div>
-              <div class="qty-inline">
-                <button type="button" data-act="dec" data-idx="${idx}">−</button>
-                <span>${it.qty}</span>
-                <button type="button" data-act="inc" data-idx="${idx}">+</button>
-              </div>
-            </div>
+          <div class="cart-sub">
+            ${digitsLine}
+          </div>
 
-            <div class="cart-sub">
-              ${digitsLine}
-            </div>
+          <div class="cart-actions">
+            <button class="btn icon" type="button" data-act="rm" data-idx="${idx}">
+              Удалить
+            </button>
           </div>
         </div>
-
-        <button class="swipe-delete" type="button" data-act="rm" data-idx="${idx}">
-          Удалить
-        </button>
       </div>
     `;
   }).join("");
@@ -331,7 +331,6 @@ function renderOrder() {
     </div>
   `;
 
-  // обработка + / − и кнопки Удалить
   box.onclick = function(e) {
     const btn = e.target.closest("button");
     if (!btn || !btn.dataset.act) return;
@@ -356,7 +355,6 @@ function renderOrder() {
     renderOrder();
   };
 
-  // копирование заявки
   $("#copyOrder").onclick = () => {
     const cartNow = loadCart();
     if (!cartNow.length) return;
@@ -394,52 +392,6 @@ function renderOrder() {
   updateCartBadge();
 }
 
-/* === СВАЙП ДЛЯ УДАЛЕНИЯ === */
-
-function initSwipeToDelete() {
-  let startX = 0;
-  let currentRow = null;
-  let currentInner = null;
-  let lastDx = 0;
-
-  document.addEventListener("touchstart", e => {
-    const row = e.target.closest(".cart-row");
-    if (!row) return;
-
-    startX = e.touches[0].clientX;
-    currentRow = row;
-    currentInner = row.querySelector(".cart-row-inner");
-    lastDx = 0;
-  }, { passive: true });
-
-  document.addEventListener("touchmove", e => {
-    if (!currentRow || !currentInner) return;
-
-    const dx = e.touches[0].clientX - startX;
-    if (dx < 0) {
-      const limited = Math.max(dx, -90); // максимум -90px
-      lastDx = limited;
-      currentInner.style.transform = `translateX(${limited}px)`;
-    }
-  }, { passive: true });
-
-  document.addEventListener("touchend", () => {
-    if (!currentRow || !currentInner) return;
-
-    if (lastDx <= -80) {
-      // достаточно длинный свайп — фиксируем кнопку "Удалить"
-      currentInner.style.transform = "translateX(-90px)";
-    } else {
-      // короткий свайп — возвращаем
-      currentInner.style.transform = "";
-    }
-
-    currentRow = null;
-    currentInner = null;
-    lastDx = 0;
-  });
-}
-
 /* === ROUTER === */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -447,5 +399,4 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("#product")) renderProduct();
   if ($("#order")) renderOrder();
   updateCartBadge();
-  initSwipeToDelete();
 });
