@@ -51,7 +51,7 @@ img {
 }
 
 .logo-img {
-  height: 52px; /* увеличили логотип */
+  height: 40px;
   width: auto;
   object-fit: contain;
 }
@@ -79,29 +79,6 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
-
-/* ==== ЛЁГКАЯ НАВИГАЦИЯ ПОД ШАПКОЙ ==== */
-
-.main-tabs {
-  display: flex;
-  gap: 16px;
-  padding: 6px 12px 4px;
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.tab-link {
-  font-size: 14px;
-  color: #4b5563;
-  text-decoration: none;
-  padding-bottom: 3px;
-  border-bottom: 2px solid transparent;
-}
-
-.tab-link.active {
-  border-bottom-color: #6A1F2A;
-  color: #111827;
 }
 
 /* ============= ГЕРОЙ / ТЕКСТ ============= */
@@ -459,34 +436,6 @@ img {
   gap: 10px;
 }
 
-/* свайп + внутренняя часть */
-
-.cart-row {
-  position: relative;
-}
-
-.cart-row-inner {
-  display: flex;
-  gap: 10px;
-  flex: 1 1 auto;
-  transition: transform 0.2s ease;
-}
-
-.swipe-delete {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 90px;
-  border: none;
-  border-radius: 0 22px 22px 0;
-  background: #ef4444;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
 .cart-thumb {
   width: 110px;
   height: 110px;
@@ -547,6 +496,21 @@ img {
 .cart-header-row .qty-inline span {
   min-width: 20px;
   font-size: 16px;
+}
+
+.cart-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 4px;
+}
+
+.btn.icon {
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  font-size: 13px;
+  padding: 6px 12px;
+  cursor: pointer;
 }
 
 /* низ корзины */
