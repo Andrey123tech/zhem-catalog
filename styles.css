@@ -81,6 +81,29 @@ img {
   justify-content: center;
 }
 
+/* ==== ЛЁГКАЯ НАВИГАЦИЯ ПОД ШАПКОЙ ==== */
+
+.main-tabs {
+  display: flex;
+  gap: 16px;
+  padding: 6px 12px 4px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tab-link {
+  font-size: 14px;
+  color: #4b5563;
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-link.active {
+  border-bottom-color: #6A1F2A;
+  color: #111827;
+}
+
 /* ============= ГЕРОЙ / ТЕКСТ ============= */
 
 .hero {
