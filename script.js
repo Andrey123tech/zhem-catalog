@@ -386,6 +386,47 @@ function renderOrder() {
   updateCartBadge();
 }
 
+function initSwipeToDelete() {
+  let startX = 0;
+  let currentRow = null;
+  let swiped = false;
+
+  document.addEventListener("touchstart", e => {
+    const row = e.target.closest(".cart-row");
+    if (!row) return;
+    startX = e.touches[0].clientX;
+    currentRow = row;
+    swiped = false;
+  }, { passive: true });
+
+  document.addEventListener("touchmove", e => {
+    if (!currentRow) return;
+    const dx = e.touches[0].clientX - startX;
+    if (dx < -30) {               // смахнули влево
+      swiped = true;
+      currentRow.style.transform = "translateX(-60px)";
+      currentRow.style.opacity = "0.7";
+    }
+  }, { passive: true });
+
+  document.addEventListener("touchend", () => {
+    if (!currentRow) return;
+    if (swiped) {
+      const idx = Number(currentRow.dataset.idx);
+      const cartNow = loadCart();
+      if (!isNaN(idx) && cartNow[idx]) {
+        cartNow.splice(idx, 1);
+        saveCart(cartNow);
+        renderOrder();
+      }
+    } else {
+      currentRow.style.transform = "";
+      currentRow.style.opacity = "";
+    }
+    currentRow = null;
+  });
+}
+
 /* === ROUTER === */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -393,4 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("#product")) renderProduct();
   if ($("#order")) renderOrder();
   updateCartBadge();
+  initSwipeToDelete();
 });
+
+
