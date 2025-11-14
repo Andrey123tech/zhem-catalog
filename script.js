@@ -394,43 +394,7 @@ function renderOrder() {
   updateCartBadge();
 }
 
-  // копирование заявки
-  $("#copyOrder").onclick = () => {
-    const cartNow = loadCart();
-    if (!cartNow.length) return;
-    const lines = cartNow.map(it =>
-      `Арт. ${it.sku}, размер ${it.size}, кол-во ${it.qty}`
-    );
-    const txt = "Заявка Жемчужина\n" + lines.join("\n");
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
-    } else {
-      const ta = document.createElement("textarea");
-      ta.value = txt;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      toast("Заявка скопирована");
-    }
-  };
-
-  $("#clearOrder").onclick = () => {
-    if (!confirm("Очистить корзину?")) return;
-    saveCart([]);
-    renderOrder();
-  };
-
-  $("#continueOrder").onclick = () => {
-    window.location.href = "catalog.html";
-  };
-
-  $("#sendToManager").onclick = () => {
-    toast("Логику отправки менеджеру подключим позже");
-  };
-
-  updateCartBadge();
-}
+/* === СВАЙП ДЛЯ УДАЛЕНИЯ === */
 
 function initSwipeToDelete() {
   let startX = 0;
@@ -453,8 +417,7 @@ function initSwipeToDelete() {
 
     const dx = e.touches[0].clientX - startX;
     if (dx < 0) {
-      // ограничиваем смещение, максимум -90px
-      const limited = Math.max(dx, -90);
+      const limited = Math.max(dx, -90); // максимум -90px
       lastDx = limited;
       currentInner.style.transform = `translateX(${limited}px)`;
     }
@@ -463,12 +426,11 @@ function initSwipeToDelete() {
   document.addEventListener("touchend", () => {
     if (!currentRow || !currentInner) return;
 
-    // если потянули довольно сильно (≈ в 3 раза длиннее, чем раньше)
     if (lastDx <= -80) {
-      // оставляем сдвиг, чтобы была видна кнопка "Удалить"
+      // достаточно длинный свайп — фиксируем кнопку "Удалить"
       currentInner.style.transform = "translateX(-90px)";
     } else {
-      // короткий свайп — возвращаем назад
+      // короткий свайп — возвращаем
       currentInner.style.transform = "";
     }
 
@@ -487,5 +449,3 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCartBadge();
   initSwipeToDelete();
 });
-
-
