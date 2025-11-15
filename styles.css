@@ -648,3 +648,59 @@ img {
   font-size: 14px;
   padding: 10px 8px;
 }
+
+/* === Полировка текста: современный и читаемый размер === */
+
+/* Базовый текст по всему сайту */
+body {
+  font-size: 16px;
+  line-height: 1.4; /* комфортное чтение */
+}
+
+/* Мелкие подписи и вторичный текст */
+small,
+.note,
+.meta,
+.product-weight,
+.product-title small {
+  font-size: 15px;
+}
+
+/* Заголовки товара — уверенно крупные */
+.product-title {
+  font-size: 19px;
+  font-weight: 600;
+}
+
+/* Блоки характеристик */
+.field-label {
+  font-size: 16px;
+}
+
+/* Значения в селектах и полях */
+.field-control,
+.qty-inline {
+  font-size: 17px;
+}
+
+/* Основные кнопки — чуть крупнее и приятнее под палец */
+.btn,
+.btn-primary {
+  font-size: 17px;
+  padding: 14px 20px !important;
+}
+
+/* Мелкие кнопки в корзине */
+.btn.small {
+  font-size: 15px;
+  padding: 10px 12px !important;
+}
+
+/* Элементы в корзине */
+.cart-meta {
+  font-size: 16px;
+}
+
+.cart-line {
+  font-size: 16px;
+}
