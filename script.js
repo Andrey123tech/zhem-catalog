@@ -389,10 +389,29 @@ function renderOrder() {
   };
 
   $("#sendToManager").onclick = () => {
-    toast("Логику отправки менеджеру подключим позже");
-  };
+  const cartNow = loadCart();
+  if (!cartNow.length) {
+    toast("Корзина пуста");
+    return;
+  }
 
-  updateCartBadge();
+  const lines = cartNow.map(it =>
+    `${it.sku};${it.size};${it.qty}`
+  );
+
+  const txt =
+    "Здравствуйте! Отправляю заявку по каталогу Жемчужина.\n\n" +
+    "Артикул;Размер;Кол-во\n" +
+    lines.join("\n") +
+    "\n\nС уважением,\n";
+
+  const phone = MANAGER_PHONE;
+  const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(txt);
+
+  window.open(url, "_blank");
+};
+
+updateCartBadge();
 }
 
 function initSwipeToDelete() {
