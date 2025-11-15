@@ -353,24 +353,30 @@ function renderOrder() {
 
   // копирование заявки
   $("#copyOrder").onclick = () => {
-    const cartNow = loadCart();
-    if (!cartNow.length) return;
-    const lines = cartNow.map(it =>
-      `Арт. ${it.sku}, размер ${it.size}, кол-во ${it.qty}`
-    );
-    const txt = "Заявка Жемчужина\n" + lines.join("\n");
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
-    } else {
-      const ta = document.createElement("textarea");
-      ta.value = txt;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      toast("Заявка скопирована");
-    }
-  };
+  const cartNow = loadCart();
+  if (!cartNow.length) return;
+
+  // Формат для Excel / Google Sheets:
+  // строка заголовка + строки вида "артикул;размер;кол-во"
+  const header = "Артикул;Размер;Кол-во";
+  const lines = cartNow.map(it =>
+    `${it.sku};${it.size};${it.qty}`
+  );
+
+  const txt = header + "\n" + lines.join("\n");
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
+  } else {
+    const ta = document.createElement("textarea");
+    ta.value = txt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    toast("Заявка скопирована");
+  }
+};
 
   $("#clearOrder").onclick = () => {
     if (!confirm("Очистить корзину?")) return;
