@@ -7,6 +7,9 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 const CART_KEY = "zhem_cart_v1";
 
+// Номер менеджера для WhatsApp (без +, без пробелов)
+const MANAGER_PHONE = "77012271519"; // ← сюда подставь свой номер
+
 /* === ХРАНЕНИЕ КОРЗИНЫ === */
 
 function loadCart() {
@@ -350,24 +353,30 @@ function renderOrder() {
 
   // копирование заявки
   $("#copyOrder").onclick = () => {
-    const cartNow = loadCart();
-    if (!cartNow.length) return;
-    const lines = cartNow.map(it =>
-      `Арт. ${it.sku}, размер ${it.size}, кол-во ${it.qty}`
-    );
-    const txt = "Заявка Жемчужина\n" + lines.join("\n");
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
-    } else {
-      const ta = document.createElement("textarea");
-      ta.value = txt;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      toast("Заявка скопирована");
-    }
-  };
+  const cartNow = loadCart();
+  if (!cartNow.length) return;
+
+  // Формат для Excel/Google Sheets:
+  // строка заголовка + строки вида "артикул;размер;кол-во"
+  const header = "Артикул;Размер;Кол-во";
+  const lines = cartNow.map(it =>
+    `${it.sku};${it.size};${it.qty}`
+  );
+
+  const txt = header + "\n" + lines.join("\n");
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
+  } else {
+    const ta = document.createElement("textarea");
+    ta.value = txt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    toast("Заявка скопирована");
+  }
+};
 
   $("#clearOrder").onclick = () => {
     if (!confirm("Очистить корзину?")) return;
@@ -380,11 +389,31 @@ function renderOrder() {
   };
 
   $("#sendToManager").onclick = () => {
-    toast("Логику отправки менеджеру подключим позже");
-  };
+  const cartNow = loadCart();
+  if (!cartNow.length) {
+    toast("Корзина пуста");
+    return;
+  }
 
-  updateCartBadge();
-}
+  // Те же строки, что и для Excel
+  const lines = cartNow.map(it =>
+    `${it.sku};${it.size};${it.qty}`
+  );
+
+  // Текст для WhatsApp:
+  // приветствие + табличка + место для подписи
+  const txt =
+    "Здравствуйте! Отправляю заявку по каталогу Жемчужина.\n\n" +
+    "Артикул;Размер;Кол-во\n" +
+    lines.join("\n") +
+    "\n\nС уважением,\n";
+
+  const phone = MANAGER_PHONE; // номер менеджера из константы выше
+  const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(txt);
+
+  // Открываем WhatsApp / WhatsApp Web
+  window.open(url, "_blank");
+};
 
 function initSwipeToDelete() {
   let startX = 0;
