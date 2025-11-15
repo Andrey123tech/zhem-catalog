@@ -8,7 +8,7 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 const CART_KEY = "zhem_cart_v1";
 
 // Номер менеджера для WhatsApp (без +, без пробелов)
-const MANAGER_PHONE = "77012271519"; // ← сюда подставь свой номер
+const MANAGER_PHONE = "77012271519";
 
 /* === ХРАНЕНИЕ КОРЗИНЫ === */
 
@@ -19,120 +19,78 @@ function loadCart() {
 
 function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
-  updateCartBadge();
 }
 
-function formatWeight(g) {
-  const num = Number(g) || 0;
-  return (Math.round(num * 100) / 100).toFixed(2);
-}
+function addToCart(product, size, qty) {
+  if (!product || !product.sku || !size || !qty) return;
 
-function getParam(name) {
-  const u = new URL(location.href);
-  return u.searchParams.get(name);
+  const base = {
+    sku: product.sku,
+    size,
+    qty,
+    avgWeight: product.avgWeight ?? null,
+    image: product.images && product.images[0] ? product.images[0] : null
+  };
+
+  const cart = loadCart();
+  const existing = cart.find(
+    it => it.sku === base.sku && String(it.size) === String(base.size)
+  );
+
+  if (existing) {
+    existing.qty = Math.min(999, (existing.qty || 0) + qty);
+  } else {
+    cart.push({ ...base, qty });
+  }
+  saveCart(cart);
 }
 
 function updateCartBadge() {
-  const count = loadCart().reduce((s, it) => s + (it.qty || 0), 0);
-  $$("#cartCount").forEach(el => {
-    if (el) el.textContent = count || "0";
-  });
+  const badge = $(".cart-count");
+  if (!badge) return;
+  const cart = loadCart();
+  const totalQty = cart.reduce((s, it) => s + (it.qty || 0), 0);
+  badge.textContent = totalQty ? String(totalQty) : "";
 }
 
-/* === ТОСТ === */
+/* === УТИЛИТЫ === */
 
-function toast(msg) {
-  let el = $(".toast");
-  if (!el) {
-    el = document.createElement("div");
-    el.className = "toast";
-    document.body.appendChild(el);
-  }
-  el.textContent = msg;
-  el.classList.add("show");
-  setTimeout(() => el.classList.remove("show"), 1400);
+function getParam(name) {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
 }
 
-/* === ПОЛЁТ В КОРЗИНУ === */
-
-function flyToCart(sourceEl) {
-  const cartCount = $("#cartCount");
-  if (!cartCount || !sourceEl) return;
-
-  const s = sourceEl.getBoundingClientRect();
-  const c = cartCount.getBoundingClientRect();
-
-  const dot = document.createElement("div");
-  dot.className = "fly-dot";
-  dot.style.position = "fixed";
-  dot.style.width = "26px";
-  dot.style.height = "26px";
-  dot.style.borderRadius = "999px";
-  dot.style.background = "#6A1F2A";
-  dot.style.boxShadow = "0 0 0 2px rgba(248,250,252,0.9)";
-  dot.style.left = (s.left + s.width / 2) + "px";
-  dot.style.top = (s.top + s.height / 2) + "px";
-  dot.style.transform = "translate(0,0) scale(1)";
-  dot.style.opacity = "0.97";
-  dot.style.zIndex = "999";
-  dot.style.transition = "transform 0.7s ease, opacity 0.7s ease";
-  document.body.appendChild(dot);
-
-  requestAnimationFrame(() => {
-    const dx = (c.left + c.width / 2) - (s.left + s.width / 2);
-    const dy = (c.top + c.height / 2) - (s.top + s.height / 2);
-    dot.style.transform = `translate(${dx}px, ${dy}px) scale(0.5)`;
-    dot.style.opacity = "0";
-  });
-
-  setTimeout(() => dot.remove(), 750);
+function formatWeight(w) {
+  if (w == null || isNaN(w)) return "";
+  return Number(w).toFixed(2).replace(".", ",");
 }
 
-/* === КАТАЛОГ (сеткой) === */
+/* === КАТАЛОГ (GRID) === */
 
 function renderGrid() {
-  const grid = $("#grid");
-  if (!grid || !Array.isArray(PRODUCTS)) return;
+  const box = $("#grid");
+  if (!box || !Array.isArray(PRODUCTS)) return;
 
-  grid.innerHTML = PRODUCTS.map(p => {
-    const img = (p.images && p.images[0]) || "https://picsum.photos/seed/placeholder/900";
-    const w = p.avgWeight != null ? formatWeight(p.avgWeight) + " г" : "";
+  const cards = PRODUCTS.map(prod => {
+    const img = prod.images && prod.images[0] ? prod.images[0] : "https://picsum.photos/seed/placeholder/400";
+    const w = prod.avgWeight != null ? formatWeight(prod.avgWeight) : null;
     return `
-      <a class="tile" href="product.html?sku=${encodeURIComponent(p.sku)}">
-        <div class="square"><img src="${img}" alt="${p.title || p.sku}"></div>
-        <div class="tile-body">
-          <div class="tile-title">${p.title || ("Кольцо " + p.sku)}</div>
-          <div class="tile-sub">
-            <span>Арт. ${p.sku}</span>
-            ${w ? `<span style="float:right;">${w}</span>` : ""}
+      <a class="product-card" href="product.html?sku=${encodeURIComponent(prod.sku)}">
+        <div class="product-card-inner">
+          <div class="product-image-wrap">
+            <img src="${img}" alt="${prod.title || prod.sku}">
+          </div>
+          <div class="product-card-meta">
+            <div class="badge">Арт. ${prod.sku}</div>
+            <div class="product-card-title">${prod.title || ("Кольцо " + prod.sku)}</div>
+            ${w ? `<div class="product-card-weight">Вес ~ ${w} г</div>` : ""}
           </div>
         </div>
       </a>
     `;
   }).join("");
-}
 
-/* === ДОБАВЛЕНИЕ В КОРЗИНУ === */
-
-function addToCart(product, size, qty) {
-  const cart = loadCart();
-  const key = `${product.sku}_${size}`;
-  const idx = cart.findIndex(it => it.key === key);
-  const base = {
-    key,
-    sku: product.sku,
-    title: product.title || ("Кольцо " + product.sku),
-    size,
-    avgWeight: product.avgWeight,
-    image: (product.images && product.images[0]) || null
-  };
-
-  if (idx >= 0) {
-    cart[idx].qty = Math.min(999, (cart[idx].qty || 0) + qty);
-  } else {
-    cart.push({ ...base, qty });
-  }
-  saveCart(cart);
+  box.innerHTML = cards;
 }
 
 /* === КАРТОЧКА ТОВАРА === */
@@ -148,18 +106,18 @@ function renderProduct() {
     return;
   }
 
-  const imgSrc =
-    (product.images && product.images[0]) ||
-    "https://picsum.photos/seed/placeholder/900";
+  const imgSrc = product.images && product.images[0]
+    ? product.images[0]
+    : "https://picsum.photos/seed/placeholder/600";
 
   const w = product.avgWeight != null ? formatWeight(product.avgWeight) : null;
 
-  const sizes = Array.isArray(SIZES) && SIZES.length
-    ? SIZES
-    : ["15.5", "16.0", "16.5", "17.0", "17.5", "18.0"];
-
-  let currentSize = sizes[0];
-  let qty = 1;
+  let sizeOptions = "";
+  if (Array.isArray(SIZES) && SIZES.length) {
+    sizeOptions = SIZES.map(s =>
+      `<button type="button" class="size-btn" data-size="${s}">${s}</button>`
+    ).join("");
+  }
 
   box.innerHTML = `
     <div class="product-card">
@@ -176,63 +134,58 @@ function renderProduct() {
           <div class="product-art">Арт. ${product.sku}</div>
           <h1 class="product-title">${product.title || ("Кольцо " + product.sku)}</h1>
           ${w ? `<div class="product-weight">Средний вес ~ ${w} г</div>` : ""}
-        </div>
-      </div>
 
-      <div class="product-controls">
-        <div class="product-controls-row">
-          <div class="field">
-            <div class="field-label">Размер</div>
-            <div class="field-control size-control">
-              <select id="sizeSelect" class="size-select">
-                ${sizes.map(s => `
-                  <option value="${s}">${s}</option>
-                `).join("")}
-              </select>
+          <div class="product-section">
+            <div class="section-title">Размеры</div>
+            <div class="size-row">
+              ${sizeOptions}
             </div>
           </div>
 
-          <div class="field">
-            <div class="field-label">Кол-во</div>
-            <div class="field-control">
-              <div class="qty-inline">
-                <button id="qtyMinus" type="button">−</button>
-                <span id="qtyVal">1</span>
-                <button id="qtyPlus" type="button">+</button>
-              </div>
+          <div class="product-section">
+            <div class="section-title">Кол-во</div>
+            <div class="qty-row">
+              <button type="button" id="qtyMinus">−</button>
+              <span id="qtyVal">1</span>
+              <button type="button" id="qtyPlus">+</button>
             </div>
           </div>
-        </div>
 
-        <button id="addToCart" class="btn-primary" type="button">
-          В корзину
-        </button>
+          <div class="product-actions">
+            <button type="button" id="addToCart" class="btn-primary">
+              Добавить в заказ
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   `;
 
-  const sizeSelect = $("#sizeSelect", box);
+  let currentSize = SIZES && SIZES.length ? SIZES[0] : null;
+  let qty = 1;
+
+  const sizeButtons = $$(".size-btn", box);
+  sizeButtons.forEach(btn => {
+    const s = btn.dataset.size;
+    if (s === String(currentSize)) btn.classList.add("active");
+    btn.addEventListener("click", () => {
+      currentSize = s;
+      sizeButtons.forEach(b => b.classList.toggle("active", b === btn));
+    });
+  });
+
   const qtyValEl = $("#qtyVal", box);
   const btnPlus = $("#qtyPlus", box);
   const btnMinus = $("#qtyMinus", box);
   const addBtn = $("#addToCart", box);
 
-  if (sizeSelect) {
-    const sizeWrapper = sizeSelect.closest(".size-control");
-    sizeSelect.addEventListener("change", () => {
-      currentSize = sizeSelect.value;
-      if (sizeWrapper) {
-        sizeWrapper.classList.add("active");
-        setTimeout(() => sizeWrapper.classList.remove("active"), 350);
-      }
-    });
-  }
-
-  if (btnPlus && btnMinus && qtyValEl) {
+  if (btnPlus) {
     btnPlus.addEventListener("click", () => {
       qty = Math.min(999, qty + 1);
       qtyValEl.textContent = String(qty);
     });
+  }
+  if (btnMinus) {
     btnMinus.addEventListener("click", () => {
       qty = Math.max(1, qty - 1);
       qtyValEl.textContent = String(qty);
@@ -248,9 +201,11 @@ function renderProduct() {
       qtyValEl.textContent = "1";
     });
   }
+
+  updateCartBadge();
 }
 
-/* === КОРЗИНА === */
+/* === КОРЗИНА / ОФОРМЛЕНИЕ ЗАКАЗА === */
 
 function renderOrder() {
   const box = $("#order");
@@ -280,14 +235,19 @@ function renderOrder() {
         </div>
         <div class="cart-meta">
           <div class="badge">Арт. ${it.sku}</div>
-
-          <div class="cart-header-row">
+          <div class="cart-line">
             <div class="cart-title">
-              ${it.title || ("Кольцо " + it.sku)}
+              ${prod.title || ("Кольцо " + it.sku)}
             </div>
-            <div class="qty-inline">
+            <div class="cart-digits">
+              ${digitsLine}
+            </div>
+          </div>
+
+          <div class="cart-controls">
+            <div class="cart-qty">
               <button type="button" data-act="dec" data-idx="${idx}">−</button>
-              <span>${it.qty}</span>
+              <span>${it.qty || 1}</span>
               <button type="button" data-act="inc" data-idx="${idx}">+</button>
             </div>
           </div>
@@ -351,32 +311,30 @@ function renderOrder() {
     renderOrder();
   };
 
-  // копирование заявки
+  // копирование заявки (под Excel)
   $("#copyOrder").onclick = () => {
-  const cartNow = loadCart();
-  if (!cartNow.length) return;
+    const cartNow = loadCart();
+    if (!cartNow.length) return;
 
-  // Формат для Excel/Google Sheets:
-  // строка заголовка + строки вида "артикул;размер;кол-во"
-  const header = "Артикул;Размер;Кол-во";
-  const lines = cartNow.map(it =>
-    `${it.sku};${it.size};${it.qty}`
-  );
+    const header = "Артикул;Размер;Кол-во";
+    const lines = cartNow.map(it =>
+      `${it.sku};${it.size};${it.qty}`
+    );
 
-  const txt = header + "\n" + lines.join("\n");
+    const txt = header + "\n" + lines.join("\n");
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
-  } else {
-    const ta = document.createElement("textarea");
-    ta.value = txt;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-    toast("Заявка скопирована");
-  }
-};
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      toast("Заявка скопирована");
+    }
+  };
 
   $("#clearOrder").onclick = () => {
     if (!confirm("Очистить корзину?")) return;
@@ -389,31 +347,71 @@ function renderOrder() {
   };
 
   $("#sendToManager").onclick = () => {
-  const cartNow = loadCart();
-  if (!cartNow.length) {
-    toast("Корзина пуста");
-    return;
+    const cartNow = loadCart();
+    if (!cartNow.length) {
+      toast("Корзина пуста");
+      return;
+    }
+
+    const lines = cartNow.map(it =>
+      `${it.sku};${it.size};${it.qty}`
+    );
+
+    const txt =
+      "Здравствуйте! Отправляю заявку по каталогу Жемчужина.\n\n" +
+      "Артикул;Размер;Кол-во\n" +
+      lines.join("\n") +
+      "\n\nС уважением,\n";
+
+    const phone = MANAGER_PHONE;
+    const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(txt);
+
+    window.open(url, "_blank");
+  };
+
+  updateCartBadge();
+}
+
+/* === ТОСТ === */
+
+function toast(msg) {
+  let el = $(".toast");
+  if (!el) {
+    el = document.createElement("div");
+    el.className = "toast";
+    document.body.appendChild(el);
   }
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 1400);
+}
 
-  // Те же строки, что и для Excel
-  const lines = cartNow.map(it =>
-    `${it.sku};${it.size};${it.qty}`
-  );
+/* === ПОЛЁТ В КОРЗИНУ (МИКРО-АНИМАЦИЯ) === */
 
-  // Текст для WhatsApp:
-  // приветствие + табличка + место для подписи
-  const txt =
-    "Здравствуйте! Отправляю заявку по каталогу Жемчужина.\n\n" +
-    "Артикул;Размер;Кол-во\n" +
-    lines.join("\n") +
-    "\n\nС уважением,\n";
+function flyToCart(btn) {
+  const cartLink = $(".cart-link");
+  if (!cartLink || !btn) return;
 
-  const phone = MANAGER_PHONE; // номер менеджера из константы выше
-  const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(txt);
+  const rectBtn = btn.getBoundingClientRect();
+  const rectCart = cartLink.getBoundingClientRect();
 
-  // Открываем WhatsApp / WhatsApp Web
-  window.open(url, "_blank");
-};
+  const dot = document.createElement("div");
+  dot.className = "fly-dot";
+  dot.style.left = rectBtn.left + rectBtn.width / 2 + "px";
+  dot.style.top = rectBtn.top + rectBtn.height / 2 + "px";
+  document.body.appendChild(dot);
+
+  requestAnimationFrame(() => {
+    dot.style.transform = `translate(${rectCart.left - rectBtn.left}px, ${rectCart.top - rectBtn.top}px) scale(0.5)`;
+    dot.style.opacity = "0";
+  });
+
+  setTimeout(() => {
+    dot.remove();
+  }, 600);
+}
+
+/* === СВАЙП ДЛЯ УДАЛЕНИЯ В МОБИЛЬНОЙ КОРЗИНЕ === */
 
 function initSwipeToDelete() {
   let startX = 0;
