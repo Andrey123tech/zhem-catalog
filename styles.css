@@ -600,3 +600,11 @@ img {
   border-bottom-color: #6A1F2A;
   color: #111827;
 }
+
+/* === Полировка: сетка 3 в ряд на телефоне === */
+
+@media (max-width: 540px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
