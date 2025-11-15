@@ -608,3 +608,23 @@ img {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* === Полировка: карточка изделия === */
+
+/* Чуть компактнее общая карточка (каталог + продукт) */
+.product-card {
+  padding: 12px 12px 14px;
+  gap: 10px;
+}
+
+/* Блок размеров + количества делаем плотнее и собраннее */
+.product-controls {
+  padding: 10px 10px 12px;
+  gap: 8px;
+}
+
+/* Кнопка "Добавить в заказ" — чуть крупнее и приятнее */
+.btn-primary {
+  padding: 14px 20px;
+  font-size: 17px;
+}
