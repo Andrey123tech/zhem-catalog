@@ -7,6 +7,9 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 const CART_KEY = "zhem_cart_v1";
 
+// Номер менеджера для WhatsApp (без +, без пробелов)
+const MANAGER_PHONE = "77012271519"; // <-- сюда поставь свой номер
+
 /* === ХРАНЕНИЕ КОРЗИНЫ === */
 
 function loadCart() {
