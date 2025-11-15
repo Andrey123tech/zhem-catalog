@@ -14,59 +14,80 @@ html, body {
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
     "Segoe UI", sans-serif;
-  font-size: 16px;
-  line-height: 1.4;
-  color: #0f172a;
-  background: #f1f5f9;
+  background: #f3f4f6;
+  color: #111827;
 }
 
-img {
-  max-width: 100%;
-  display: block;
+/* ============= ЛЕЙАУТ ============= */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 16px 12px 110px;
-}
-
-/* ============= ШАПКА ============= */
-
-.topbar {
+.page-header {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 10px 16px 6px;
   position: sticky;
   top: 0;
   z-index: 20;
-  background: #ffffff;
-  border-bottom: 2px solid #6A1F2A;
-  padding: 4px 10px 4px;
+}
+
+.page-header-inner {
+  max-width: 980px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
 }
 
-.topbar-left {
+.brand {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
-.logo-img {
-  height: 52px;   /* было 40 */
+.brand img {
+  height: 40px;
   width: auto;
-  object-fit: contain;
+  display: block;
+}
+
+.brand-title {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #6b7280;
+}
+
+.brand-title span {
+  font-weight: 600;
+  color: #111827;
 }
 
 .cart-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 14px;
-  color: #111827;
-  text-decoration: none;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(148,163,184,0.7);
+  border: 1px solid #e5e7eb;
   background: #ffffff;
+  font-size: 14px;
+  text-decoration: none;
+  color: #111827;
+  box-shadow: 0 10px 30px rgba(15,23,42,0.18);
+}
+
+.cart-link span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cart-count {
@@ -75,160 +96,74 @@ img {
   border-radius: 999px;
   background: #6A1F2A;
   color: #f9fafb;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-/* ============= ГЕРОЙ / ТЕКСТ ============= */
-
-.hero {
-  margin-bottom: 18px;
+.page-nav {
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
 }
 
-.hero-title {
-  margin: 0 0 6px;
-  font-size: 22px;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.hero-sub {
-  margin: 0;
-  font-size: 14px;
-  color: #6b7280;
-}
-
-.section-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 10px;
-}
-
-/* ============= КАТЕГОРИИ (главная) ============= */
-
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-}
-
-.category-card {
-  background: #ffffff;
-  border-radius: 20px;
-  border: 1px solid #e2e8f0;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-  box-shadow: 0 14px 30px rgba(15,23,42,0.12);
-  display: flex;
-  flex-direction: column;
-}
-
-.category-image {
-  background: #f8fafc;
-  min-height: 120px;
+.page-nav-inner {
+  max-width: 980px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 18px;
+  padding: 8px 16px 4px;
 }
 
-.category-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.category-image .stub {
+.tab-link {
   font-size: 14px;
-  color: #9ca3af;
+  color: #4b5563;
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
 }
 
-.category-body {
-  padding: 10px 12px 12px;
+.tab-link.active {
+  border-bottom-color: #6A1F2A;
+  color: #111827;
 }
 
-.category-title {
-  font-size: 16px;
-  font-weight: 600;
+.page-main {
+  flex: 1 1 auto;
 }
 
-.category-sub {
+.page-main-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 14px 16px 18px;
+}
+
+/* ============= ХЛЕБНЫЕ КРОШКИ ============= */
+
+.breadcrumbs {
   font-size: 13px;
+  margin-bottom: 10px;
   color: #6b7280;
 }
 
-.category-disabled {
-  opacity: 0.65;
+.breadcrumbs a {
+  color: #4b5563;
+  text-decoration: none;
 }
 
-/* ============= КАТАЛОГ: СЕТКА ============= */
+.breadcrumbs span {
+  color: #111827;
+}
+
+/* ============= КАТАЛОГ / GRID ============= */
 
 .grid {
   display: grid;
-  gap: 12px;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-}
-
-/* На телефоне — фиксировано 3 карточки в ряд */
-@media (max-width: 480px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.tile {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  background: #ffffff;
-  border-radius: 24px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 18px 40px rgba(15,23,42,0.14);
-  overflow: hidden;
-}
-
-.square {
-  position: relative;
-  width: 100%;
-  padding-bottom: 100%;
-  background: #f8fafc;
-}
-
-.square img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.tile-body {
-  padding: 10px 12px 12px;
-}
-
-.tile-title {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.tile-sub {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-/* ============= КАРТОЧКА ТОВАРА ============= */
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 14px;
-  text-decoration: none;
-  color: #4b5563;
-  margin-bottom: 10px;
+  gap: 12px;
 }
 
 .product-card {
@@ -242,6 +177,42 @@ img {
   gap: 14px;
 }
 
+.product-card-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-image-wrap {
+  border-radius: 18px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.product-image-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.product-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.product-card-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.product-card-weight {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+/* ============= КАРТОЧКА ТОВАРА ============= */
+
 .product-main {
   display: flex;
   flex-direction: column;
@@ -249,12 +220,12 @@ img {
 }
 
 .product-breadcrumbs {
-  font-size: 14px;
-  color: #64748b;
+  font-size: 13px;
+  color: #6b7280;
 }
 
 .product-breadcrumbs a {
-  color: #64748b;
+  color: #4b5563;
   text-decoration: none;
 }
 
@@ -307,15 +278,9 @@ img {
   gap: 12px;
 }
 
-.product-controls-row {
+.field-row {
   display: flex;
-  gap: 10px;
-}
-
-@media (max-width: 420px) {
-  .product-controls-row {
-    gap: 8px;
-  }
+  gap: 8px;
 }
 
 .field {
@@ -342,41 +307,14 @@ img {
   justify-content: center;
 }
 
-/* select размера */
-
-.size-select {
+.field-control select {
   width: 100%;
   border: none;
   background: transparent;
-  font-size: 18px;
-  font-weight: 600;
-  color: #111827;
-  padding: 2px 0;
+  font-size: 15px;
   outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-align-last: left;
+  text-align: center;
 }
-
-.field-control.size-control {
-  position: relative;
-}
-
-.field-control.size-control::after {
-  content: "▾";
-  position: absolute;
-  right: 10px;
-  font-size: 12px;
-  color: #9ca3af;
-}
-
-.field-control.size-control.active {
-  border-color: #6A1F2A;
-  box-shadow: 0 0 0 1px rgba(106,31,42,0.25);
-}
-
-/* количество в карточке */
 
 .qty-inline {
   display: inline-flex;
@@ -399,10 +337,9 @@ img {
 .qty-inline span {
   min-width: 22px;
   text-align: center;
-  font-size: 16px;
 }
 
-/* кнопка "В корзину" */
+/* ============= КНОПКИ ============= */
 
 .btn-primary {
   border-radius: 999px;
@@ -417,15 +354,57 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
+  gap: 8px;
+  box-shadow: 0 14px 40px rgba(148,27,53,0.35);
 }
 
 .btn-primary:active {
   transform: translateY(1px);
+  box-shadow: 0 8px 24px rgba(148,27,53,0.35);
 }
 
-/* ============= КОРЗИНА ============= */
+.btn {
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 9px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn.small {
+  flex: 1 1 0;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  font-size: 13px;
+  padding: 8px 6px;
+  cursor: pointer;
+}
+
+/* ============= КАРТОЧКА / КАРТОЧКИ СПИСКА ============= */
+
+.card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  padding: 14px 14px 16px;
+  box-shadow: 0 14px 34px rgba(15,23,42,0.16);
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* ============= КОРЗИНА (СПИСОК ПОЗИЦИЙ) ============= */
 
 .list {
   display: flex;
@@ -475,13 +454,6 @@ img {
   color: #4b5563;
 }
 
-.cart-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
 .cart-title {
   font-size: 16px;
   font-weight: 600;
@@ -492,113 +464,103 @@ img {
   color: #111827;
 }
 
-.cart-header-row .qty-inline {
-  gap: 10px;
+.cart-digits {
+  font-size: 13px;
+  color: #4b5563;
 }
 
-.cart-header-row .qty-inline button {
-  font-size: 18px;
-  padding: 0 3px;
-}
-
-.cart-header-row .qty-inline span {
-  min-width: 20px;
-  font-size: 16px;
-}
-
-.cart-actions {
+.cart-line {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.cart-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 4px;
 }
 
-.btn.icon {
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #f3f4f6;
-  font-size: 13px;
-  padding: 6px 12px;
+.cart-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-qty button {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0 3px;
   cursor: pointer;
 }
 
-/* низ корзины */
-
-.btn-row {
-  margin-top: 10px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: nowrap;
-}
-
-.btn.small {
-  flex: 1 1 0;
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #f3f4f6;
-  font-size: 13px;
-  padding: 8px 6px;
-  cursor: pointer;
+.cart-qty span {
+  min-width: 24px;
+  text-align: center;
 }
 
 /* ============= ПРОЧЕЕ ============= */
 
-.card {
-  background: #ffffff;
-  border-radius: 20px;
-  border: 1px solid #e2e8f0;
-  padding: 12px 14px;
-  box-shadow: 0 12px 28px rgba(15,23,42,0.12);
-}
-
-/* тост */
-
 .toast {
   position: fixed;
   left: 50%;
-  bottom: 90px;
+  bottom: 16px;
   transform: translateX(-50%);
-  padding: 10px 16px;
-  border-radius: 999px;
+  padding: 8px 14px;
   background: rgba(15,23,42,0.9);
   color: #f9fafb;
   font-size: 14px;
+  border-radius: 999px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 50;
 }
 
 .toast.show {
   opacity: 1;
+  transform: translate(-50%, -4px);
 }
 
-/* "улетающий" маркер */
-
+/* точка для анимации полета в корзину */
 .fly-dot {
+  position: fixed;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #6A1F2A;
   pointer-events: none;
+  z-index: 40;
+  transform: translate(0, 0) scale(1);
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-/* ==== ЛЁГКАЯ НАВИГАЦИЯ ПОД ШАПКОЙ ==== */
+/* ============= МЕЛКИЕ АДАПТИВНЫЕ ПРАВКИ ============= */
 
-.main-tabs {
-  display: flex;
-  gap: 16px;
-  padding: 6px 12px 4px;
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
-}
+@media (max-width: 720px) {
+  .page-header-inner {
+    gap: 6px;
+  }
 
-.tab-link {
-  font-size: 14px;
-  color: #4b5563;
-  text-decoration: none;
-  padding-bottom: 3px;
-  border-bottom: 2px solid transparent;
-}
+  .brand img {
+    height: 34px;
+  }
 
-.tab-link.active {
-  border-bottom-color: #6A1F2A;
-  color: #111827;
+  .card {
+    border-radius: 18px;
+  }
+
+  .product-card {
+    border-radius: 20px;
+  }
+
+  .list-item {
+    border-radius: 18px;
+  }
 }
 
 /* === Полировка: сетка 3 в ряд на телефоне === */
@@ -649,99 +611,66 @@ img {
   padding: 10px 8px;
 }
 
-/* === Полировка текста: современный и читаемый размер === */
+/* === Полировка текста v2: реально увеличиваем ключевые зоны === */
 
-/* Базовый текст по всему сайту */
+/* Базовый текст по сайту чуть крупнее */
 body {
   font-size: 16px;
-  line-height: 1.4; /* комфортное чтение */
+  line-height: 1.4;
 }
 
-/* Мелкие подписи и вторичный текст */
-small,
-.note,
-.meta,
-.product-weight,
-.product-title small {
+/* Верхние вкладки: Главная / Каталог */
+.tab-link {
+  font-size: 16px;
+}
+
+/* Хлебные крошки: Каталог > Кольца */
+.product-breadcrumbs {
   font-size: 15px;
 }
 
-/* Заголовки товара — уверенно крупные */
+/* Артикул и вес под заголовком */
+.product-art {
+  font-size: 14px;
+}
+.product-weight {
+  font-size: 15px;
+}
+
+/* Название изделия — крупное и выразительное */
 .product-title {
-  font-size: 19px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
 }
 
-/* Блоки характеристик */
+/* Подписи "РАЗМЕР", "Кол-во" */
 .field-label {
-  font-size: 16px;
+  font-size: 15px;
 }
 
-/* Значения в селектах и полях */
+/* Значения в селекте и счётчике */
 .field-control,
+.size-select,
 .qty-inline {
   font-size: 17px;
 }
 
-/* Основные кнопки — чуть крупнее и приятнее под палец */
+/* Кнопки — заметно, но без перебора */
 .btn,
 .btn-primary {
   font-size: 17px;
-  padding: 14px 20px !important;
+  padding: 14px 20px;
 }
 
-/* Мелкие кнопки в корзине */
+/* Маленькие кнопки (в корзине) */
 .btn.small {
   font-size: 15px;
-  padding: 10px 12px !important;
+  padding: 10px 12px;
 }
 
-/* Элементы в корзине */
+/* Текст в корзине */
+.cart-title,
+.cart-sub,
 .cart-meta {
   font-size: 16px;
-}
-
-.cart-line {
-  font-size: 16px;
-}
-
-/* === Коррекция размеров текста (реальное увеличение) === */
-
-/* Верхнее меню: Главная, Каталог */
-.nav a {
-  font-size: 16px !important;
-}
-
-/* Хлебные крошки: Каталог > Кольца */
-.breadcrumbs {
-  font-size: 15px !important;
-}
-
-/* Заголовок карточки изделия */
-.product-title {
-  font-size: 19px !important;
-  font-weight: 600;
-}
-
-/* Артикул и вес */
-.product-weight,
-.product-meta {
-  font-size: 16px !important;
-}
-
-/* Надпись РАЗМЕР */
-.field-label {
-  font-size: 15px !important;
-}
-
-/* Значения в селекте размеров */
-.field-control {
-  font-size: 17px !important;
-}
-
-/* Кнопки */
-.btn,
-.btn-primary {
-  font-size: 17px !important;
-  padding: 14px 20px;
 }
