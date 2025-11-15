@@ -17,7 +17,7 @@ const PRODUCTS = [
   { sku: "190026", title: "Кольцо 190026", avgWeight: 0.93, images: ["img/190026_900.jpg"] },
 
   // Дополнительная модель (фото есть, веса пока нет)
-  { sku: "190023", title: "Кольцо 190023", avgWeight: null, images: ["img/190023_900.jpg"] },
+  { sku: "190023", title: "Кольцо 190023", avgWeight: 1.30, images: ["img/190023_900.jpg"] },
 
   // Женские кольца без камня
   { sku: "185800", title: "Кольцо 185800", avgWeight: 2.57, images: ["img/185800_900.jpg"] }
