@@ -704,3 +704,44 @@ small,
 .cart-line {
   font-size: 16px;
 }
+
+/* === Коррекция размеров текста (реальное увеличение) === */
+
+/* Верхнее меню: Главная, Каталог */
+.nav a {
+  font-size: 16px !important;
+}
+
+/* Хлебные крошки: Каталог > Кольца */
+.breadcrumbs {
+  font-size: 15px !important;
+}
+
+/* Заголовок карточки изделия */
+.product-title {
+  font-size: 19px !important;
+  font-weight: 600;
+}
+
+/* Артикул и вес */
+.product-weight,
+.product-meta {
+  font-size: 16px !important;
+}
+
+/* Надпись РАЗМЕР */
+.field-label {
+  font-size: 15px !important;
+}
+
+/* Значения в селекте размеров */
+.field-control {
+  font-size: 17px !important;
+}
+
+/* Кнопки */
+.btn,
+.btn-primary {
+  font-size: 17px !important;
+  padding: 14px 20px;
+}
