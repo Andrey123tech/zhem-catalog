@@ -446,12 +446,15 @@ function renderOrderItem() {
 
     const cleaned = cartNow.filter(it => !(it.sku === sku && it.size === size && (!it.qty || it.qty <= 0)));
 
-    saveCart(cleaned);
+        saveCart(cleaned);
     const stillHas = cleaned.some(it => it.sku === sku);
     if (!stillHas) {
       window.location.href = "order.html";
     } else {
+      // запоминаем позицию скролла, чтобы экран не "прыгнул"
+      const prevY = window.scrollY || window.pageYOffset || 0;
       renderOrderItem();
+      window.scrollTo(0, prevY);
       updateCartBadge();
     }
   };
