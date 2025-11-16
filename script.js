@@ -53,19 +53,22 @@ function renderGrid() {
   grid.innerHTML = PRODUCTS.map(p => {
     const img = (p.images && p.images[0]) || "https://picsum.photos/seed/placeholder/900";
     const w = p.avgWeight != null ? formatWeight(p.avgWeight) + " г" : "";
-    return `
+      return `
       <a class="tile" href="product.html?sku=${encodeURIComponent(p.sku)}">
-        <div class="square"><img src="${img}" alt="${p.title || p.sku}"></div>
+        <div class="square">
+          <img src="${img}" alt="${p.title || p.sku}">
+        </div>
         <div class="tile-body">
-          <div class="tile-title">${p.title || ("Кольцо " + p.sku)}</div>
+          <div class="tile-title">
+            ${p.title || ("Кольцо " + p.sku)}
+          </div>
           <div class="tile-sub">
-            <span>Арт. ${p.sku}</span>
-            ${w ? `<span style="float:right;">${w}</span>` : ""}
+            <span class="tile-art">Арт. ${p.sku}</span>
+            ${w ? `<span class="tile-weight">~ ${w}</span>` : ""}
           </div>
         </div>
       </a>
     `;
-  }).join("");
 }
 
 /* === КАРТОЧКА ТОВАРА === */
