@@ -257,6 +257,162 @@ function renderOrder() {
   }, 0);
   const totalQty = cart.reduce((s, it) => s + (it.qty || 0), 0);
 
+  const summaryText = `Позиции: ${groups.length}, штук: ${totalQty}, вес ~ ${formatWeight(totalWeight)} г`;
+
+  box.innerHTML = `
+    <div class="list">${rows}</div>
+    <div style="height:8px"></div>
+
+    <div class="card order-actions">
+      <div class="btn-row">
+        <button id="clearOrder" class="btn small" type="button">Очистить</button>
+        <button id="continueOrder" class="btn small" type="button">Продолжить отбор</button>
+        <button id="copyOrder" class="btn small" type="button">Скопировать заявку</button>
+      </div>
+      <div class="order-summary">
+        ${summaryText}
+      </div>
+    </div>
+
+    <!-- запас, чтобы контент не прятался за фиксированной кнопкой -->
+    <div style="height:90px"></div>
+
+    <button id="sendToManagerFixed" class="btn-primary order-footer-btn" type="button">
+      Менеджеру
+    </button>
+  `;
+
+  // Клик по строке модели — переходим в детальное редактирование этой модели
+  box.onclick = function(e) {
+    const row = e.target.closest(".cart-row");
+    if (!row) return;
+    const sku = row.dataset.sku;
+    if (!sku) return;
+    window.location.href = "order_item.html?sku=" + encodeURIComponent(sku);
+  };
+
+  // копирование заявки (формат для Excel)
+  $("#copyOrder").onclick = () => {
+    const cartNow = loadCart();
+    if (!cartNow.length) return;
+
+    const header = "Артикул;Размер;Кол-во";
+    const lines = cartNow.map(it =>
+      `${it.sku};${it.size};${it.qty}`
+    );
+
+    const txt = header + "\n" + lines.join("\n");
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      toast("Заявка скопирована");
+    }
+  };
+
+  $("#clearOrder").onclick = () => {
+    if (!confirm("Очистить корзину?")) return;
+    saveCart([]);
+    renderOrder();
+  };
+
+  $("#continueOrder").onclick = () => {
+    window.location.href = "catalog.html";
+  };
+
+  $("#sendToManagerFixed").onclick = () => {
+    const cartNow = loadCart();
+    if (!cartNow.length) {
+      toast("Корзина пуста");
+      return;
+    }
+
+    const lines = cartNow.map(it =>
+      `${it.sku};${it.size};${it.qty}`
+    );
+
+    const txt =
+      "Здравствуйте! Отправляю заявку по каталогу Жемчужина.\n\n" +
+      "Артикул;Размер;Кол-во\n" +
+      lines.join("\n") +
+      "\n\nС уважением,\n";
+
+    const phone = MANAGER_PHONE;
+    const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(txt);
+
+    window.open(url, "_blank");
+  };
+
+  updateCartBadge();
+}
+
+  // Группируем позиции корзины по артикулу
+  const groupsMap = new Map();
+  cart.forEach((it) => {
+    const prod = PRODUCTS.find(p => p.sku === it.sku) || {};
+    const img = it.image || (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/200";
+    const avgW = it.avgWeight != null ? it.avgWeight : prod.avgWeight;
+
+    let g = groupsMap.get(it.sku);
+    if (!g) {
+      g = {
+        sku: it.sku,
+        title: prod.title || ("Кольцо " + it.sku),
+        image: img,
+        avgWeight: avgW,
+        totalQty: 0,
+        totalWeight: 0
+      };
+      groupsMap.set(it.sku, g);
+    }
+
+    const qty = it.qty || 0;
+    g.totalQty += qty;
+    if (avgW != null) {
+      g.totalWeight += (Number(avgW) || 0) * qty;
+    }
+  });
+
+  const groups = Array.from(groupsMap.values());
+
+  const rows = groups.map(g => {
+    const totalW = g.totalWeight && !isNaN(g.totalWeight) ? formatWeight(g.totalWeight) + " г" : "";
+    const totalLine = totalW
+      ? `Всего: ${g.totalQty} шт · ~ ${totalW}`
+      : `Всего: ${g.totalQty} шт`;
+
+    return `
+      <div class="list-item cart-row" data-sku="${g.sku}">
+        <div class="cart-thumb">
+          <img src="${g.image}" alt="">
+        </div>
+        <div class="cart-meta">
+          <div class="badge">Арт. ${g.sku}</div>
+          <div class="cart-title">
+            ${g.title}
+          </div>
+          <div class="cart-sub">
+            ${totalLine}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  // Общие итоги по всей корзине
+  const totalWeight = cart.reduce((s, it) => {
+    const prod = PRODUCTS.find(p => p.sku === it.sku) || {};
+    const w = it.avgWeight != null ? it.avgWeight : prod.avgWeight;
+    return s + (Number(w) || 0) * (it.qty || 0);
+  }, 0);
+  const totalQty = cart.reduce((s, it) => s + (it.qty || 0), 0);
+
   box.innerHTML = `
     <div class="list">${rows}</div>
     <div style="height:10px"></div>
