@@ -777,3 +777,34 @@ img {
     z-index: 50;
   }
 }
+
+/* === Корзина: запас под фиксированной кнопкой === */
+.order-bottom-space {
+  height: 90px;
+}
+
+/* === Корзина: нижняя фиксированная кнопка "Менеджеру" === */
+.order-footer-btn {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+  width: calc(100% - 32px);  /* те же отступы, что у контента (по 16px) */
+  max-width: 980px;
+  z-index: 50;
+}
+
+/* На больших экранах ведём себя как обычная кнопка (без фиксации) */
+@media (min-width: 901px) {
+  .order-footer-btn {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    margin: 12px auto 0;
+  }
+
+  .order-bottom-space {
+    height: 0;
+  }
+}
