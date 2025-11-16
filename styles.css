@@ -777,37 +777,3 @@ img {
     z-index: 50;
   }
 }
-
-/* === Корзина: нижняя кнопка "Менеджеру" === */
-
-.order-actions {
-  margin-top: 4px;
-}
-
-.order-summary {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #111827;
-}
-
-/* Фиксированная кнопка внизу экрана (как "В корзину") */
-.order-footer-btn {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
-  width: calc(100% - 32px);  /* те же поля, что у контента */
-  max-width: 980px;
-  z-index: 50;
-}
-
-/* На больших экранах можно вести себя как обычная кнопка */
-@media (min-width: 901px) {
-  .order-footer-btn {
-    position: static;
-    transform: none;
-    width: 100%;
-    max-width: none;
-    margin-top: 12px;
-  }
-}
