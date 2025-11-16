@@ -360,23 +360,24 @@ function renderOrderItem() {
   }
 
   const prod = PRODUCTS.find(p => p.sku === sku) || {};
-  const img = (items[0].image) || (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/900";
+  const img = items[0].image || (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/900";
   const avgW = items[0].avgWeight != null ? items[0].avgWeight : prod.avgWeight;
-
   const title = prod.title || ("Кольцо " + sku);
 
-  const totalQty = items.reduce((s, it) => s + (it.qty || 0), 0);
-  const totalWeight = avgW != null
-    ? items.reduce((s, it) => s + (it.qty || 0) * (Number(avgW) || 0), 0)
-    : null;
+  function calcSummary(list) {
+    const totalQty = list.reduce((s, it) => s + (it.qty || 0), 0);
+    const totalWeight = avgW != null
+      ? list.reduce((s, it) => s + (it.qty || 0) * (Number(avgW) || 0), 0)
+      : null;
+    return { totalQty, totalWeight };
+  }
 
-  const rows = items.map(it => {
+  const rowsHtml = items.map(it => {
     const size = it.size;
     const qty = it.qty || 0;
     const lineWeight = avgW != null
       ? formatWeight((Number(avgW) || 0) * qty) + " г"
       : "";
-
     return `
       <div class="size-row" data-size="${size}">
         <div class="size-row-size">р-р ${size}</div>
@@ -385,16 +386,15 @@ function renderOrderItem() {
           <span>${qty}</span>
           <button type="button" data-act="inc" data-size="${size}">+</button>
         </div>
-        <div class="size-row-weight">
-          ${lineWeight}
-        </div>
+        <div class="size-row-weight">${lineWeight}</div>
       </div>
     `;
   }).join("");
 
-  const totalLine = totalWeight != null
-    ? `Всего: ${totalQty} шт · ~ ${formatWeight(totalWeight)} г`
-    : `Всего: ${totalQty} шт`;
+  const summary = calcSummary(items);
+  const totalLine = summary.totalWeight != null
+    ? `Всего: ${summary.totalQty} шт · ~ ${formatWeight(summary.totalWeight)} г`
+    : `Всего: ${summary.totalQty} шт`;
 
   box.innerHTML = `
     <div class="card model-edit">
@@ -410,7 +410,7 @@ function renderOrderItem() {
         </div>
 
         <div class="model-sizes-list">
-          ${rows}
+          ${rowsHtml}
         </div>
 
         <div class="model-summary">
@@ -424,8 +424,8 @@ function renderOrderItem() {
     </div>
   `;
 
-  // обработка +/- по размерам внутри модели
-  box.onclick = function(e) {
+  // обработчик +/- без полной перерисовки
+  box.onclick = function (e) {
     const btn = e.target.closest("button");
     if (!btn || !btn.dataset.act) return;
 
@@ -433,27 +433,52 @@ function renderOrderItem() {
     const size = btn.dataset.size;
     if (!size) return;
 
-    const cartNow = loadCart();
+    let cartNow = loadCart();
     const item = cartNow.find(it => it.sku === sku && String(it.size) === String(size));
     if (!item) return;
 
+    let qty = item.qty || 0;
     if (act === "inc") {
-      item.qty = Math.min(999, (item.qty || 0) + 1);
+      qty = Math.min(999, qty + 1);
     } else if (act === "dec") {
-      const next = (item.qty || 0) - 1;
-      item.qty = next < 0 ? 0 : next;
+      qty = Math.max(0, qty - 1);
     }
 
-    const cleaned = cartNow.filter(it => !(it.sku === sku && it.size === size && (!it.qty || it.qty <= 0)));
+    const row = box.querySelector(`.size-row[data-size="${size}"]`);
+    if (!row) return;
 
-    saveCart(cleaned);
-    const stillHas = cleaned.some(it => it.sku === sku);
-    if (!stillHas) {
-      window.location.href = "order.html";
+    if (qty === 0) {
+      // удалить размер
+      cartNow = cartNow.filter(it => !(it.sku === sku && String(it.size) === String(size)));
+      row.remove();
     } else {
-      renderOrderItem();
-      updateCartBadge();
+      item.qty = qty;
+      const qtySpan = row.querySelector(".size-row-qty span");
+      const weightCell = row.querySelector(".size-row-weight");
+      if (qtySpan) qtySpan.textContent = String(qty);
+      if (weightCell && avgW != null) {
+        const lw = (Number(avgW) || 0) * qty;
+        weightCell.textContent = formatWeight(lw) + " г";
+      }
     }
+
+    saveCart(cartNow);
+
+    const remain = cartNow.filter(it => it.sku === sku);
+    if (!remain.length) {
+      window.location.href = "order.html";
+      return;
+    }
+
+    const newSummary = calcSummary(remain);
+    const summaryEl = box.querySelector(".model-summary");
+    if (summaryEl) {
+      summaryEl.textContent = newSummary.totalWeight != null
+        ? `Всего: ${newSummary.totalQty} шт · ~ ${formatWeight(newSummary.totalWeight)} г`
+        : `Всего: ${newSummary.totalQty} шт`;
+    }
+
+    updateCartBadge();
   };
 
   const btnDone = $("#modelDone", box);
