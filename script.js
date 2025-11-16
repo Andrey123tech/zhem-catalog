@@ -353,7 +353,9 @@ function renderOrderItem() {
   }
 
   const cart = loadCart();
-  const items = cart.filter(it => it.sku === sku);
+  let items = cart.filter(it => it.sku === sku);
+  // сортируем размеры от меньшего к большему
+  items.sort((a, b) => parseFloat(a.size) - parseFloat(b.size));
   if (!items.length) {
     box.innerHTML = "<div class='card'>В корзине нет позиций по артикулу " + sku + ".</div>";
     return;
