@@ -847,109 +847,106 @@ img {
   }
 }
 
-/* === Мобильная типографика под iOS (заметно крупнее) === */
-@media (max-width: 900px) {
-  body {
-    font-size: 16px;
-    line-height: 1.4;
-  }
+/* === Типографика под iOS-ощущения === */
 
-  /* Вкладки: Главная / Каталог / Заказ */
-  .tab-link {
-    font-size: 16px;
-  }
+/* Вкладки вверху: Главная / Каталог / Заказ */
+.tab-link {
+  font-size: 15px;
+}
 
-  /* Крупные заголовки страниц */
-  .hero-title {
-    font-size: 24px;
-    font-weight: 700;
-  }
+/* Крупные заголовки на страницах (hero) */
+.hero-title {
+  font-size: 22px;
+  font-weight: 700;
+}
 
-  .hero-sub {
-    font-size: 16px;
-  }
+.hero-sub {
+  font-size: 15px;
+}
 
-  /* Карточки в каталоге (сетке) */
-  .tile-title {
-    font-size: 17px;
-    font-weight: 600;
-  }
+/* Карточки в каталоге */
+.tile-title {
+  font-size: 16px;
+  font-weight: 600;
+}
 
-  .tile-sub {
-    font-size: 14px;
-  }
+.tile-sub {
+  font-size: 13px;
+}
 
-  /* Карточка товара */
-  .product-title {
-    font-size: 22px;
-    font-weight: 600;
-  }
+/* Карточка товара */
+.product-title {
+  font-size: 20px;
+  font-weight: 600;
+}
 
-  .product-art {
-    font-size: 15px;
-  }
+.product-art {
+  font-size: 14px;
+}
 
-  .product-weight {
-    font-size: 15px;
-  }
+.product-weight {
+  font-size: 14px;
+}
 
-  .field-label {
-    font-size: 15px;
-  }
+/* Подписи "Размер", "Кол-во" */
+.field-label {
+  font-size: 14px;
+}
 
-  .field-control,
-  .qty-inline {
-    font-size: 17px;
-  }
+/* Значения в селекте и счётчике */
+.field-control,
+.qty-inline {
+  font-size: 16px;
+}
 
-  /* Кнопки */
-  .btn,
-  .btn.small,
-  .btn-primary {
-    font-size: 16px;
-  }
+/* Общие кнопки */
+.btn,
+.btn.small,
+.btn-primary {
+  font-size: 16px;
+}
 
-  /* Список моделей в корзине */
-  .cart-title {
-    font-size: 17px;
-  }
+/* Список в корзине */
+.cart-title {
+  font-size: 16px;
+}
 
-  .cart-sub {
-    font-size: 14px;
-  }
+.cart-sub {
+  font-size: 14px;
+}
 
-  .cart-meta {
-    font-size: 14px;
-  }
+.cart-meta {
+  font-size: 13px;
+}
 
-  /* Блок "Итого" в корзине */
-  .order-summary-text {
-    font-size: 16px;
-  }
+/* Блок "Итого" в корзине */
+.order-summary-text {
+  font-size: 15px;
+}
 
-  /* Экран модели в корзине */
-  .model-title {
-    font-size: 17px;
-    font-weight: 600;
-  }
+/* Экран модели в корзине */
+.model-title {
+  font-size: 16px;
+  font-weight: 600;
+}
 
-  .model-avg {
-    font-size: 14px;
-  }
+.model-avg {
+  font-size: 13px;
+}
 
-  .model-summary {
-    font-size: 16px;
-  }
+.model-summary {
+  font-size: 15px;
+}
 
-  .size-row {
-    font-size: 16px;
-  }
+/* Строки размеров в модели */
+.size-row {
+  font-size: 15px;
+}
 
-  .size-row-size {
-    font-size: 16px;
-  }
+.size-row-size {
+  font-size: 15px;
+}
 
-  .size-row-weight {
-    font-size: 14px;
-  }
+.size-row-weight {
+  font-size: 13px;
 }
