@@ -14,7 +14,7 @@ const MANAGER_PHONE = "77012271519"; // <-- сюда поставь свой н�
 
 function loadCart() {
   try { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); }
-  catch { return []; }
+  catch(e) { return []; }
 }
 
 function saveCart(cart) {
@@ -22,73 +22,29 @@ function saveCart(cart) {
   updateCartBadge();
 }
 
-function formatWeight(g) {
-  const num = Number(g) || 0;
-  return (Math.round(num * 100) / 100).toFixed(2);
-}
-
-function getParam(name) {
-  const u = new URL(location.href);
-  return u.searchParams.get(name);
-}
+/* === БЕЙДЖ КОРЗИНЫ === */
 
 function updateCartBadge() {
-  const count = loadCart().reduce((s, it) => s + (it.qty || 0), 0);
-  $$("#cartCount").forEach(el => {
-    if (el) el.textContent = count || "0";
-  });
+  const cart = loadCart();
+  const totalQty = cart.reduce((s, it) => s + (it.qty || 0), 0);
+  const badge = $("#cartCount");
+  if (badge) badge.textContent = totalQty;
 }
 
-/* === ТОСТ === */
+/* === УТИЛИТЫ === */
 
-function toast(msg) {
-  let el = $(".toast");
-  if (!el) {
-    el = document.createElement("div");
-    el.className = "toast";
-    document.body.appendChild(el);
-  }
-  el.textContent = msg;
-  el.classList.add("show");
-  setTimeout(() => el.classList.remove("show"), 1400);
+function formatWeight(w) {
+  if (w == null || isNaN(w)) return "";
+  const num = Number(w);
+  return num.toFixed(num >= 10 ? 1 : 2).replace(".", ",");
 }
 
-/* === ПОЛЁТ В КОРЗИНУ === */
-
-function flyToCart(sourceEl) {
-  const cartCount = $("#cartCount");
-  if (!cartCount || !sourceEl) return;
-
-  const s = sourceEl.getBoundingClientRect();
-  const c = cartCount.getBoundingClientRect();
-
-  const dot = document.createElement("div");
-  dot.className = "fly-dot";
-  dot.style.position = "fixed";
-  dot.style.width = "26px";
-  dot.style.height = "26px";
-  dot.style.borderRadius = "999px";
-  dot.style.background = "#6A1F2A";
-  dot.style.boxShadow = "0 0 0 2px rgba(248,250,252,0.9)";
-  dot.style.left = (s.left + s.width / 2) + "px";
-  dot.style.top = (s.top + s.height / 2) + "px";
-  dot.style.transform = "translate(0,0) scale(1)";
-  dot.style.opacity = "0.97";
-  dot.style.zIndex = "999";
-  dot.style.transition = "transform 0.7s ease, opacity 0.7s ease";
-  document.body.appendChild(dot);
-
-  requestAnimationFrame(() => {
-    const dx = (c.left + c.width / 2) - (s.left + s.width / 2);
-    const dy = (c.top + c.height / 2) - (s.top + s.height / 2);
-    dot.style.transform = `translate(${dx}px, ${dy}px) scale(0.5)`;
-    dot.style.opacity = "0";
-  });
-
-  setTimeout(() => dot.remove(), 750);
+function getSkuFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("sku");
 }
 
-/* === КАТАЛОГ (сеткой) === */
+/* === КАТАЛОГ (СЕТКА) === */
 
 function renderGrid() {
   const grid = $("#grid");
@@ -112,71 +68,33 @@ function renderGrid() {
   }).join("");
 }
 
-/* === ДОБАВЛЕНИЕ В КОРЗИНУ === */
-
-function addToCart(product, size, qty) {
-  const cart = loadCart();
-  const key = `${product.sku}_${size}`;
-  const idx = cart.findIndex(it => it.key === key);
-  const base = {
-    key,
-    sku: product.sku,
-    title: product.title || ("Кольцо " + product.sku),
-    size,
-    avgWeight: product.avgWeight,
-    image: (product.images && product.images[0]) || null
-  };
-
-  if (idx >= 0) {
-    cart[idx].qty = Math.min(999, (cart[idx].qty || 0) + qty);
-  } else {
-    cart.push({ ...base, qty });
-  }
-  saveCart(cart);
-}
-
 /* === КАРТОЧКА ТОВАРА === */
 
 function renderProduct() {
   const box = $("#product");
-  if (!box || !Array.isArray(PRODUCTS)) return;
+  if (!box) return;
 
-  const sku = getParam("sku");
-  const product = PRODUCTS.find(p => p.sku === sku) || PRODUCTS[0];
-  if (!product) {
-    box.innerHTML = "<div class='card'>Товар не найден.</div>";
+  const sku = getSkuFromUrl();
+  const prod = PRODUCTS.find(p => p.sku === sku);
+  if (!prod) {
+    box.innerHTML = "<p>Товар не найден.</p>";
     return;
   }
 
-  const imgSrc =
-    (product.images && product.images[0]) ||
-    "https://picsum.photos/seed/placeholder/900";
-
-  const w = product.avgWeight != null ? formatWeight(product.avgWeight) : null;
-
-  const sizes = Array.isArray(SIZES) && SIZES.length
-    ? SIZES
-    : ["15.5", "16.0", "16.5", "17.0", "17.5", "18.0"];
-
-  let currentSize = sizes[0];
-  let qty = 1;
+  const img = (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/900";
+  const w = prod.avgWeight != null ? formatWeight(prod.avgWeight) + " г" : "";
+  const sizes = prod.sizes && prod.sizes.length ? prod.sizes : ["18.0", "18.5", "19.0"];
 
   box.innerHTML = `
-    <div class="product-card">
-      <div class="product-main">
-        <div class="product-breadcrumbs">
-          <a href="catalog.html">Каталог</a> &nbsp;›&nbsp; <span>Кольца</span>
-        </div>
+    <div class="product-main">
+      <div class="product-photo-wrap">
+        <img src="${img}" alt="${prod.title || prod.sku}">
+      </div>
 
-        <div class="product-photo-wrap">
-          <img src="${imgSrc}" alt="${product.title || product.sku}">
-        </div>
-
-        <div class="product-meta">
-          <div class="product-art">Арт. ${product.sku}</div>
-          <h1 class="product-title">${product.title || ("Кольцо " + product.sku)}</h1>
-          ${w ? `<div class="product-weight">Средний вес ~ ${w} г</div>` : ""}
-        </div>
+      <div class="product-meta">
+        <div class="product-art">Арт. ${prod.sku}</div>
+        <h1 class="product-title">${prod.title || ("Кольцо " + prod.sku)}</h1>
+        ${w ? `<div class="product-weight">Средний вес ~ ${w}</div>` : ""}
       </div>
 
       <div class="product-controls">
@@ -212,45 +130,56 @@ function renderProduct() {
   `;
 
   const sizeSelect = $("#sizeSelect", box);
-  const qtyValEl = $("#qtyVal", box);
-  const btnPlus = $("#qtyPlus", box);
-  const btnMinus = $("#qtyMinus", box);
-  const addBtn = $("#addToCart", box);
+  const qtyValEl   = $("#qtyVal", box);
+  const btnMinus   = $("#qtyMinus", box);
+  const btnPlus    = $("#qtyPlus", box);
+  const btnAdd     = $("#addToCart", box);
 
-  if (sizeSelect) {
-    const sizeWrapper = sizeSelect.closest(".size-control");
-    sizeSelect.addEventListener("change", () => {
-      currentSize = sizeSelect.value;
-      if (sizeWrapper) {
-        sizeWrapper.classList.add("active");
-        setTimeout(() => sizeWrapper.classList.remove("active"), 350);
+  if (btnMinus && btnPlus && qtyValEl) {
+    btnMinus.onclick = () => {
+      let v = Number(qtyValEl.textContent) || 1;
+      v = Math.max(1, v - 1);
+      qtyValEl.textContent = String(v);
+    };
+    btnPlus.onclick = () => {
+      let v = Number(qtyValEl.textContent) || 1;
+      v = Math.min(999, v + 1);
+      qtyValEl.textContent = String(v);
+    };
+  }
+
+  if (btnAdd) {
+    btnAdd.onclick = () => {
+      const size = sizeSelect ? sizeSelect.value : "";
+      let qty = Number(qtyValEl.textContent) || 1;
+      if (qty <= 0) qty = 1;
+
+      const cart = loadCart();
+
+      // ищем уже существующую строку такого же артикула и размера
+      const existing = cart.find(it => it.sku === prod.sku && String(it.size) === String(size));
+      if (existing) {
+        existing.qty = Math.min(999, (existing.qty || 0) + qty);
+      } else {
+        cart.push({
+          sku: prod.sku,
+          size,
+          qty,
+          avgWeight: prod.avgWeight != null ? prod.avgWeight : null,
+          image: img,
+          title: prod.title || ("Кольцо " + prod.sku)
+        });
       }
-    });
-  }
 
-  if (btnPlus && btnMinus && qtyValEl) {
-    btnPlus.addEventListener("click", () => {
-      qty = Math.min(999, qty + 1);
-      qtyValEl.textContent = String(qty);
-    });
-    btnMinus.addEventListener("click", () => {
-      qty = Math.max(1, qty - 1);
-      qtyValEl.textContent = String(qty);
-    });
-  }
-
-  if (addBtn) {
-    addBtn.addEventListener("click", () => {
-      addToCart(product, currentSize, qty);
-      flyToCart(addBtn);
-      toast("Добавлено в заказ");
-      qty = 1;
+      saveCart(cart);
+      animateAddToCart(btnAdd);
+      toast("Добавлено в корзину");
       qtyValEl.textContent = "1";
-    });
+    };
   }
 }
 
-/* === КОРЗИНА === */
+/* === КОРЗИНА: ОБЩИЙ СПИСОК (группировка по артикулу) === */
 
 function renderOrder() {
   const box = $("#order");
@@ -264,42 +193,60 @@ function renderOrder() {
     return;
   }
 
-  const rows = cart.map((it, idx) => {
+  // Группируем позиции корзины по артикулу
+  const groupsMap = new Map();
+  cart.forEach((it) => {
     const prod = PRODUCTS.find(p => p.sku === it.sku) || {};
     const img = it.image || (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/200";
-    const w = it.avgWeight != null
-      ? formatWeight(it.avgWeight)
-      : (prod.avgWeight != null ? formatWeight(prod.avgWeight) : null);
+    const avgW = it.avgWeight != null ? it.avgWeight : prod.avgWeight;
 
-    const digitsLine = w ? `${it.size} · ${w} г / шт` : it.size;
+    let g = groupsMap.get(it.sku);
+    if (!g) {
+      g = {
+        sku: it.sku,
+        title: prod.title || ("Кольцо " + it.sku),
+        image: img,
+        avgWeight: avgW,
+        totalQty: 0,
+        totalWeight: 0
+      };
+      groupsMap.set(it.sku, g);
+    }
+
+    const qty = it.qty || 0;
+    g.totalQty += qty;
+    if (avgW != null) {
+      g.totalWeight += (Number(avgW) || 0) * qty;
+    }
+  });
+
+  const groups = Array.from(groupsMap.values());
+
+  const rows = groups.map(g => {
+    const totalW = g.totalWeight && !isNaN(g.totalWeight) ? formatWeight(g.totalWeight) + " г" : "";
+    const totalLine = totalW
+      ? `Всего: ${g.totalQty} шт · ~ ${totalW}`
+      : `Всего: ${g.totalQty} шт`;
 
     return `
-      <div class="list-item cart-row" data-idx="${idx}">
+      <div class="list-item cart-row" data-sku="${g.sku}">
         <div class="cart-thumb">
-          <img src="${img}" alt="">
+          <img src="${g.image}" alt="">
         </div>
         <div class="cart-meta">
-          <div class="badge">Арт. ${it.sku}</div>
-
-          <div class="cart-header-row">
-            <div class="cart-title">
-              ${it.title || ("Кольцо " + it.sku)}
-            </div>
-            <div class="qty-inline">
-              <button type="button" data-act="dec" data-idx="${idx}">−</button>
-              <span>${it.qty}</span>
-              <button type="button" data-act="inc" data-idx="${idx}">+</button>
-            </div>
+          <div class="badge">Арт. ${g.sku}</div>
+          <div class="cart-title">
+            ${g.title}
           </div>
-
           <div class="cart-sub">
-            ${digitsLine}
+            ${totalLine}
           </div>
         </div>
       </div>
     `;
   }).join("");
 
+  // Общие итоги по всей корзине
   const totalWeight = cart.reduce((s, it) => {
     const prod = PRODUCTS.find(p => p.sku === it.sku) || {};
     const w = it.avgWeight != null ? it.avgWeight : prod.avgWeight;
@@ -313,7 +260,7 @@ function renderOrder() {
     <div class="card">
       <div class="section-title">Итого</div>
       <div style="margin-bottom:10px;">
-        Позиции: ${cart.length}, штук: ${totalQty}, вес ~ ${formatWeight(totalWeight)} г
+        Позиции: ${groups.length}, штук: ${totalQty}, вес ~ ${formatWeight(totalWeight)} г
       </div>
 
       <button id="copyOrder" class="btn-primary" type="button">
@@ -328,55 +275,39 @@ function renderOrder() {
     </div>
   `;
 
-  // обработка +/-
+  // Клик по строке модели — переходим в детальное редактирование этой модели
   box.onclick = function(e) {
-    const btn = e.target.closest("button");
-    if (!btn || !btn.dataset.act) return;
-
-    const act = btn.dataset.act;
-    const idx = Number(btn.dataset.idx);
-    if (isNaN(idx)) return;
-
-    const cartNow = loadCart();
-    const item = cartNow[idx];
-    if (!item) return;
-
-    if (act === "inc") {
-      item.qty = Math.min(999, (item.qty || 0) + 1);
-    } else if (act === "dec") {
-      item.qty = Math.max(1, (item.qty || 0) - 1);
-    }
-
-    saveCart(cartNow);
-    renderOrder();
+    const row = e.target.closest(".cart-row");
+    if (!row) return;
+    const sku = row.dataset.sku;
+    if (!sku) return;
+    window.location.href = "order_item.html?sku=" + encodeURIComponent(sku);
   };
 
-  // копирование заявки
+  // копирование заявки (как и раньше)
   $("#copyOrder").onclick = () => {
-  const cartNow = loadCart();
-  if (!cartNow.length) return;
+    const cartNow = loadCart();
+    if (!cartNow.length) return;
 
-  // Формат для Excel / Google Sheets:
-  // строка заголовка + строки вида "артикул;размер;кол-во"
-  const header = "Артикул;Размер;Кол-во";
-  const lines = cartNow.map(it =>
-    `${it.sku};${it.size};${it.qty}`
-  );
+    const header = "Артикул;Размер;Кол-во";
+    const lines = cartNow.map(it =>
+      `${it.sku};${it.size};${it.qty}`
+    );
 
-  const txt = header + "\n" + lines.join("\n");
+    const txt = header + "\n" + lines.join("\n");
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
-  } else {
-    const ta = document.createElement("textarea");
-    ta.value = txt;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-    toast("Заявка скопирована");
-  }
-};
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      toast("Заявка скопирована");
+    }
+  };
 
   $("#clearOrder").onclick = () => {
     if (!confirm("Очистить корзину?")) return;
@@ -389,30 +320,210 @@ function renderOrder() {
   };
 
   $("#sendToManager").onclick = () => {
-  const cartNow = loadCart();
-  if (!cartNow.length) {
-    toast("Корзина пуста");
+    const cartNow = loadCart();
+    if (!cartNow.length) {
+      toast("Корзина пуста");
+      return;
+    }
+
+    const lines = cartNow.map(it =>
+      `${it.sku};${it.size};${it.qty}`
+    );
+
+    const txt =
+      "Здравствуйте! Отправляю заявку по каталогу Жемчужина.\n\n" +
+      "Артикул;Размер;Кол-во\n" +
+      lines.join("\n") +
+      "\n\nС уважением,\n";
+
+    const phone = MANAGER_PHONE;
+    const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(txt);
+
+    window.open(url, "_blank");
+  };
+
+  updateCartBadge();
+}
+
+/* === КАРТОЧКА МОДЕЛИ В КОРЗИНЕ (по одному артикулу) === */
+
+function renderOrderItem() {
+  const box = $("#orderItem");
+  if (!box) { updateCartBadge(); return; }
+
+  const params = new URLSearchParams(window.location.search);
+  const sku = params.get("sku");
+  if (!sku) {
+    box.innerHTML = "<div class='card'>Не указан артикул.</div>";
     return;
   }
 
-  const lines = cartNow.map(it =>
-    `${it.sku};${it.size};${it.qty}`
-  );
+  const cart = loadCart();
+  const items = cart.filter(it => it.sku === sku);
+  if (!items.length) {
+    box.innerHTML = "<div class='card'>В корзине нет позиций по артикулу " + sku + ".</div>";
+    return;
+  }
 
-  const txt =
-    "Здравствуйте! Отправляю заявку по каталогу Жемчужина.\n\n" +
-    "Артикул;Размер;Кол-во\n" +
-    lines.join("\n") +
-    "\n\nС уважением,\n";
+  const prod = PRODUCTS.find(p => p.sku === sku) || {};
+  const img = (items[0].image) || (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/900";
+  const avgW = items[0].avgWeight != null ? items[0].avgWeight : prod.avgWeight;
 
-  const phone = MANAGER_PHONE;
-  const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(txt);
+  const title = prod.title || ("Кольцо " + sku);
 
-  window.open(url, "_blank");
-};
+  const totalQty = items.reduce((s, it) => s + (it.qty || 0), 0);
+  const totalWeight = avgW != null
+    ? items.reduce((s, it) => s + (it.qty || 0) * (Number(avgW) || 0), 0)
+    : null;
 
-updateCartBadge();
+  const rows = items.map(it => {
+    const size = it.size;
+    const qty = it.qty || 0;
+    const lineWeight = avgW != null
+      ? formatWeight((Number(avgW) || 0) * qty) + " г"
+      : "";
+
+    return `
+      <div class="size-row" data-size="${size}">
+        <div class="size-row-size">р-р ${size}</div>
+        <div class="size-row-qty">
+          <button type="button" data-act="dec" data-size="${size}">−</button>
+          <span>${qty}</span>
+          <button type="button" data-act="inc" data-size="${size}">+</button>
+        </div>
+        <div class="size-row-weight">
+          ${lineWeight}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  const totalLine = totalWeight != null
+    ? `Всего: ${totalQty} шт · ~ ${formatWeight(totalWeight)} г`
+    : `Всего: ${totalQty} шт`;
+
+  box.innerHTML = `
+    <div class="card model-edit">
+      <div class="model-photo-wrap">
+        <img src="${img}" alt="${title}">
+      </div>
+
+      <div class="model-edit-body">
+        <div class="model-head">
+          <div class="badge">Арт. ${sku}</div>
+          <div class="model-title">${title}</div>
+          ${avgW != null ? `<div class="model-avg">Средний вес ~ ${formatWeight(avgW)} г</div>` : ""}
+        </div>
+
+        <div class="model-sizes-list">
+          ${rows}
+        </div>
+
+        <div class="model-summary">
+          ${totalLine}
+        </div>
+
+        <button id="modelDone" class="btn-primary" type="button">
+          Готово
+        </button>
+      </div>
+    </div>
+  `;
+
+  // обработка +/- по размерам внутри модели
+  box.onclick = function(e) {
+    const btn = e.target.closest("button");
+    if (!btn || !btn.dataset.act) return;
+
+    const act = btn.dataset.act;
+    const size = btn.dataset.size;
+    if (!size) return;
+
+    const cartNow = loadCart();
+    const item = cartNow.find(it => it.sku === sku && String(it.size) === String(size));
+    if (!item) return;
+
+    if (act === "inc") {
+      item.qty = Math.min(999, (item.qty || 0) + 1);
+    } else if (act === "dec") {
+      const next = (item.qty || 0) - 1;
+      item.qty = next < 0 ? 0 : next;
+    }
+
+    const cleaned = cartNow.filter(it => !(it.sku === sku && it.size === size && (!it.qty || it.qty <= 0)));
+
+    saveCart(cleaned);
+    const stillHas = cleaned.some(it => it.sku === sku);
+    if (!stillHas) {
+      window.location.href = "order.html";
+    } else {
+      renderOrderItem();
+      updateCartBadge();
+    }
+  };
+
+  const btnDone = $("#modelDone", box);
+  if (btnDone) {
+    btnDone.onclick = () => {
+      window.location.href = "order.html";
+    };
+  }
+
+  updateCartBadge();
 }
+
+/* === ТОСТЫ === */
+
+function toast(msg) {
+  let el = $(".toast");
+  if (!el) {
+    el = document.createElement("div");
+    el.className = "toast";
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 1800);
+}
+
+/* === АНИМАЦИЯ "УЛЁТА" В КОРЗИНУ === */
+
+function animateAddToCart(sourceEl) {
+  const cartCount = $("#cartCount");
+  if (!sourceEl || !cartCount) return;
+
+  const s = sourceEl.getBoundingClientRect();
+  const c = cartCount.getBoundingClientRect();
+
+  const dot = document.createElement("div");
+  dot.className = "fly-dot";
+  dot.style.position = "fixed";
+  dot.style.width = "26px";
+  dot.style.height = "26px";
+  dot.style.borderRadius = "999px";
+  dot.style.background = "#6A1F2A";
+  dot.style.boxShadow = "0 0 0 2px rgba(248,250,252,0.9)";
+  dot.style.left = (s.left + s.width / 2) + "px";
+  dot.style.top = (s.top + s.height / 2) + "px";
+  dot.style.transform = "translate(0,0) scale(1)";
+  dot.style.opacity = "0.97";
+  dot.style.zIndex = "999";
+  dot.style.transition = "transform 0.7s ease, opacity 0.7s ease";
+  document.body.appendChild(dot);
+
+  requestAnimationFrame(() => {
+    const dx = c.left + c.width / 2 - (s.left + s.width / 2);
+    const dy = c.top + c.height / 2 - (s.top + s.height / 2);
+    dot.style.transform = `translate(${dx}px, ${dy}px) scale(0.25)`;
+    dot.style.opacity = "0";
+  });
+
+  setTimeout(() => {
+    dot.remove();
+  }, 750);
+}
+
+/* === СВАЙП-УДАЛЕНИЕ (пока работает только для старого формата, для новых строк не мешает) === */
 
 function initSwipeToDelete() {
   let startX = 0;
@@ -461,6 +572,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("#grid")) renderGrid();
   if ($("#product")) renderProduct();
   if ($("#order")) renderOrder();
+  if ($("#orderItem")) renderOrderItem();
   updateCartBadge();
   initSwipeToDelete();
 });
