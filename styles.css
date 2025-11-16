@@ -828,21 +828,3 @@ img {
     height: 0;
   }
 }
-
-/* === Экран модели в заказе: фиксированная кнопка "Готово" === */
-@media (max-width: 900px) {
-  /* чтобы список размеров не уезжал под кнопку */
-  .model-edit-body {
-    padding-bottom: 90px;
-  }
-
-  #modelDone {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
-    width: calc(100% - 32px);   /* те же поля, что у контента */
-    max-width: 980px;
-    z-index: 50;
-  }
-}
