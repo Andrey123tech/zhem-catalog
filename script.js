@@ -83,7 +83,10 @@ function renderProduct() {
 
   const img = (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/900";
   const w = prod.avgWeight != null ? formatWeight(prod.avgWeight) + " г" : "";
-  const sizes = prod.sizes && prod.sizes.length ? prod.sizes : ["18.0", "18.5", "19.0"];
+  // Берём общую размерную линейку из catalog_data.js
+const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.length)
+  ? SIZES
+  : (prod.sizes && prod.sizes.length ? prod.sizes : ["18.0", "18.5", "19.0"]);
 
   box.innerHTML = `
     <div class="product-main">
