@@ -778,23 +778,43 @@ img {
   }
 }
 
-/* === Корзина: запас под фиксированной кнопкой === */
+/* === Корзина: компактный блок "Итого" и кнопки === */
+.order-summary-card {
+  margin-top: 8px;
+}
+
+.order-summary-text {
+  margin: 8px 0 12px;
+  font-size: 15px;
+  color: #111827;
+}
+
+.order-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.order-action-btn {
+  flex: 1;
+}
+
+/* Немного запаса под фиксированной кнопкой */
 .order-bottom-space {
   height: 90px;
 }
 
-/* === Корзина: нижняя фиксированная кнопка "Менеджеру" === */
+/* Фиксированная нижняя кнопка "Менеджеру" (как "В корзину") */
 .order-footer-btn {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
   bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
-  width: calc(100% - 32px);  /* те же отступы, что у контента (по 16px) */
+  width: calc(100% - 32px);
   max-width: 980px;
   z-index: 50;
 }
 
-/* На больших экранах ведём себя как обычная кнопка (без фиксации) */
+/* На больших экранах ведём себя как обычная кнопка */
 @media (min-width: 901px) {
   .order-footer-btn {
     position: static;
@@ -806,12 +826,5 @@ img {
 
   .order-bottom-space {
     height: 0;
-  }
-}
-
-/* Мобильная корзина: показываем только нижнюю большую кнопку "Менеджеру" */
-@media (max-width: 900px) {
-  #sendToManager {
-    display: none;
   }
 }

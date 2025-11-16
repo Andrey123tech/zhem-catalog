@@ -260,22 +260,17 @@ function renderOrder() {
   box.innerHTML = `
     <div class="list">${rows}</div>
     <div style="height:10px"></div>
-    <div class="card">
+    <div class="card order-summary-card">
       <div class="section-title">Итого</div>
-      <div style="margin-bottom:10px;">
+      <div class="order-summary-text">
         Позиции: ${groups.length}, штук: ${totalQty}, вес ~ ${formatWeight(totalWeight)} г
       </div>
-
-      <button id="copyOrder" class="btn-primary" type="button">
-        Скопировать заявку
-      </button>
-
-      <div class="btn-row">
-        <button id="clearOrder" class="btn small" type="button">Очистить</button>
-        <button id="continueOrder" class="btn small" type="button">Продолжить отбор</button>
-        <button id="sendToManager" class="btn small" type="button">Менеджеру</button>
+      <div class="order-actions">
+        <button id="clearOrder" class="btn small order-action-btn" type="button">Очистить</button>
+        <button id="copyOrder" class="btn small order-action-btn" type="button">Скопировать</button>
       </div>
     </div>
+    <div class="order-bottom-space"></div>
   `;
 
   // Клик по строке модели — переходим в детальное редактирование этой модели
@@ -318,10 +313,6 @@ function renderOrder() {
     renderOrder();
   };
 
-  $("#continueOrder").onclick = () => {
-    window.location.href = "catalog.html";
-  };
-
   $("#sendToManager").onclick = () => {
     const cartNow = loadCart();
     if (!cartNow.length) {
@@ -344,12 +335,6 @@ function renderOrder() {
 
     window.open(url, "_blank");
   };
-
-    // Нижняя фиксированная кнопка "Менеджеру" вызывает ту же логику
-  const footerBtn = $("#sendToManagerFixed");
-  if (footerBtn) {
-    footerBtn.onclick = $("#sendToManager").onclick;
-  }
 
   updateCartBadge();
 }
