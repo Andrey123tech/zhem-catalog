@@ -846,3 +846,107 @@ img {
     z-index: 50;
   }
 }
+
+/* === Типографика под iOS-ощущения === */
+
+/* Вкладки вверху: Главная / Каталог / Заказ */
+.tab-link {
+  font-size: 15px;
+}
+
+/* Крупные заголовки на страницах (hero) */
+.hero-title {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.hero-sub {
+  font-size: 15px;
+}
+
+/* Карточки в каталоге */
+.tile-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.tile-sub {
+  font-size: 13px;
+}
+
+/* Карточка товара */
+.product-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.product-art {
+  font-size: 14px;
+}
+
+.product-weight {
+  font-size: 14px;
+}
+
+/* Подписи "Размер", "Кол-во" */
+.field-label {
+  font-size: 14px;
+}
+
+/* Значения в селекте и счётчике */
+.field-control,
+.qty-inline {
+  font-size: 16px;
+}
+
+/* Общие кнопки */
+.btn,
+.btn.small,
+.btn-primary {
+  font-size: 16px;
+}
+
+/* Список в корзине */
+.cart-title {
+  font-size: 16px;
+}
+
+.cart-sub {
+  font-size: 14px;
+}
+
+.cart-meta {
+  font-size: 13px;
+}
+
+/* Блок "Итого" в корзине */
+.order-summary-text {
+  font-size: 15px;
+}
+
+/* Экран модели в корзине */
+.model-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.model-avg {
+  font-size: 13px;
+}
+
+.model-summary {
+  font-size: 15px;
+}
+
+/* Строки размеров в модели */
+.size-row {
+  font-size: 15px;
+}
+
+.size-row-size {
+  font-size: 15px;
+}
+
+.size-row-weight {
+  font-size: 13px;
+}
