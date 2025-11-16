@@ -950,3 +950,37 @@ img {
 .size-row-weight {
   font-size: 13px;
 }
+
+/* === Каталог: плитки 3×4, центрированный текст === */
+
+.tile-body {
+  text-align: center;
+  padding: 6px 6px 10px;
+}
+
+.tile-title {
+  font-size: 16px;       /* если нужно — мы уже потом точечно подгоним */
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.tile-sub {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.tile-sub span {
+  white-space: nowrap;
+}
+
+.tile-art {
+  opacity: 0.9;
+}
+
+.tile-weight {
+  opacity: 0.9;
+}
