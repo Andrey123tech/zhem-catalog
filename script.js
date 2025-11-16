@@ -424,7 +424,7 @@ function renderOrderItem() {
     </div>
   `;
 
-  // обработка +/- по размерам внутри модели
+  // Обработка +/- по размерам БЕЗ полной перерисовки
   box.onclick = function(e) {
     const btn = e.target.closest("button");
     if (!btn || !btn.dataset.act) return;
@@ -433,30 +433,71 @@ function renderOrderItem() {
     const size = btn.dataset.size;
     if (!size) return;
 
-    const cartNow = loadCart();
-    const item = cartNow.find(it => it.sku === sku && String(it.size) === String(size));
+    const row = btn.closest(".size-row");
+    if (!row) return;
+
+    const qtySpan = row.querySelector(".size-row-qty span");
+    const weightCell = row.querySelector(".size-row-weight");
+
+    let cartNow = loadCart();
+    let item = cartNow.find(it => it.sku === sku && String(it.size) === String(size));
     if (!item) return;
 
+    let qty = item.qty || 0;
     if (act === "inc") {
-      item.qty = Math.min(999, (item.qty || 0) + 1);
+      qty = Math.min(999, qty + 1);
     } else if (act === "dec") {
-      const next = (item.qty || 0) - 1;
-      item.qty = next < 0 ? 0 : next;
+      qty = Math.max(0, qty - 1);
     }
 
-    const cleaned = cartNow.filter(it => !(it.sku === sku && it.size === size && (!it.qty || it.qty <= 0)));
-
-        saveCart(cleaned);
-    const stillHas = cleaned.some(it => it.sku === sku);
-    if (!stillHas) {
-      window.location.href = "order.html";
+    // Если количество стало 0 — удаляем размер
+    if (qty === 0) {
+      cartNow = cartNow.filter(it => !(it.sku === sku && String(it.size) === String(size)));
+      row.remove();
     } else {
-      // запоминаем позицию скролла, чтобы экран не "прыгнул"
-      const prevY = window.scrollY || window.pageYOffset || 0;
-      renderOrderItem();
-      window.scrollTo(0, prevY);
-      updateCartBadge();
+      item.qty = qty;
+      qtySpan.textContent = qty;
+      if (avgW != null) {
+        const lw = (Number(avgW) || 0) * qty;
+        weightCell.textContent = formatWeight(lw) + " г";
+      }
     }
+
+    saveCart(cartNow);
+
+    // Пересчитываем итог по этой модели
+    const itemsForSku = cartNow.filter(it => it.sku === sku);
+    if (!itemsForSku.length) {
+      // если по этому артикулу больше нет размеров — уходим в корзину
+      window.location.href = "order.html";
+      return;
+    }
+
+    const newTotalQty = itemsForSku.reduce((s, it) => s + (it.qty || 0), 0);
+    const newTotalWeight = avgW != null
+      ? itemsForSku.reduce((s, it) => s + (it.qty || 0) * (Number(avgW) || 0), 0)
+      : null;
+
+    const summaryEl = box.querySelector(".model-summary");
+    if (summaryEl) {
+      const newLine = newTotalWeight != null
+        ? `Всего: ${newTotalQty} шт · ~ ${formatWeight(newTotalWeight)} г`
+        : `Всего: ${newTotalQty} шт`;
+      summaryEl.textContent = newLine;
+    }
+
+    updateCartBadge();
+  };
+
+  const btnDone = $("#modelDone", box);
+  if (btnDone) {
+    btnDone.onclick = () => {
+      window.location.href = "order.html";
+    };
+  }
+
+  updateCartBadge();
+}
   };
 
   const btnDone = $("#modelDone", box);
