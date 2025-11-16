@@ -345,6 +345,12 @@ function renderOrder() {
     window.open(url, "_blank");
   };
 
+    // Нижняя фиксированная кнопка "Менеджеру" вызывает ту же логику
+  const footerBtn = $("#sendToManagerFixed");
+  if (footerBtn) {
+    footerBtn.onclick = $("#sendToManager").onclick;
+  }
+
   updateCartBadge();
 }
 
