@@ -758,3 +758,26 @@ img {
 #modelDone {
   margin-top: 10px;
 }
+
+/* === Фиксированная кнопка "В корзину" на карточке === */
+.product-controls {
+  position: relative;
+  padding-bottom: 80px; /* чтобы элементы не уезжали под кнопку */
+}
+
+#addToCart {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-radius: 0;
+  margin: 0;
+  z-index: 999;
+}
+
+/* Чтобы кнопка не перекрывала Safari toolbar */
+@supports (-webkit-touch-callout: none) {
+  #addToCart {
+    bottom: env(safe-area-inset-bottom);
+  }
+}
