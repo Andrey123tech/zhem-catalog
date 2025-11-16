@@ -758,3 +758,22 @@ img {
 #modelDone {
   margin-top: 10px;
 }
+
+/* === Фиксированная кнопка "В корзину" только на карточке товара === */
+@media (max-width: 900px) {
+  /* Чтобы контент не уезжал под кнопку при прокрутке */
+  .product-controls {
+    padding-bottom: 80px;
+  }
+
+  /* Кнопка остаётся той же, просто закрепляем её внизу экрана */
+  #addToCart {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+    width: calc(100% - 32px);   /* те же поля, что у контента (по 16px слева/справа) */
+    max-width: 980px;           /* ширина как у контентной области */
+    z-index: 50;
+  }
+}
