@@ -1,6 +1,7 @@
-/* Жемчужина · B2B каталог
- * Каталог, карточка, корзина.
- */
+/* ===============================
+   Жемчужина · B2B каталог
+   Полный рабочий script.js
+   =============================== */
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -82,35 +83,7 @@ function flyToCart(sourceEl) {
   setTimeout(() => ghost.remove(), 600);
 }
 
-/* Добавление в корзину (было и остаётся) */
-
-function addToCart(product, size, qty) {
-  if (!product || !product.sku) return;
-  qty = Number(qty) || 1;
-  if (qty <= 0) return;
-
-  const cart = loadCart();
-  const idx = cart.findIndex(
-    it => it.sku === product.sku && String(it.size) === String(size)
-  );
-
-  const base = {
-    sku: product.sku,
-    title: product.title,
-    size,
-    avgWeight: product.avgWeight,
-    image: product.images && product.images[0]
-  };
-
-  if (idx >= 0) {
-    cart[idx].qty = Math.min(999, (cart[idx].qty || 0) + qty);
-  } else {
-    cart.push({ ...base, qty });
-  }
-  saveCart(cart);
-}
-
-/* === КАТАЛОГ (3×4 сетка) === */
+/* === КАТАЛОГ 3×4 === */
 
 function renderGrid() {
   const grid = $("#grid");
@@ -139,7 +112,7 @@ function renderGrid() {
   }).join("");
 }
 
-/* === КАРТОЧКА ТОВАРА с панелью размеров === */
+/* === КАРТОЧКА ТОВАРА с панелью размеров (идеальная версия) === */
 
 function renderProduct() {
   const box = $("#product");
@@ -163,7 +136,7 @@ function renderProduct() {
   let shortTitle = fullTitle.replace(product.sku, "").trim();
   if (!shortTitle) shortTitle = "Кольцо";
 
-  const sizeList = (Array.isArray(SIZES) && SIZES.length ? SIZES : ["15.5", "16.0", "16.5", "17.0", "17.5", "18.0"])
+  const sizeList = (Array.isArray(SIZES) && SIZES.length ? SIZES : ["15.5","16.0","16.5","17.0","17.5","18.0"])
     .slice()
     .sort((a, b) => parseFloat(a) - parseFloat(b));
 
@@ -190,27 +163,18 @@ function renderProduct() {
       <div class="product-controls">
         <div class="field">
           <div class="field-label">РАЗМЕРЫ</div>
-          <button type="button" id="openSizePanel" class="size-picker-btn">
-            Выбрать размеры
-          </button>
-          <div class="size-picker-summary" id="sizeSummary">
-            Ничего не выбрано
-          </div>
+          <button id="openSizePanel" class="size-picker-btn">Выбрать размеры</button>
+          <div class="size-picker-summary" id="sizeSummary">Ничего не выбрано</div>
         </div>
 
-        <button id="addToCart" class="btn-primary btn-full" type="button">
-          В корзину
-        </button>
+        <button id="addToCart" class="btn-primary btn-full">В корзину</button>
       </div>
 
-      <!-- панель размеров -->
       <div id="sizePanel" class="size-panel hidden">
         <div class="size-panel-inner">
           <div class="size-panel-header">
             <div class="size-panel-title">Размеры кольца</div>
-            <div class="size-panel-sub">
-              Выберите нужные размеры и количество
-            </div>
+            <div class="size-panel-sub">Выберите нужные размеры и количество</div>
           </div>
 
           <div class="size-panel-list">
@@ -218,26 +182,24 @@ function renderProduct() {
               <div class="size-row" data-size="${size}">
                 <div class="size-row-size">р-р ${size}</div>
                 <div class="size-row-qty">
-                  <button type="button" data-act="dec">−</button>
+                  <button data-act="dec">−</button>
                   <span>0</span>
-                  <button type="button" data-act="inc">+</button>
+                  <button data-act="inc">+</button>
                 </div>
               </div>
             `).join("")}
           </div>
 
           <div class="size-panel-footer">
-            <div class="size-panel-total" id="sizePanelTotal">
-              Всего: 0 шт
-            </div>
-            <button type="button" id="sizePanelDone" class="btn-primary btn-full">
-              Готово
-            </button>
+            <div class="size-panel-total" id="sizePanelTotal">Всего: 0 шт</div>
+            <button id="sizePanelDone" class="btn-primary btn-full">Готово</button>
           </div>
         </div>
       </div>
     </div>
   `;
+
+  /* ЛОГИКА ПАНЕЛИ */
 
   const sizePanel = $("#sizePanel");
   const openBtn = $("#openSizePanel");
@@ -247,14 +209,14 @@ function renderProduct() {
   const addBtn = $("#addToCart");
 
   const state = {};
-  sizeList.forEach(s => { state[String(s)] = 0; });
+  sizeList.forEach(s => { state[s] = 0; });
 
   function recalcTotals() {
     let totalQty = 0;
     let totalWeight = 0;
 
     sizeList.forEach(s => {
-      const q = state[String(s)] || 0;
+      const q = state[s] || 0;
       totalQty += q;
       if (avgWeightNum) totalWeight += q * avgWeightNum;
     });
@@ -263,82 +225,65 @@ function renderProduct() {
       totalEl.textContent = "Всего: 0 шт";
       summaryEl.textContent = "Ничего не выбрано";
     } else {
-      const wText = avgWeightNum ? ` · ~ ${formatWeight(totalWeight)} г` : "";
-      totalEl.textContent = `Всего: ${totalQty} шт${wText}`;
-      summaryEl.textContent = `Выбрано: ${totalQty} шт${wText}`;
+      const wTxt = avgWeightNum ? ` · ~ ${formatWeight(totalWeight)} г` : "";
+      totalEl.textContent = `Всего: ${totalQty} шт${wTxt}`;
+      summaryEl.textContent = `Выбрано: ${totalQty} шт${wTxt}`;
     }
   }
 
-  if (openBtn && sizePanel) {
-    openBtn.addEventListener("click", () => {
-      sizePanel.classList.remove("hidden");
-      recalcTotals();
-    });
-  }
+  openBtn.addEventListener("click", () => {
+    sizePanel.classList.remove("hidden");
+    recalcTotals();
+  });
 
-  if (sizePanel) {
-    sizePanel.addEventListener("click", (e) => {
-      const btn = e.target.closest("button");
-      if (!btn || !btn.dataset.act) return;
+  sizePanel.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn || !btn.dataset.act) return;
 
-      const row = btn.closest(".size-row");
-      if (!row) return;
+    const row = btn.closest(".size-row");
+    const size = row.dataset.size;
 
-      const size = String(row.dataset.size);
-      let q = state[size] || 0;
+    let q = state[size] || 0;
+    if (btn.dataset.act === "inc") q++;
+    if (btn.dataset.act === "dec") q = Math.max(0, q - 1);
+    state[size] = q;
 
-      if (btn.dataset.act === "inc") q = Math.min(999, q + 1);
-      if (btn.dataset.act === "dec") q = Math.max(0, q - 1);
+    row.querySelector("span").textContent = q;
+    recalcTotals();
+  });
 
-      state[size] = q;
+  doneBtn.addEventListener("click", () => {
+    sizePanel.classList.add("hidden");
+    recalcTotals();
+  });
 
-      const span = row.querySelector(".size-row-qty span");
-      if (span) span.textContent = String(q);
+  addBtn.addEventListener("click", () => {
+    const cart = loadCart();
+    let added = 0;
 
-      recalcTotals();
-    });
-  }
-
-  if (doneBtn && sizePanel) {
-    doneBtn.addEventListener("click", () => {
-      sizePanel.classList.add("hidden");
-      recalcTotals();
-    });
-  }
-
-  if (addBtn) {
-    addBtn.addEventListener("click", () => {
-      const cart = loadCart();
-      let added = 0;
-
-      sizeList.forEach(size => {
-        const qty = state[String(size)] || 0;
-        if (!qty) return;
-
-        cart.push({
-          sku: product.sku,
-          title: product.title,
-          size,
-          qty,
-          avgWeight: product.avgWeight,
-          image: imgSrc
-        });
-        added += qty;
+    sizeList.forEach(size => {
+      const q = state[size];
+      if (!q) return;
+      cart.push({
+        sku: product.sku,
+        title: product.title,
+        size,
+        qty: q,
+        avgWeight: product.avgWeight,
+        image: imgSrc
       });
-
-      if (!added) {
-        return;
-      }
-
-      saveCart(cart);
-      updateCartBadge();
-      flyToCart(addBtn);
-      toast("Добавлено в заказ");
+      added += q;
     });
-  }
+
+    if (!added) return;
+    saveCart(cart);
+    updateCartBadge();
+    flyToCart(addBtn);
+    toast("Добавлено в заказ");
+  });
 }
 
-/* === КОРЗИНА (как в архиве) === */
+/* === КОРЗИНА (исправленная группировка) === */
 
 function renderOrder() {
   const box = $("#order");
@@ -347,34 +292,36 @@ function renderOrder() {
   const cart = loadCart();
   if (!cart.length) {
     box.innerHTML = "<div class='card'>Корзина пуста.</div>";
-    box.onclick = null;
-    updateCartBadge();
     return;
   }
 
-  const rows = cart.map((it, idx) => {
-    const prod = PRODUCTS.find(p => p.sku === it.sku) || {};
-    const img = it.image || (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/200";
-    const w = it.avgWeight != null
-      ? formatWeight(it.avgWeight)
-      : (prod.avgWeight != null ? formatWeight(prod.avgWeight) : null);
+  /* === группировка по SKU === */
+  const groups = {};
+  cart.forEach(it => {
+    if (!groups[it.sku]) groups[it.sku] = [];
+    groups[it.sku].push(it);
+  });
 
-    const lineWeight = w && it.qty ? formatWeight((Number(w.replace(",", ".")) || 0) * (it.qty || 0)) : null;
+  const rows = Object.keys(groups).map((sku, idx) => {
+    const items = groups[sku];
+    const prod = PRODUCTS.find(p => p.sku === sku) || {};
+    const img = items[0].image || (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/200";
+
+    const sizesHtml = items
+      .sort((a,b)=>parseFloat(a.size)-parseFloat(b.size))
+      .map(it => `р-р ${it.size}: ${it.qty} шт`)
+      .join("<br>");
 
     return `
       <div class="cart-row" data-idx="${idx}">
         <div class="cart-main">
-          <div class="cart-thumb">
-            <img src="${img}" alt="${prod.title || it.sku}">
-          </div>
+          <div class="cart-thumb"><img src="${img}"></div>
           <div class="cart-body">
-            <div class="cart-art">Арт. ${it.sku}</div>
-            <div class="cart-title">${prod.title || it.title || ("Кольцо " + it.sku)}</div>
-            <div class="cart-sub">
-              р-р ${it.size} · ${it.qty} шт${lineWeight ? ` · ~ ${lineWeight} г` : ""}
-            </div>
+            <div class="cart-art">Арт. ${sku}</div>
+            <div class="cart-title">${prod.title || items[0].title || "Кольцо " + sku}</div>
+            <div class="cart-sub">${sizesHtml}</div>
             <div class="cart-actions">
-              <button class="btn-outline small" data-act="open" data-idx="${idx}">Изменить размеры</button>
+              <button class="btn-outline small" data-act="open" data-sku="${sku}">Изменить размеры</button>
             </div>
           </div>
         </div>
@@ -382,31 +329,25 @@ function renderOrder() {
     `;
   }).join("");
 
-  const totalQty = cart.reduce((sum, it) => sum + (Number(it.qty) || 0), 0);
-  const avg = cart.map(it => {
-    const prod = PRODUCTS.find(p => p.sku === it.sku) || {};
-    return it.avgWeight != null ? it.avgWeight : prod.avgWeight;
-  });
-  const totalWeight = cart.reduce((sum, it, i) => {
-    const w = avg[i];
-    if (w == null) return sum;
-    return sum + (Number(w) || 0) * (Number(it.qty) || 0);
-  }, 0);
+
+  /* === Итоговые подсчёты === */
+
+  const totalQty = cart.reduce((s, it)=>s+Number(it.qty||0),0);
+  const totalWeight = cart.reduce((s,it)=>{
+    const w = Number(it.avgWeight||0);
+    return s + w*(it.qty||0);
+  },0);
 
   box.innerHTML = `
     <div class="card">
       <h1 class="cart-title-main">Итог</h1>
       <p class="cart-sub-main">
-        Позиции: ${cart.length}, штук: ${totalQty}, вес ~ ${formatWeight(totalWeight)} г
+        Позиции: ${Object.keys(groups).length}, штук: ${totalQty}, вес ~ ${formatWeight(totalWeight)} г
       </p>
 
-      <div class="list">
-        ${rows}
-      </div>
+      <div class="list">${rows}</div>
 
-      <button id="copyOrder" class="btn-primary">
-        Скопировать заявку
-      </button>
+      <button id="copyOrder" class="btn-primary">Скопировать заявку</button>
 
       <div class="btn-row">
         <button id="clearCart" class="btn small">Очистить</button>
@@ -418,26 +359,14 @@ function renderOrder() {
 
   updateCartBadge();
 
-  const cartBox = box;
 
-  cartBox.onclick = e => {
-    const btn = e.target.closest("button");
-    if (!btn) return;
-
-    const act = btn.dataset.act;
-    const idx = Number(btn.dataset.idx);
-
-    if (act === "open") {
-      const url = `order_item.html?idx=${idx}`;
-      window.location.href = url;
-      return;
-    }
-  };
+  /* === ЛОГИКА КНОПОК === */
 
   $("#clearCart").onclick = () => {
-    if (!confirm("Очистить корзину?")) return;
-    clearCart();
-    renderOrder();
+    if (confirm("Очистить корзину?")) {
+      clearCart();
+      renderOrder();
+    }
   };
 
   $("#backToCatalog").onclick = () => {
@@ -448,95 +377,120 @@ function renderOrder() {
     const cartNow = loadCart();
     if (!cartNow.length) return;
 
-    const lines = cartNow.map(it =>
-      `Арт. ${it.sku}, р-р ${it.size}, кол-во ${it.qty}`
-    );
-    const msg = encodeURIComponent("Здравствуйте! Вот моя заявка:\n" + lines.join("\n") + "\n\nИмя: __________");
+    const groups = {};
+    cartNow.forEach(it=>{
+      if(!groups[it.sku]) groups[it.sku] = [];
+      groups[it.sku].push(it);
+    });
+
+    const lines = Object.keys(groups).map(sku=>{
+      const arr = groups[sku]
+        .sort((a,b)=>parseFloat(a.size)-parseFloat(b.size))
+        .map(it=>`${it.size} — ${it.qty} шт`)
+        .join(", ");
+      return `Арт. ${sku}: ${arr}`;
+    });
+
+    const msg = encodeURIComponent("Здравствуйте! Вот моя заявка:\n" + lines.join("\n") + "\n\nИмя: _______");
     window.location.href = "https://wa.me/77000000000?text=" + msg;
   };
 
   $("#copyOrder").onclick = () => {
     const cartNow = loadCart();
     if (!cartNow.length) return;
-    const lines = cartNow.map(it =>
-      `Арт. ${it.sku}, размер ${it.size}, кол-во ${it.qty}`
-    );
+
+    const groups = {};
+    cartNow.forEach(it=>{
+      if(!groups[it.sku]) groups[it.sku] = [];
+      groups[it.sku].push(it);
+    });
+
+    const lines = Object.keys(groups).map(sku=>{
+      const arr = groups[sku]
+        .sort((a,b)=>parseFloat(a.size)-parseFloat(b.size))
+        .map(it=>`${it.size}: ${it.qty} шт`)
+        .join(", ");
+      return `Арт. ${sku}: ${arr}`;
+    });
+
     const txt = "Заявка Жемчужина\n" + lines.join("\n");
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(txt).then(() => toast("Заявка скопирована"));
-    } else {
-      const ta = document.createElement("textarea");
-      ta.value = txt;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      toast("Заявка скопирована");
+
+    navigator.clipboard?.writeText(txt).then(() => toast("Заявка скопирована"));
+  };
+
+
+  /* === ПЕРЕХОД К КОРРЕКТИРОВКЕ === */
+
+  box.onclick = (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    if (btn.dataset.act === "open") {
+      const sku = btn.dataset.sku;
+      window.location.href = `order_item.html?sku=${sku}`;
     }
   };
 }
 
-/* === КОРРЕКТИРОВКА ОТДЕЛЬНОЙ МОДЕЛИ В КОРЗИНЕ (order_item.html) === */
+/* === КОРРЕКТИРОВКА ОДНОЙ МОДЕЛИ В КОРЗИНЕ === */
 
 function renderOrderItem() {
   const box = $("#orderItem");
   if (!box) return;
 
-  const idx = Number(getParam("idx"));
+  const sku = getParam("sku");
   const cart = loadCart();
-  const item = cart[idx];
-  if (!item) {
+  const items = cart.filter(it=>it.sku===sku);
+
+  if (!items.length) {
     box.innerHTML = "<div class='card'>Позиция не найдена.</div>";
     return;
   }
 
-  const prod = PRODUCTS.find(p => p.sku === item.sku) || {};
-  const img = item.image || (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/900";
-  const w = item.avgWeight != null
-    ? formatWeight(item.avgWeight)
+  const prod = PRODUCTS.find(p=>p.sku===sku) || {};
+  const img = items[0].image || (prod.images && prod.images[0]) ||
+              "https://picsum.photos/seed/placeholder/200";
+
+  const w = items[0].avgWeight != null
+    ? formatWeight(items[0].avgWeight)
     : (prod.avgWeight != null ? formatWeight(prod.avgWeight) : null);
 
-  const sizeList = (Array.isArray(SIZES) && SIZES.length ? SIZES : ["15.5","16.0","16.5","17.0","17.5","18.0"])
+  const sizeList = (Array.isArray(SIZES)&&SIZES.length?SIZES:["15.5","16.0","16.5","17.0","17.5","18.0"])
     .slice()
-    .sort((a, b) => parseFloat(a) - parseFloat(b));
+    .sort((a,b)=>parseFloat(a)-parseFloat(b));
 
   const state = {};
-  sizeList.forEach(s => { state[String(s)] = 0; });
-  state[String(item.size)] = item.qty || 1;
+  sizeList.forEach(s=>{
+    const found = items.find(it=>String(it.size)===String(s));
+    state[s] = found ? found.qty : 0;
+  });
 
   box.innerHTML = `
     <div class="card">
       <div class="order-item-header">
-        <div class="order-item-thumb">
-          <img src="${img}" alt="${prod.title || item.sku}">
-        </div>
+        <div class="order-item-thumb"><img src="${img}"></div>
         <div class="order-item-meta">
-          <div class="product-art">Арт. ${item.sku}</div>
-          <div class="product-title">${prod.title || item.title || ("Кольцо " + item.sku)}</div>
+          <div class="product-art">Арт. ${sku}</div>
+          <div class="product-title">${prod.title || items[0].title || ("Кольцо "+sku)}</div>
           ${w ? `<div class="product-weight">Средний вес ~ ${w} г</div>` : ""}
         </div>
       </div>
 
       <div class="order-item-sizes" id="orderItemSizes">
-        ${sizeList.map(size => `
+        ${sizeList.map(size=>`
           <div class="size-row" data-size="${size}">
             <div class="size-row-size">р-р ${size}</div>
             <div class="size-row-qty">
-              <button type="button" data-act="dec">−</button>
-              <span>${state[String(size)] || 0}</span>
-              <button type="button" data-act="inc">+</button>
+              <button data-act="dec">−</button>
+              <span>${state[size]||0}</span>
+              <button data-act="inc">+</button>
             </div>
           </div>
         `).join("")}
       </div>
 
       <div class="order-item-footer">
-        <div class="size-panel-total" id="orderItemTotal">
-          Всего: 0 шт
-        </div>
-        <button id="orderItemDone" class="btn-primary btn-full" type="button">
-          Готово
-        </button>
+        <div class="size-panel-total" id="orderItemTotal">Всего: 0 шт</div>
+        <button id="orderItemDone" class="btn-primary btn-full">Готово</button>
       </div>
     </div>
   `;
@@ -546,60 +500,53 @@ function renderOrderItem() {
   const doneBtn = $("#orderItemDone");
 
   function recalcTotals() {
-    let totalQty = 0;
-    sizeList.forEach(s => {
-      totalQty += state[String(s)] || 0;
-    });
-    totalEl.textContent = `Всего: ${totalQty} шт`;
+    let t = 0;
+    sizeList.forEach(s=>t+=state[s]||0);
+    totalEl.textContent = `Всего: ${t} шт`;
   }
 
   recalcTotals();
 
-  listEl.addEventListener("click", (e) => {
+  listEl.onclick = (e)=>{
     const btn = e.target.closest("button");
-    if (!btn || !btn.dataset.act) return;
+    if(!btn) return;
+
     const row = btn.closest(".size-row");
-    if (!row) return;
-    const size = String(row.dataset.size);
+    const size = row.dataset.size;
 
-    let q = state[size] || 0;
-    if (btn.dataset.act === "inc") q = Math.min(999, q + 1);
-    if (btn.dataset.act === "dec") q = Math.max(0, q - 1);
-    state[size] = q;
+    let q = state[size]||0;
+    if(btn.dataset.act==="inc") q++;
+    if(btn.dataset.act==="dec") q=Math.max(0,q-1);
 
-    const span = row.querySelector(".size-row-qty span");
-    if (span) span.textContent = String(q);
+    state[size]=q;
+    row.querySelector("span").textContent=q;
     recalcTotals();
-  });
+  };
 
-  doneBtn.addEventListener("click", () => {
+  doneBtn.onclick = ()=>{
     let newCart = loadCart();
-    const cur = newCart[idx];
-    if (!cur) return;
+    newCart = newCart.filter(it=>it.sku!==sku);
 
-    const newItems = [];
-    sizeList.forEach(size => {
-      const q = state[String(size)] || 0;
-      if (!q) return;
-      newItems.push({
-        ...cur,
-        size,
-        qty: q
-      });
+    sizeList.forEach(size=>{
+      const q = state[size];
+      if(q>0){
+        newCart.push({
+          sku,
+          size,
+          qty: q,
+          title: items[0].title,
+          avgWeight: items[0].avgWeight,
+          image: img
+        });
+      }
     });
 
-    if (!newItems.length) {
-      newCart.splice(idx, 1);
-    } else {
-      newCart.splice(idx, 1, ...newItems);
-    }
-
     saveCart(newCart);
-    window.location.href = "order.html";
-  });
+    window.location.href="order.html";
+  };
 }
 
-/* === СВАЙП УДАЛЕНИЯ В КОРЗИНЕ === */
+/* === СВАЙП УДАЛЕНИЯ ТОЛЬКО В КОРЗИНЕ === */
 
 function initSwipeToDelete() {
   const orderList = $("#order");
@@ -615,9 +562,9 @@ function initSwipeToDelete() {
     startX = e.touches[0].clientX;
     currentRow = row;
     swiped = false;
-  }, { passive: true });
+  });
 
-  document.addEventListener("touchmove", e => {
+  orderList.addEventListener("touchmove", e => {
     if (!currentRow) return;
     const dx = e.touches[0].clientX - startX;
     if (dx < -30) {
@@ -628,21 +575,25 @@ function initSwipeToDelete() {
       currentRow.style.transform = "";
       currentRow.style.opacity = "";
     }
-  }, { passive: true });
+  });
 
-  document.addEventListener("touchend", () => {
+  orderList.addEventListener("touchend", () => {
     if (!currentRow) return;
     if (swiped) {
       const idx = Number(currentRow.dataset.idx);
       const cartNow = loadCart();
-      if (!isNaN(idx) && cartNow[idx]) {
-        cartNow.splice(idx, 1);
-        saveCart(cartNow);
-        renderOrder();
-      }
-    } else {
-      currentRow.style.transform = "";
-      currentRow.style.opacity = "";
+      const groups = {};
+
+      cartNow.forEach(it=>{
+        if(!groups[it.sku]) groups[it.sku]=[];
+        groups[it.sku].push(it);
+      });
+
+      const skuToRemove = Object.keys(groups)[idx];
+      const newCart = cartNow.filter(it=>it.sku!==skuToRemove);
+
+      saveCart(newCart);
+      renderOrder();
     }
     currentRow = null;
   });
@@ -655,6 +606,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("#product")) renderProduct();
   if ($("#order")) renderOrder();
   if ($("#orderItem")) renderOrderItem();
+
   updateCartBadge();
   initSwipeToDelete();
 });
