@@ -1088,3 +1088,8 @@ body.no-scroll {
     font-size: 12.5px; /* ← если нужно ещё чуть-чуть места */
   }
 }
+
+/* Опустить клавишу "Выбрать размеры" на ~5 мм */
+.size-picker-display {
+  margin-top: 35px !important;
+}
