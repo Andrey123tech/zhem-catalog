@@ -103,10 +103,11 @@ function renderProduct() {
       </div>
 
       <div class="product-meta">
-        <div class="product-art">Арт. ${prod.sku}</div>
-        <h1 class="product-title">${prod.title || ("Кольцо " + prod.sku)}</h1>
-        ${w ? `<div class="product-weight">Средний вес ~ ${w}</div>` : ""}
-      </div>
+  <h1 class="product-title">
+    Кольцо · Арт. ${prod.sku}
+  </h1>
+  ${w ? `<div class="product-weight">Средний вес ~ ${w}</div>` : ""}
+</div>
 
       <div class="product-controls">
   <div class="product-controls-row">
