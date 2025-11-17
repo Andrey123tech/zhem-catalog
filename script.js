@@ -86,6 +86,9 @@ function renderProduct() {
 
   const img = (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/900";
   const w = prod.avgWeight != null ? formatWeight(prod.avgWeight) + " г" : "";
+  const fullTitle = prod.title || ("Кольцо " + prod.sku);
+  let shortTitle = fullTitle.replace(prod.sku, "").trim();
+  if (!shortTitle) shortTitle = "Кольцо";
   // Берём общую размерную линейку из catalog_data.js
 const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.length)
   ? SIZES
