@@ -74,118 +74,115 @@ function renderGrid() {
 /* === КАРТОЧКА ТОВАРА === */
 
 function renderProduct() {
-  const params = new URLSearchParams(location.search);
-  const sku = params.get("sku");
-  const prod = PRODUCTS.find(p => p.sku === sku);
+  const box = $("#product");
+  if (!box) return;
 
+  const sku = getSkuFromUrl();
+  const prod = PRODUCTS.find(p => p.sku === sku);
   if (!prod) {
-    $("#product").innerHTML = "<p>Товар не найден</p>";
+    box.innerHTML = "<p>Товар не найден.</p>";
     return;
   }
 
-  // Загружаем текущее состояние корзины (если клиент уже выбирал размеры)
-  const cart = loadCart();
-  const existing = cart.filter(it => it.sku === sku);
+  const img = (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/900";
+  const w = prod.avgWeight != null ? formatWeight(prod.avgWeight) + " г" : "";
+  // Берём общую размерную линейку из catalog_data.js
+const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.length)
+  ? SIZES
+  : (prod.sizes && prod.sizes.length ? prod.sizes : ["18.0", "18.5", "19.0"]);
 
-  // Собираем карту выбранных размеров
-  const selected = {};
-  existing.forEach(item => {
-    selected[item.size] = item.qty;
-  });
-
-  // Генерируем список размеров от 15.0 до 23.5 с шагом 0.5
-  const sizes = [];
-  for (let s = 15.0; s <= 23.5; s += 0.5) {
-    sizes.push(s.toFixed(1));
-  }
-
-  // Генерируем HTML строку для каждого размера
-  const sizesHtml = sizes.map(size => {
-    const qty = selected[size] || 0;
-    return `
-      <div class="prod-size-row" data-size="${size}">
-        <div class="prod-size-label">${size}</div>
-        <div class="prod-size-controls">
-          <button class="ps-minus" data-size="${size}">−</button>
-          <span class="ps-qty" id="qty-${size}">${qty}</span>
-          <button class="ps-plus" data-size="${size}">+</button>
-        </div>
-      </div>
-    `;
-  }).join("");
-
-  // Собираем саму страницу
-  $("#product").innerHTML = `
-    <div class="product-wrap">
-      <div class="product-image">
-        <img src="${prod.images[0]}" alt="${prod.title}">
+  box.innerHTML = `
+    <div class="product-main">
+      <div class="product-photo-wrap">
+        <img src="${img}" alt="${prod.title || prod.sku}">
       </div>
 
-      <div class="product-info">
-        <h1 class="product-title">${prod.title}</h1>
+      <div class="product-meta">
         <div class="product-art">Арт. ${prod.sku}</div>
+        <h1 class="product-title">${prod.title || ("Кольцо " + prod.sku)}</h1>
+        ${w ? `<div class="product-weight">Средний вес ~ ${w}</div>` : ""}
       </div>
 
-      <div class="sizes-panel">
-        <div class="sizes-list">
-          ${sizesHtml}
+      <div class="product-controls">
+        <div class="product-controls-row">
+          <div class="field">
+            <div class="field-label">Размер</div>
+            <div class="field-control size-control">
+              <select id="sizeSelect" class="size-select">
+                ${sizes.map(s => `
+                  <option value="${s}">${s}</option>
+                `).join("")}
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">Кол-во</div>
+            <div class="field-control">
+              <div class="qty-inline">
+                <button id="qtyMinus" type="button">−</button>
+                <span id="qtyVal">1</span>
+                <button id="qtyPlus" type="button">+</button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="product-button-wrap">
-        <button id="addToCart" class="btn-main add-btn-fixed">Добавить в заказ</button>
+        <button id="addToCart" class="btn-primary" type="button">
+          В корзину
+        </button>
       </div>
     </div>
   `;
 
-  // === ЛОГИКА КНОПОК +/− ===
+  const sizeSelect = $("#sizeSelect", box);
+  const qtyValEl   = $("#qtyVal", box);
+  const btnMinus   = $("#qtyMinus", box);
+  const btnPlus    = $("#qtyPlus", box);
+  const btnAdd     = $("#addToCart", box);
 
-  $$(".ps-plus").forEach(btn => {
-    btn.onclick = () => {
-      const size = btn.dataset.size;
-      let qty = selected[size] || 0;
-      qty++;
-      selected[size] = qty;
-      $(`#qty-${size}`).textContent = qty;
+  if (btnMinus && btnPlus && qtyValEl) {
+    btnMinus.onclick = () => {
+      let v = Number(qtyValEl.textContent) || 1;
+      v = Math.max(1, v - 1);
+      qtyValEl.textContent = String(v);
     };
-  });
-
-  $$(".ps-minus").forEach(btn => {
-    btn.onclick = () => {
-      const size = btn.dataset.size;
-      let qty = selected[size] || 0;
-      if (qty > 0) qty--;
-      selected[size] = qty;
-      $(`#qty-${size}`).textContent = qty;
+    btnPlus.onclick = () => {
+      let v = Number(qtyValEl.textContent) || 1;
+      v = Math.min(999, v + 1);
+      qtyValEl.textContent = String(v);
     };
-  });
+  }
 
-  // === ДОБАВИТЬ В ЗАКАЗ ===
+  if (btnAdd) {
+    btnAdd.onclick = () => {
+      const size = sizeSelect ? sizeSelect.value : "";
+      let qty = Number(qtyValEl.textContent) || 1;
+      if (qty <= 0) qty = 1;
 
-  $("#addToCart").onclick = () => {
-    let cartNow = loadCart().filter(it => it.sku !== sku);
+      const cart = loadCart();
 
-    // Добавляем новые позиции
-    Object.keys(selected).forEach(size => {
-      const qty = selected[size];
-      if (qty > 0) {
-        cartNow.push({
-          sku,
-          title: prod.title,
-          image: prod.images[0],
+      // ищем уже существующую строку такого же артикула и размера
+      const existing = cart.find(it => it.sku === prod.sku && String(it.size) === String(size));
+      if (existing) {
+        existing.qty = Math.min(999, (existing.qty || 0) + qty);
+      } else {
+        cart.push({
+          sku: prod.sku,
           size,
-          qty
+          qty,
+          avgWeight: prod.avgWeight != null ? prod.avgWeight : null,
+          image: img,
+          title: prod.title || ("Кольцо " + prod.sku)
         });
       }
-    });
 
-    saveCart(cartNow);
-    updateCartBadge();
-
-    // эффект добавления
-    $("#addToCart").classList.add("added");
-    setTimeout(() => $("#addToCart").classList.remove("added"), 600);
-  };
+      saveCart(cart);
+      animateAddToCart(btnAdd);
+      toast("Добавлено в корзину");
+      qtyValEl.textContent = "1";
+    };
+  }
 }
 
 /* === КОРЗИНА: ОБЩИЙ СПИСОК (группировка по артикулу) === */
