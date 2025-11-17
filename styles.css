@@ -1104,3 +1104,21 @@ body.no-scroll {
   padding: 0 !important;
   margin: 0 !important;
 }
+
+/* Центровка текста и расширение кнопки "Выбрать размеры" */
+.size-picker-display {
+  position: relative;
+  width: 100% !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Стрелочка справа, не влияет на центр текста */
+.size-picker-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
