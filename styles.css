@@ -877,7 +877,7 @@ body.no-scroll {
 @media (max-width: 900px) {
   /* Чтобы контент не уезжал под кнопку при прокрутке */
   .product-controls {
-    padding-bottom: 80px;
+    padding-bottom: 120px;
   }
 
   /* Кнопка остаётся той же, просто закрепляем её внизу экрана */
