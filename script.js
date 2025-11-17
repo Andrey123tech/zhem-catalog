@@ -109,24 +109,23 @@ function renderProduct() {
       </div>
 
       <div class="product-controls">
-        <div class="product-controls-row">
-          <div class="field">
-            <div class="field-label">Размеры</div>
-            <div class="field-control">
-              <button id="sizeMatrixOpen" type="button" class="size-picker-display">
-                <span id="sizeMatrixSummary">Выбрать размеры</span>
-                <span class="size-picker-arrow">▾</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <button id="addToCart" class="btn-primary" type="button">
-          В корзину
+  <div class="product-controls-row">
+    <div class="field">
+      <div class="field-control">
+        <button id="sizeMatrixOpen" type="button" class="size-picker-display">
+          <span id="sizeMatrixSummary">Выбрать размеры</span>
+          <span class="size-picker-arrow">▾</span>
         </button>
       </div>
     </div>
-  `;
+  </div>
+
+  <button id="addToCart" class="btn-primary" type="button">
+    В корзину
+   </button>
+  </div>
+ </div>
+ `;
 
   const btnAdd      = $("#addToCart", box);
   const btnSizeOpen = $("#sizeMatrixOpen", box);
