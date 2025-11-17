@@ -1093,3 +1093,14 @@ body.no-scroll {
 .size-picker-display {
   margin-top: 35px !important;
 }
+
+/* Убираем фон/подложку/рамку под кнопкой "Выбрать размеры" */
+.field-control,
+.field,
+.product-controls-row .field {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
