@@ -175,11 +175,21 @@ img {
 @media (max-width: 480px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;              /* было больше (по умолчанию ~16px) */
+    gap: 6px; /* ещё чуть меньше */
+  }
+
+  .tile {
+    border-radius: 18px; /* уменьшили, даёт визуальное расширение */
   }
 
   .tile-body {
-    padding: 8px 8px 10px; /* было 10px 12px 12px — дали больше ширины тексту */
+    padding: 6px 4px 8px;  
+    /* было: 8px 8px 10px
+       стало: 6px сверху, 4px слева/справа — максимум полезного места */
+  }
+
+  .tile-title {
+    margin-bottom: 0px;
   }
 }
 
