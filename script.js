@@ -86,10 +86,15 @@ function renderProduct() {
 
   const img = (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/900";
   const w = prod.avgWeight != null ? formatWeight(prod.avgWeight) + " г" : "";
+
   // Берём общую размерную линейку из catalog_data.js
-const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.length)
-  ? SIZES
-  : (prod.sizes && prod.sizes.length ? prod.sizes : ["18.0", "18.5", "19.0"]);
+  const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.length)
+    ? SIZES
+    : (prod.sizes && prod.sizes.length ? prod.sizes : ["18.0", "18.5", "19.0"]);
+
+  // Состояние: количество по каждому размеру
+  const sizeState = new Map();
+  sizes.forEach(s => sizeState.set(String(s), 0));
 
   box.innerHTML = `
     <div class="product-main">
@@ -106,24 +111,12 @@ const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.len
       <div class="product-controls">
         <div class="product-controls-row">
           <div class="field">
-            <div class="field-label">Размер</div>
-            <div class="field-control size-control">
-              <select id="sizeSelect" class="size-select">
-                ${sizes.map(s => `
-                  <option value="${s}">${s}</option>
-                `).join("")}
-              </select>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="field-label">Кол-во</div>
+            <div class="field-label">Размеры</div>
             <div class="field-control">
-              <div class="qty-inline">
-                <button id="qtyMinus" type="button">−</button>
-                <span id="qtyVal">1</span>
-                <button id="qtyPlus" type="button">+</button>
-              </div>
+              <button id="sizeMatrixOpen" type="button" class="size-picker-display">
+                <span id="sizeMatrixSummary">Выбрать размеры</span>
+                <span class="size-picker-arrow">▾</span>
+              </button>
             </div>
           </div>
         </div>
@@ -135,35 +128,112 @@ const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.len
     </div>
   `;
 
-  const sizeSelect = $("#sizeSelect", box);
-  const qtyValEl   = $("#qtyVal", box);
-  const btnMinus   = $("#qtyMinus", box);
-  const btnPlus    = $("#qtyPlus", box);
-  const btnAdd     = $("#addToCart", box);
+  const btnAdd      = $("#addToCart", box);
+  const btnSizeOpen = $("#sizeMatrixOpen", box);
+  const summaryEl   = $("#sizeMatrixSummary", box);
 
-  if (btnMinus && btnPlus && qtyValEl) {
-    btnMinus.onclick = () => {
-      let v = Number(qtyValEl.textContent) || 1;
-      v = Math.max(1, v - 1);
-      qtyValEl.textContent = String(v);
-    };
-    btnPlus.onclick = () => {
-      let v = Number(qtyValEl.textContent) || 1;
-      v = Math.min(999, v + 1);
-      qtyValEl.textContent = String(v);
-    };
+  // === МОДАЛЬНОЕ ОКНО С МАТРИЦЕЙ РАЗМЕРОВ ===
+
+  const modal = document.createElement("div");
+  modal.id = "sizeMatrixModal";
+  modal.className = "size-matrix-backdrop hidden";
+  modal.innerHTML = `
+    <div class="size-matrix-sheet">
+      <div class="size-matrix-header">Размеры · Арт. ${prod.sku}</div>
+      <div class="size-matrix-list">
+        ${sizes.map(s => `
+          <div class="size-row" data-size="${s}">
+            <div class="size-row-size">р-р ${s}</div>
+            <div class="size-row-qty">
+              <button type="button" data-act="dec" data-size="${s}">−</button>
+              <span data-size="${s}">0</span>
+              <button type="button" data-act="inc" data-size="${s}">+</button>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+      <button type="button" class="btn-primary size-matrix-done" id="sizeMatrixDone">
+        Готово
+      </button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const updateSummary = () => {
+    let total = 0;
+    sizeState.forEach(q => { total += q || 0; });
+    if (!summaryEl) return;
+    summaryEl.textContent = total > 0
+      ? `Выбрано: ${total} шт.`
+      : "Выбрать размеры";
+  };
+
+  const syncDomFromState = () => {
+    sizes.forEach(s => {
+      const span = modal.querySelector(`.size-row-qty span[data-size="${s}"]`);
+      if (span) span.textContent = String(sizeState.get(String(s)) || 0);
+    });
+  };
+
+  const openModal = () => {
+    syncDomFromState();
+    modal.classList.remove("hidden");
+    document.body.classList.add("no-scroll");
+  };
+
+  const closeModal = () => {
+    modal.classList.add("hidden");
+    document.body.classList.remove("no-scroll");
+    updateSummary();
+  };
+
+  if (btnSizeOpen) {
+    btnSizeOpen.addEventListener("click", openModal);
   }
 
-  if (btnAdd) {
-    btnAdd.onclick = () => {
-      const size = sizeSelect ? sizeSelect.value : "";
-      let qty = Number(qtyValEl.textContent) || 1;
-      if (qty <= 0) qty = 1;
+  // клик по фону — закрыть
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
 
-      const cart = loadCart();
+  // клики внутри модалки: плюс/минус и "Готово"
+  modal.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
 
-      // ищем уже существующую строку такого же артикула и размера
-      const existing = cart.find(it => it.sku === prod.sku && String(it.size) === String(size));
+    if (btn.id === "sizeMatrixDone") {
+      closeModal();
+      return;
+    }
+
+    const act = btn.dataset.act;
+    const size = btn.dataset.size;
+    if (!act || !size) return;
+
+    const key = String(size);
+    let current = sizeState.get(key) || 0;
+
+    if (act === "inc") current = Math.min(999, current + 1);
+    if (act === "dec") current = Math.max(0, current - 1);
+
+    sizeState.set(key, current);
+
+    const span = modal.querySelector(`.size-row-qty span[data-size="${key}"]`);
+    if (span) span.textContent = String(current);
+  });
+
+  const addStateToCart = () => {
+    const cart = loadCart();
+
+    sizeState.forEach((qty, size) => {
+      if (!qty) return;
+
+      const existing = cart.find(
+        it => it.sku === prod.sku && String(it.size) === String(size)
+      );
+
       if (existing) {
         existing.qty = Math.min(999, (existing.qty || 0) + qty);
       } else {
@@ -176,11 +246,30 @@ const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.len
           title: prod.title || ("Кольцо " + prod.sku)
         });
       }
+    });
 
-      saveCart(cart);
+    saveCart(cart);
+  };
+
+  if (btnAdd) {
+    btnAdd.onclick = () => {
+      // проверка — есть ли вообще что-то выбрано
+      let hasQty = false;
+      sizeState.forEach(q => { if (q > 0) hasQty = true; });
+
+      if (!hasQty) {
+        toast("Выберите хотя бы один размер");
+        return;
+      }
+
+      addStateToCart();
       animateAddToCart(btnAdd);
       toast("Добавлено в корзину");
-      qtyValEl.textContent = "1";
+
+      // сбрасываем выбор после добавления
+      sizeState.forEach((_, key) => sizeState.set(key, 0));
+      syncDomFromState();
+      updateSummary();
     };
   }
 }
