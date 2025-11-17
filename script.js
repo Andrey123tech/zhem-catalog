@@ -101,9 +101,11 @@ const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.len
       </div>
 
       <div class="product-meta">
-        <div class="product-art">Арт. ${prod.sku}</div>
-        <h1 class="product-title">${prod.title || ("Кольцо " + prod.sku)}</h1>
-        ${w ? `<div class="product-weight">Средний вес ~ ${w}</div>` : ""}
+        <h1 class="product-title">${shortTitle}</h1>
+        <div class="product-meta-row">
+          <span class="product-art">Арт. ${prod.sku}</span>
+          ${w ? `<span class="product-weight">~ ${w}</span>` : ""}
+        </div>
       </div>
 
       <div class="product-controls">
