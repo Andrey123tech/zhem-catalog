@@ -328,6 +328,19 @@ img {
   color: #6b7280;
 }
 
+.product-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.product-meta-row span {
+  white-space: nowrap;
+}
+
 .product-controls {
   margin-top: 4px;
   border-radius: 20px;
