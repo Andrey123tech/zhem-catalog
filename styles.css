@@ -343,6 +343,11 @@ img {
   gap: 10px;
 }
 
+/* Поднять селектор размеров над кнопкой "В корзину" на 1–2 мм */
+.product-controls-row {
+  margin-bottom: 6px; /* было 4px — увеличили чуть-чуть */
+}
+
 @media (max-width: 420px) {
   .product-controls-row {
     gap: 8px;
