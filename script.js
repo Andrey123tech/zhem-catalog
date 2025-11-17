@@ -79,25 +79,30 @@ function renderProduct() {
 
   const sku = getSkuFromUrl();
   const prod = PRODUCTS.find(p => p.sku === sku);
+
   if (!prod) {
     box.innerHTML = "<p>Товар не найден.</p>";
     return;
   }
 
-  const img = (prod.images && prod.images[0]) || "https://picsum.photos/seed/placeholder/900";
+  const img =
+    (prod.images && prod.images[0]) ||
+    "https://picsum.photos/seed/placeholder/900";
+
   const w = prod.avgWeight != null ? formatWeight(prod.avgWeight) + " г" : "";
+
   const fullTitle = prod.title || ("Кольцо " + prod.sku);
   let shortTitle = fullTitle.replace(prod.sku, "").trim();
   if (!shortTitle) shortTitle = "Кольцо";
-  // Берём общую размерную линейку из catalog_data.js
-const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.length)
-  ? SIZES
-  : (prod.sizes && prod.sizes.length ? prod.sizes : ["18.0", "18.5", "19.0"]);
+
+  const sizeList = (prod.sizes && prod.sizes.length ? prod.sizes : DEFAULT_SIZES)
+    .slice()
+    .sort((a, b) => parseFloat(a) - parseFloat(b));
 
   box.innerHTML = `
-    <div class="product-main">
-      <div class="product-photo-wrap">
-        <img src="${img}" alt="${prod.title || prod.sku}">
+    <div class="product-card">
+      <div class="product-photo">
+        <img src="${img}" alt="${fullTitle}">
       </div>
 
       <div class="product-meta">
@@ -109,83 +114,172 @@ const sizes = (typeof SIZES !== "undefined" && Array.isArray(SIZES) && SIZES.len
       </div>
 
       <div class="product-controls">
-        <div class="product-controls-row">
-          <div class="field">
-            <div class="field-label">Размер</div>
-            <div class="field-control size-control">
-              <select id="sizeSelect" class="size-select">
-                ${sizes.map(s => `
-                  <option value="${s}">${s}</option>
-                `).join("")}
-              </select>
-            </div>
-          </div>
 
-          <div class="field">
-            <div class="field-label">Кол-во</div>
-            <div class="field-control">
-              <div class="qty-inline">
-                <button id="qtyMinus" type="button">−</button>
-                <span id="qtyVal">1</span>
-                <button id="qtyPlus" type="button">+</button>
-              </div>
-            </div>
+        <div class="field">
+          <div class="field-label">РАЗМЕРЫ</div>
+          <button type="button" id="openSizePanel" class="size-picker-btn">
+            Выбрать размеры
+          </button>
+          <div class="size-picker-summary" id="sizeSummary">
+            Ничего не выбрано
           </div>
         </div>
 
-        <button id="addToCart" class="btn-primary" type="button">
+        <button id="addToCart" class="btn-primary btn-full">
           В корзину
         </button>
+      </div>
+
+      <!-- Панель выбора размеров -->
+      <div id="sizePanel" class="size-panel hidden">
+        <div class="size-panel-inner">
+          <div class="size-panel-header">
+            <div class="size-panel-title">Размеры кольца</div>
+            <div class="size-panel-sub">
+              Выберите нужные размеры и количество
+            </div>
+          </div>
+
+          <div class="size-panel-list">
+            ${sizeList
+              .map(
+                (size) => `
+              <div class="size-row" data-size="${size}">
+                <div class="size-row-size">р-р ${size}</div>
+                <div class="size-row-qty">
+                  <button type="button" data-act="dec">−</button>
+                  <span>0</span>
+                  <button type="button" data-act="inc">+</button>
+                </div>
+              </div>
+            `
+              )
+              .join("")}
+          </div>
+
+          <div class="size-panel-footer">
+            <div class="size-panel-total" id="sizePanelTotal">
+              Всего: 0 шт
+            </div>
+            <button type="button" id="sizePanelDone" class="btn-primary btn-full">
+              Готово
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   `;
 
-  const sizeSelect = $("#sizeSelect", box);
-  const qtyValEl   = $("#qtyVal", box);
-  const btnMinus   = $("#qtyMinus", box);
-  const btnPlus    = $("#qtyPlus", box);
-  const btnAdd     = $("#addToCart", box);
+  // === ЛОГИКА ПАНЕЛИ РАЗМЕРОВ ===
 
-  if (btnMinus && btnPlus && qtyValEl) {
-    btnMinus.onclick = () => {
-      let v = Number(qtyValEl.textContent) || 1;
-      v = Math.max(1, v - 1);
-      qtyValEl.textContent = String(v);
-    };
-    btnPlus.onclick = () => {
-      let v = Number(qtyValEl.textContent) || 1;
-      v = Math.min(999, v + 1);
-      qtyValEl.textContent = String(v);
+  const avgWeightNum =
+    prod.avgWeight != null ? Number(prod.avgWeight) || 0 : 0;
+
+  const state = {};
+  sizeList.forEach((s) => {
+    state[String(s)] = 0;
+  });
+
+  const panel = $("#sizePanel");
+  const openBtn = $("#openSizePanel");
+  const doneBtn = $("#sizePanelDone");
+  const totalEl = $("#sizePanelTotal");
+  const summaryEl = $("#sizeSummary");
+  const addBtn = $("#addToCart");
+
+  function recalcTotals() {
+    let totalQty = 0;
+    let totalWeight = 0;
+
+    sizeList.forEach((s) => {
+      const q = state[String(s)] || 0;
+      totalQty += q;
+      if (avgWeightNum) {
+        totalWeight += q * avgWeightNum;
+      }
+    });
+
+    if (totalQty === 0) {
+      totalEl.textContent = "Всего: 0 шт";
+      summaryEl.textContent = "Ничего не выбрано";
+    } else {
+      const wText = avgWeightNum
+        ? ` · ~ ${formatWeight(totalWeight)} г`
+        : "";
+      totalEl.textContent = `Всего: ${totalQty} шт${wText}`;
+      summaryEl.textContent = `Выбрано: ${totalQty} шт${wText}`;
+    }
+  }
+
+  // открыть панель
+  if (openBtn && panel) {
+    openBtn.onclick = () => {
+      panel.classList.remove("hidden");
+      recalcTotals();
     };
   }
 
-  if (btnAdd) {
-    btnAdd.onclick = () => {
-      const size = sizeSelect ? sizeSelect.value : "";
-      let qty = Number(qtyValEl.textContent) || 1;
-      if (qty <= 0) qty = 1;
+  // обработка +/− внутри панели
+  if (panel) {
+    panel.addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn || !btn.dataset.act) return;
 
+      const row = btn.closest(".size-row");
+      if (!row) return;
+
+      const size = String(row.dataset.size);
+      let q = state[size] || 0;
+
+      if (btn.dataset.act === "inc") q = Math.min(999, q + 1);
+      if (btn.dataset.act === "dec") q = Math.max(0, q - 1);
+
+      state[size] = q;
+
+      const span = row.querySelector(".size-row-qty span");
+      if (span) span.textContent = String(q);
+
+      recalcTotals();
+    });
+  }
+
+  // закрыть панель по "Готово"
+  if (doneBtn && panel) {
+    doneBtn.onclick = () => {
+      panel.classList.add("hidden");
+      recalcTotals();
+    };
+  }
+
+  // добавить в корзину все выбранные размеры
+  if (addBtn) {
+    addBtn.onclick = () => {
       const cart = loadCart();
+      let added = 0;
 
-      // ищем уже существующую строку такого же артикула и размера
-      const existing = cart.find(it => it.sku === prod.sku && String(it.size) === String(size));
-      if (existing) {
-        existing.qty = Math.min(999, (existing.qty || 0) + qty);
-      } else {
+      sizeList.forEach((size) => {
+        const qty = state[String(size)] || 0;
+        if (!qty) return;
+
         cart.push({
           sku: prod.sku,
+          title: prod.title,
           size,
           qty,
-          avgWeight: prod.avgWeight != null ? prod.avgWeight : null,
+          avgWeight: prod.avgWeight,
           image: img,
-          title: prod.title || ("Кольцо " + prod.sku)
         });
+        added += qty;
+      });
+
+      if (!added) {
+        // можно подсветить кнопку или summary, но пока просто выходим
+        return;
       }
 
       saveCart(cart);
-      animateAddToCart(btnAdd);
-      toast("Добавлено в корзину");
-      qtyValEl.textContent = "1";
+      updateCartBadge();
+      // остаёмся на карточке; клиент сам решит — дальше по каталогу или в корзину
     };
   }
 }
