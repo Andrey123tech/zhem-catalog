@@ -790,6 +790,89 @@ img {
   margin-top: 10px;
 }
 
+/* === Матричный выбор размеров из карточки товара === */
+
+.size-picker-display {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 9px 12px;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+
+.size-picker-display:active {
+  background: #f3f4f6;
+}
+
+.size-picker-arrow {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+/* затемнённый фон */
+
+.size-matrix-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 40;
+}
+
+.size-matrix-backdrop.hidden {
+  display: none !important;
+}
+
+/* "лист" как на скрине выбора размера */
+
+.size-matrix-sheet {
+  width: 100%;
+  max-width: 480px;
+  max-height: 70vh;
+  background: #ffffff;
+  border-radius: 18px 18px 0 0;
+  padding: 12px 14px 16px;
+  box-shadow: 0 -10px 25px rgba(15, 23, 42, 0.18);
+}
+
+.size-matrix-header {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.size-matrix-list {
+  max-height: 52vh;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+/* кнопка "Готово" внизу листа */
+
+.size-matrix-done {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* чтобы фон под модалкой не скроллился */
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* универсальный helper */
+
+.hidden {
+  display: none !important;
+}
+
 /* === Фиксированная кнопка "В корзину" только на карточке товара === */
 @media (max-width: 900px) {
   /* Чтобы контент не уезжал под кнопку при прокрутке */
