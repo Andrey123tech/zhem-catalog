@@ -53,6 +53,9 @@ function renderGrid() {
   grid.innerHTML = PRODUCTS.map(p => {
     const img = (p.images && p.images[0]) || "https://picsum.photos/seed/placeholder/900";
     const w = p.avgWeight != null ? formatWeight(p.avgWeight) + " г" : "";
+    const fullTitle = p.title || ("Кольцо " + p.sku);
+    let shortTitle = fullTitle.replace(p.sku, "").trim();
+    if (!shortTitle) shortTitle = "Кольцо";
     return `
       <a class="tile" href="product.html?sku=${encodeURIComponent(p.sku)}">
         <div class="square"><img src="${img}" alt="${p.title || p.sku}"></div>
