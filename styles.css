@@ -171,10 +171,15 @@ img {
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 }
 
-/* На телефоне — фиксировано 3 карточки в ряд */
+/* На телефоне — 3 карточки в ряд, но ближе друг к другу */
 @media (max-width: 480px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 8px;              /* было больше (по умолчанию ~16px) */
+  }
+
+  .tile-body {
+    padding: 8px 8px 10px; /* было 10px 12px 12px — дали больше ширины тексту */
   }
 }
 
