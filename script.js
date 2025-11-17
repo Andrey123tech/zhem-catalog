@@ -590,6 +590,50 @@ function initSwipeToDelete() {
   });
 }
 
+// === Жест "смахивание вправо" для возврата назад ===
+
+(function() {
+  let startX = 0;
+  let startY = 0;
+  let tracking = false;
+
+  const EDGE_ZONE = 30;   // зона слева, где жест активируется
+  const TRIGGER_DIST = 60; // насколько нужно провести вправо
+
+  document.addEventListener("touchstart", e => {
+    const t = e.touches[0];
+    startX = t.clientX;
+    startY = t.clientY;
+
+    // активировать жест только если палец в левой зоне экрана
+    tracking = startX < EDGE_ZONE;
+  }, { passive: true });
+
+  document.addEventListener("touchmove", e => {
+    if (!tracking) return;
+
+    const t = e.touches[0];
+    const dx = t.clientX - startX;
+    const dy = t.clientY - startY;
+
+    // если слишком большой вертикальный жест — отменяем
+    if (Math.abs(dy) > 40) {
+      tracking = false;
+      return;
+    }
+
+    // если проведено вправо больше TRIGGER_DIST — назад
+    if (dx > TRIGGER_DIST) {
+      tracking = false;
+      history.back();
+    }
+  }, { passive: true });
+
+  document.addEventListener("touchend", () => {
+    tracking = false;
+  });
+})();
+
 /* === ROUTER === */
 
 document.addEventListener("DOMContentLoaded", () => {
