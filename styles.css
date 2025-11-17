@@ -215,8 +215,24 @@ img {
 }
 
 .tile-sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
   font-size: 13px;
   color: #6b7280;
+}
+
+.tile-sub span {
+  white-space: nowrap;
+}
+
+.tile-art {
+  opacity: 0.95;
+}
+
+.tile-weight {
+  opacity: 0.95;
 }
 
 /* ============= КАРТОЧКА ТОВАРА ============= */
