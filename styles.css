@@ -981,3 +981,27 @@ img {
 .size-row-weight {
   font-size: 13px;
 }
+
+/* На телефоне — фиксировано 3 карточки в ряд */
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px; /* ← сделаем чуть меньше */
+  }
+
+  .tile {
+    border-radius: 18px; /* ← чуть уменьшили, даст больше визуального места */
+  }
+
+  .tile-body {
+    padding: 6px 4px 8px; /* ← уменьшили слева/справа */
+  }
+
+  .tile-sub {
+    padding: 0 2px; /* ← добавили! немного сдвигает текст */
+  }
+
+  .tile-weight {
+    font-size: 12.5px; /* ← если нужно ещё чуть-чуть места */
+  }
+}
