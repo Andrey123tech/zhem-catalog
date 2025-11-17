@@ -1088,3 +1088,8 @@ body.no-scroll {
     font-size: 12.5px; /* ← если нужно ещё чуть-чуть места */
   }
 }
+
+/* Чтобы селектор размеров не уезжал под кнопку "В корзину" */
+.product-main {
+  padding-bottom: 80px !important;
+}
