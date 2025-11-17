@@ -1091,5 +1091,5 @@ body.no-scroll {
 
 /* Чтобы селектор размеров не уезжал под кнопку "В корзину" */
 .product-main {
-  padding-bottom: 80px !important;
+  padding-bottom: 90px !important;
 }
