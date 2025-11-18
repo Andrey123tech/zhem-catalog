@@ -1159,3 +1159,9 @@ body.no-scroll {
 #addToCart.btn-add-pulse {
   animation: btnAddPulseAnim 0.22s ease-out;
 }
+
+.fly-dot {
+  box-shadow: 0 6px 14px rgba(122, 18, 34, 0.32),
+              0 0 12px rgba(122, 18, 34, 0.45) !important;
+  backdrop-filter: blur(3px);
+}
