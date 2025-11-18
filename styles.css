@@ -1130,3 +1130,8 @@ body.no-scroll {
   min-height: 44px !important;
 }
 
+/* Модальное окно размеров должно перекрывать фиксированную кнопку "В корзину" */
+.size-matrix-backdrop {
+  z-index: 80 !important;  /* выше, чем #addToCart (50) */
+}
+
