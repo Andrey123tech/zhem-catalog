@@ -1159,3 +1159,11 @@ body.no-scroll {
 #addToCart.btn-add-pulse {
   animation: btnAddPulseAnim 0.22s ease-out;
 }
+
+/* Серая линия под заголовком "Кольцо · Арт. ..." */
+.product-title {
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e5e7eb;
+  display: block;
+  margin-bottom: 10px;
+}
