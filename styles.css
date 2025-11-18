@@ -1134,3 +1134,28 @@ body.no-scroll {
 .size-matrix-backdrop {
   z-index: 80 !important;  /* выше, чем #addToCart (50) */
 }
+
+/* Бейдж "Заказ" чуть подпрыгивает */
+@keyframes cartBump {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.18); }
+  60%  { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+
+#cartCount.cart-bump {
+  animation: cartBump 0.26s ease-out;
+  transform-origin: center;
+}
+
+/* Кнопка "В корзину" чуть пружинит при добавлении */
+@keyframes btnAddPulseAnim {
+  0%   { transform: translateX(-50%) scale(1); }
+  30%  { transform: translateX(-50%) scale(0.96); }
+  70%  { transform: translateX(-50%) scale(1.03); }
+  100% { transform: translateX(-50%) scale(1); }
+}
+
+#addToCart.btn-add-pulse {
+  animation: btnAddPulseAnim 0.22s ease-out;
+}
