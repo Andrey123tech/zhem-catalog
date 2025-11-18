@@ -1135,3 +1135,14 @@ body.no-scroll {
   z-index: 80 !important;  /* выше, чем #addToCart (50) */
 }
 
+/* Кнопка "Готово" в листе размеров — второстепенная (белая с бордовой рамкой) */
+.size-matrix-done {
+  background: #ffffff !important;
+  color: #7b1222 !important;           /* твой бордовый оттенок, можешь подправить */
+  border: 1px solid #7b1222 !important;
+}
+
+/* чтобы при нажатии не красилась, как .btn-primary */
+.size-matrix-done:active {
+  background: #f9fafb !important;
+}
