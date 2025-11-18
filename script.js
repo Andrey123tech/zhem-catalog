@@ -639,11 +639,20 @@ function animateAddToCart(sourceEl) {
   document.body.appendChild(dot);
 
   requestAnimationFrame(() => {
-    const dx = c.left + c.width / 2 - (s.left + s.width / 2);
-    const dy = c.top + c.height / 2 - (s.top + s.height / 2);
-    dot.style.transform = `translate(${dx}px, ${dy}px) scale(0.25)`;
-    dot.style.opacity = "0";
-  });
+  const dx = c.left + c.width / 2 - (s.left + s.width / 2);
+  const dy = c.top + c.height / 2 - (s.top + s.height / 2);
+
+  // ЛЁГКАЯ дуга, едва заметная
+  const arc = -18; // поднимаем траекторию на 18px – очень аккуратно
+
+  // Траектория: X по прямой, Y с небольшим подъёмом
+  dot.style.transition =
+    "transform 0.48s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.48s ease-out";
+
+  dot.style.transform =
+    `translate(${dx}px, ${dy + arc}px) scale(0.35)`;  // не прыгучий масштаб
+  dot.style.opacity = "0";
+});
 
   setTimeout(() => {
     dot.remove();
