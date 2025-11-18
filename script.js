@@ -310,17 +310,19 @@ function renderOrder() {
     const avgW = it.avgWeight != null ? it.avgWeight : prod.avgWeight;
 
     let g = groupsMap.get(it.sku);
-    if (!g) {
-      g = {
-        sku: it.sku,
-        title: prod.title || ("Кольцо " + it.sku),
-        image: img,
-        avgWeight: avgW,
-        totalQty: 0,
-        totalWeight: 0
-      };
-      groupsMap.set(it.sku, g);
-    }
+if (!g) {
+  const baseTitle = prod.title || "Кольцо";
+
+  g = {
+    sku: it.sku,
+    title: baseTitle,      // БЕЗ артикула
+    image: img,
+    avgWeight: avgW,
+    totalQty: 0,
+    totalWeight: 0
+  };
+  groupsMap.set(it.sku, g);
+}
 
     const qty = it.qty || 0;
     g.totalQty += qty;
