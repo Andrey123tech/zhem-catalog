@@ -639,19 +639,10 @@ function animateAddToCart(sourceEl) {
   document.body.appendChild(dot);
 
   requestAnimationFrame(() => {
-  const dx = c.left + c.width / 2 - (s.left + s.width / 2);
-  const dy = c.top + c.height / 2 - (s.top + s.height / 2);
-
-// Усиленный полёт: дуга + больше "массы"
-dot.style.transition =
-  "transform 0.65s cubic-bezier(0.15, 0.80, 0.25, 1.00), opacity 0.55s ease-out";
-
-// Эффект дуги: мы добавляем подъём по Y (минус = вверх)
-const arcY = dy - 40; // поднимем траекторию на 40px — аккуратная дуга
-
-dot.style.transform =
-  `translate(${dx}px, ${arcY}px) scale(0.45)`; // масштаб чуть больше
-dot.style.opacity = "0";
+    const dx = c.left + c.width / 2 - (s.left + s.width / 2);
+    const dy = c.top + c.height / 2 - (s.top + s.height / 2);
+    dot.style.transform = `translate(${dx}px, ${dy}px) scale(0.25)`;
+    dot.style.opacity = "0";
   });
 
   setTimeout(() => {
