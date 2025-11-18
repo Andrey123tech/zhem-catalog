@@ -262,49 +262,9 @@ function renderProduct() {
         return;
       }
 
-      function animateAddToCart(sourceEl) {
-  const cartCount = $("#cartCount");
-  if (!sourceEl || !cartCount) return;
-
-  const s = sourceEl.getBoundingClientRect();
-  const c = cartCount.getBoundingClientRect();
-
-  // Мягкая "капля" к значку корзины
-  const dot = document.createElement("div");
-  dot.style.position = "fixed";
-  dot.style.width = "22px";
-  dot.style.height = "22px";
-  dot.style.borderRadius = "50%";
-  dot.style.background = "rgba(122, 18, 34, 0.85)"; // бордовый, но мягче
-  dot.style.boxShadow = "0 0 12px rgba(122, 18, 34, 0.35)";
-  dot.style.left = (s.left + s.width / 2) + "px";
-  dot.style.top = (s.top + s.height / 2) + "px";
-  dot.style.transform = "translate(0,0) scale(1)";
-  dot.style.opacity = "0.9";
-  dot.style.zIndex = "9999";
-  dot.style.transition =
-    "transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.55s ease-out";
-
-  document.body.appendChild(dot);
-
-  // Старт анимации
-  requestAnimationFrame(() => {
-    const dx = c.left + c.width / 2 - (s.left + s.width / 2);
-    const dy = c.top + c.height / 2 - (s.top + s.height / 2);
-
-    dot.style.transform = `translate(${dx}px, ${dy}px) scale(0.35)`;
-    dot.style.opacity = "0";
-  });
-
-  // Удаление точки
-  setTimeout(() => dot.remove(), 600);
-
-  // Легкий бамп бейджа "Заказ"
-  cartCount.classList.add("cart-bump");
-  setTimeout(() => {
-    cartCount.classList.remove("cart-bump");
-  }, 260);
-}
+      addStateToCart();
+      animateAddToCart(btnAdd);
+      toast("Добавлено в корзину");
 
       // сбрасываем выбор после добавления
       sizeState.forEach((_, key) => sizeState.set(key, 0));
