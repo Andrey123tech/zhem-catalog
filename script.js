@@ -129,15 +129,6 @@ function renderProduct() {
  `;
 
   const btnAdd      = $("#addToCart", box);
-  // Прямой хаптик (работает на iPhone)
-if (btnAdd) {
-  btnAdd.addEventListener("pointerdown", () => {
-    try {
-      navigator.vibrate([10]); // короткое касание
-    } catch (e) {}
-  });
-}
-  
   const btnSizeOpen = $("#sizeMatrixOpen", box);
   const summaryEl   = $("#sizeMatrixSummary", box);
 
