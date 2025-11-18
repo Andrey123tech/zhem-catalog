@@ -1122,3 +1122,11 @@ body.no-scroll {
   top: 50%;
   transform: translateY(-50%);
 }
+
+/* Увеличиваем высоту строк размера в матрице на +25% */
+.size-row {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  min-height: 44px !important;
+}
+
