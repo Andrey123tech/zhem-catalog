@@ -243,7 +243,7 @@ function renderProduct() {
           qty,
           avgWeight: prod.avgWeight != null ? prod.avgWeight : null,
           image: img,
-          title: prod.title || ("Кольцо " + prod.sku)
+          title: prod.title || "Кольцо"
         });
       }
     });
