@@ -264,6 +264,7 @@ function renderProduct() {
 
       addStateToCart();
       animateAddToCart(btnAdd);
+      if (navigator.vibrate) navigator.vibrate(40);
       toast("Добавлено в корзину");
 
       // сбрасываем выбор после добавления
