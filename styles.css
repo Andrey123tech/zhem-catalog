@@ -1159,3 +1159,10 @@ body.no-scroll {
 #addToCart.btn-add-pulse {
   animation: btnAddPulseAnim 0.22s ease-out;
 }
+
+/* Разделительная линия под заголовком карточки изделия */
+.product-meta {
+  border-bottom: 1px solid #e5e7eb; /* светло-серая линия */
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
