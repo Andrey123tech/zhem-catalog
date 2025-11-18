@@ -1134,23 +1134,3 @@ body.no-scroll {
 .size-matrix-backdrop {
   z-index: 80 !important;  /* выше, чем #addToCart (50) */
 }
-
-/* Анимация "spring" для кнопки "В корзину" при добавлении */
-@keyframes btnAddPulseAnim {
-  0% {
-    transform: translateX(-50%) scale(1);
-  }
-  35% {
-    transform: translateX(-50%) scale(0.96);
-  }
-  70% {
-    transform: translateX(-50%) scale(1.04);
-  }
-  100% {
-    transform: translateX(-50%) scale(1);
-  }
-}
-
-#addToCart.btn-add-pulse {
-  animation: btnAddPulseAnim 0.28s ease-out;
-}

@@ -262,63 +262,9 @@ function renderProduct() {
         return;
       }
 
-      // Мягкая анимация + звук + вибро при добавлении в корзину
-function animateAddToCart(button) {
-  if (!button) return;
-
-  // 1) Лёгкий spring-анимация кнопки
-  button.classList.add("btn-add-pulse");
-  setTimeout(() => {
-    button.classList.remove("btn-add-pulse");
-  }, 300);
-
-  // 2) Вибро (если поддерживается и включено)
-  if (navigator.vibrate) {
-    try {
-      navigator.vibrate(30); // короткий щелчок
-    } catch (e) {
-      // игнорируем, если браузер не даёт
-    }
-  }
-
-  // 3) Тихий звук "тик" через Web Audio API
-  try {
-    playAddToCartSound();
-  } catch (e) {
-    // если что-то пойдёт не так — просто молча пропускаем
-  }
-}
-
-// Генерация короткого звука без файлов (простым синус-осциллятором)
-let addSoundAudioCtx = null;
-function playAddToCartSound() {
-  const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  if (!AudioCtx) return;
-
-  if (!addSoundAudioCtx) {
-    addSoundAudioCtx = new AudioCtx();
-  }
-  const ctx = addSoundAudioCtx;
-
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-
-  osc.type = "sine";
-  osc.frequency.value = 880; // тоненький "тик"
-
-  const now = ctx.currentTime;
-
-  // Плавный короткий щелчок
-  gain.gain.setValueAtTime(0.0001, now);
-  gain.gain.exponentialRampToValueAtTime(0.08, now + 0.01);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
-
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-
-  osc.start(now);
-  osc.stop(now + 0.18);
-}
+      addStateToCart();
+      animateAddToCart(btnAdd);
+      toast("Добавлено в корзину");
 
       // сбрасываем выбор после добавления
       sizeState.forEach((_, key) => sizeState.set(key, 0));
