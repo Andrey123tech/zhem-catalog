@@ -263,22 +263,8 @@ function renderProduct() {
       }
 
       addStateToCart();
-animateAddToCart(btnAdd);
-
-// лёгкий "бамп" счётчика "Заказ"
-const cartCount = document.querySelector('#cartCount');
-if (cartCount) {
-  cartCount.classList.add('cart-bump');
-  setTimeout(() => cartCount.classList.remove('cart-bump'), 260);
-}
-
-// мягкий толчок самой кнопки "В корзину"
-if (btnAdd) {
-  btnAdd.classList.add('btn-add-pulse');
-  setTimeout(() => btnAdd.classList.remove('btn-add-pulse'), 220);
-}
-
-toast("Добавлено в корзину");
+      animateAddToCart(btnAdd);
+      toast("Добавлено в корзину");
 
       // сбрасываем выбор после добавления
       sizeState.forEach((_, key) => sizeState.set(key, 0));
