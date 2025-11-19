@@ -636,8 +636,7 @@ function animateAddToCart(sourceEl) {
   }, 750);
 }
 
-/* === СВАЙП-УДАЛЕНИЕ (пока работает только для старого формата, для новых строк не мешает) === */
-
+/* === СВАЙП-УДАЛЕНИЕ В КОРЗИНЕ (новая версия, для групп по артикулу) === */
 function initSwipeToDelete() {
   let startX = 0;
   let currentRow = null;
@@ -646,36 +645,62 @@ function initSwipeToDelete() {
   document.addEventListener("touchstart", e => {
     const row = e.target.closest(".cart-row");
     if (!row) return;
+
     startX = e.touches[0].clientX;
     currentRow = row;
     swiped = false;
+
+    // небольшая анимация возврата, если строку отпустили
+    currentRow.style.transition = "transform 0.2s ease, opacity 0.2s ease";
   }, { passive: true });
 
   document.addEventListener("touchmove", e => {
     if (!currentRow) return;
+
     const dx = e.touches[0].clientX - startX;
-    if (dx < -30) {               // смахнули влево
+
+    // свайп влево больше 30px — показываем "удалить"
+    if (dx < -30) {
       swiped = true;
       currentRow.style.transform = "translateX(-60px)";
       currentRow.style.opacity = "0.7";
+    } else if (dx > -5) {
+      // чуть вернули вправо — считаем, что не свайп
+      swiped = false;
+      currentRow.style.transform = "";
+      currentRow.style.opacity = "";
     }
   }, { passive: true });
 
   document.addEventListener("touchend", () => {
     if (!currentRow) return;
+
     if (swiped) {
-      const idx = Number(currentRow.dataset.idx);
-      const cartNow = loadCart();
-      if (!isNaN(idx) && cartNow[idx]) {
-        cartNow.splice(idx, 1);
-        saveCart(cartNow);
-        renderOrder();
+      const sku = currentRow.dataset.sku;
+      if (sku) {
+        const confirmText = `Удалить все позиции по артикулу ${sku} из корзины?`;
+        if (confirm(confirmText)) {
+          // удаляем все элементы корзины с этим артикулом
+          let cartNow = loadCart();
+          cartNow = cartNow.filter(it => it.sku !== sku);
+          saveCart(cartNow);
+          renderOrder();
+        } else {
+          // отменили — возвращаем строку на место
+          currentRow.style.transform = "";
+          currentRow.style.opacity = "";
+        }
       }
     } else {
-      currentRow.style.transform = "";
-      currentRow.style.opacity = "";
+      // свайпа не было — просто вернуть строку
+      if (currentRow) {
+        currentRow.style.transform = "";
+        currentRow.style.opacity = "";
+      }
     }
+
     currentRow = null;
+    swiped = false;
   });
 }
 
