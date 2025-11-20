@@ -1,0 +1,2867 @@
+[
+  {
+    "sku": "Au010102",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.817,
+    "totalSold": 122,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au016075",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 4.005,
+    "totalSold": 129,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au016167",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 4.187,
+    "totalSold": 118,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0207109",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.451,
+    "totalSold": 134,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0237162",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.794,
+    "totalSold": 193,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0237165",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 4.015,
+    "totalSold": 247,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0237168",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.129,
+    "totalSold": 275,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0237168M",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.369,
+    "totalSold": 411,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0237210",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 4.798,
+    "totalSold": 86,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0237210M",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.928,
+    "totalSold": 98,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0307108",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.954,
+    "totalSold": 85,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0307709",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.81,
+    "totalSold": 100,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0357716",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.727,
+    "totalSold": 18,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0357734",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.292,
+    "totalSold": 164,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au04007",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.04,
+    "totalSold": 81,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0407107",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.82,
+    "totalSold": 65,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0407397",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.839,
+    "totalSold": 648,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0407708",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.086,
+    "totalSold": 687,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0407709",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.459,
+    "totalSold": 131,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0407712",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.4,
+    "totalSold": 107,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0407756",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.111,
+    "totalSold": 102,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0507397",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.036,
+    "totalSold": 465,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0507429F",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.04,
+    "totalSold": 46,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0507708",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.358,
+    "totalSold": 185,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0507709",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.881,
+    "totalSold": 45,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0507739",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.667,
+    "totalSold": 137,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0607708",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.719,
+    "totalSold": 85,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0657706",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 5.009,
+    "totalSold": 31,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0757705",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 5.875,
+    "totalSold": 42,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0757719",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.101,
+    "totalSold": 155,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au0757755",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.219,
+    "totalSold": 57,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au077167",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.602,
+    "totalSold": 196,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au077454F",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.798,
+    "totalSold": 122,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au077460F",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.784,
+    "totalSold": 173,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au077724",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.221,
+    "totalSold": 282,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au080167",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.358,
+    "totalSold": 267,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au1407386F",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 4.827,
+    "totalSold": 57,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au1407452F",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 5.135,
+    "totalSold": 63,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au1409391F",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 4.851,
+    "totalSold": 52,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177039",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.258,
+    "totalSold": 43,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177208",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.411,
+    "totalSold": 89,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177249",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.323,
+    "totalSold": 151,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177249F",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.859,
+    "totalSold": 72,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177260",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.612,
+    "totalSold": 129,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177260F",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.616,
+    "totalSold": 907,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177446F",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.774,
+    "totalSold": 54,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177554",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 6.389,
+    "totalSold": 16,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177601",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 10.677,
+    "totalSold": 50,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177602",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 11.417,
+    "totalSold": 78,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177617",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 11.402,
+    "totalSold": 16,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177620",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 11.712,
+    "totalSold": 17,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177621",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 9.24,
+    "totalSold": 22,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177622",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 9.807,
+    "totalSold": 22,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177623",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 10.223,
+    "totalSold": 25,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177628",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 7.674,
+    "totalSold": 268,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177629",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 8.161,
+    "totalSold": 23,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177630",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 9.507,
+    "totalSold": 41,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177731",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.498,
+    "totalSold": 201,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177758",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.789,
+    "totalSold": 41,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177760",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.823,
+    "totalSold": 39,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177785",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 9.539,
+    "totalSold": 164,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177787",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 9.323,
+    "totalSold": 67,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177834",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 8.445,
+    "totalSold": 26,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au177916",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.771,
+    "totalSold": 502,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178075",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.358,
+    "totalSold": 201,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178110",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.531,
+    "totalSold": 57,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178174",
+    "title": "Булавка",
+    "categoryId": "pins",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.802,
+    "totalSold": 129,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178175",
+    "title": "Булавка",
+    "categoryId": "pins",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.795,
+    "totalSold": 370,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178176",
+    "title": "Булавка",
+    "categoryId": "pins",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.934,
+    "totalSold": 231,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178604",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.661,
+    "totalSold": 81,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178605",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.334,
+    "totalSold": 155,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178648",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.823,
+    "totalSold": 133,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178846",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.165,
+    "totalSold": 271,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178850",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.95,
+    "totalSold": 118,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178852",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.366,
+    "totalSold": 120,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178854",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.382,
+    "totalSold": 272,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178923",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.576,
+    "totalSold": 119,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178984",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 6.002,
+    "totalSold": 20,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178985",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 5.805,
+    "totalSold": 18,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178994",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 4.432,
+    "totalSold": 19,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au178998",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 4.381,
+    "totalSold": 21,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au179001",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 5.886,
+    "totalSold": 40,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au179006",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 4.59,
+    "totalSold": 26,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au179305",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.091,
+    "totalSold": 94,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au179305G",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.099,
+    "totalSold": 94,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au179317",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.418,
+    "totalSold": 46,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au179320",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.546,
+    "totalSold": 41,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au179329",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.86,
+    "totalSold": 79,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au179349",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.961,
+    "totalSold": 108,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180002",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.648,
+    "totalSold": 45,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180003",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.527,
+    "totalSold": 41,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180007",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.621,
+    "totalSold": 311,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180359",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.813,
+    "totalSold": 69,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180381",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.851,
+    "totalSold": 58,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180381K",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.62,
+    "totalSold": 42,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180387",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.062,
+    "totalSold": 74,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180392",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.408,
+    "totalSold": 38,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180395",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.186,
+    "totalSold": 61,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180402",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.923,
+    "totalSold": 62,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180405p",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.262,
+    "totalSold": 80,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180483",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.66,
+    "totalSold": 175,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180503",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.979,
+    "totalSold": 86,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180553",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.606,
+    "totalSold": 377,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180555",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.297,
+    "totalSold": 100,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180562p",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.788,
+    "totalSold": 54,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180570",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.639,
+    "totalSold": 372,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180572p",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.368,
+    "totalSold": 356,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180573p",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.858,
+    "totalSold": 170,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180574p",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.976,
+    "totalSold": 183,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180575p",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.508,
+    "totalSold": 119,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180590",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.246,
+    "totalSold": 174,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180600",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 9.485,
+    "totalSold": 17,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180602",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 9.352,
+    "totalSold": 18,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180634C",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.897,
+    "totalSold": 46,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180634p",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.57,
+    "totalSold": 53,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180635C",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.634,
+    "totalSold": 51,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180653",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.455,
+    "totalSold": 69,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180658",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.471,
+    "totalSold": 44,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180659",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.588,
+    "totalSold": 60,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180667",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.884,
+    "totalSold": 45,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au180668M",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.173,
+    "totalSold": 59,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au185583",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.83,
+    "totalSold": 79,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au185684",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.228,
+    "totalSold": 635,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au185702",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.638,
+    "totalSold": 59,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au185800K",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.19,
+    "totalSold": 177,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au185800Kk",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.569,
+    "totalSold": 177,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au185807",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.303,
+    "totalSold": 110,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au185813",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.998,
+    "totalSold": 133,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au185853",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.233,
+    "totalSold": 168,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190014",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.36,
+    "totalSold": 107,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190016",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.209,
+    "totalSold": 112,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190018",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.051,
+    "totalSold": 59,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190020",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.134,
+    "totalSold": 298,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190023",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.302,
+    "totalSold": 369,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190024",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.966,
+    "totalSold": 343,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190026",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.926,
+    "totalSold": 293,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190037",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.116,
+    "totalSold": 382,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190039",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.033,
+    "totalSold": 100,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190052",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.256,
+    "totalSold": 67,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190056",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.502,
+    "totalSold": 197,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190059",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.112,
+    "totalSold": 400,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190064",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.806,
+    "totalSold": 64,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190070",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.82,
+    "totalSold": 86,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190119",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 5.134,
+    "totalSold": 66,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190121",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.075,
+    "totalSold": 94,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190122",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 5.138,
+    "totalSold": 43,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190124",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 5.029,
+    "totalSold": 62,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190125",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.038,
+    "totalSold": 196,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190126",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 5.239,
+    "totalSold": 58,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190129",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.958,
+    "totalSold": 198,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190131",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.723,
+    "totalSold": 302,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190132",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.233,
+    "totalSold": 208,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190133",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.584,
+    "totalSold": 111,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190134",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.559,
+    "totalSold": 99,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190135",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.284,
+    "totalSold": 262,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190136",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.242,
+    "totalSold": 164,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190137",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.151,
+    "totalSold": 95,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190140",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.236,
+    "totalSold": 136,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190141",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.216,
+    "totalSold": 198,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190142",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.247,
+    "totalSold": 172,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190144",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.394,
+    "totalSold": 175,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190155",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.749,
+    "totalSold": 124,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190156",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.626,
+    "totalSold": 156,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190159",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.348,
+    "totalSold": 128,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190163K",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.703,
+    "totalSold": 85,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190174",
+    "title": "Браслет",
+    "categoryId": "bracelets",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 7.293,
+    "totalSold": 15,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190196",
+    "title": "Серьги",
+    "categoryId": "earrings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 3.669,
+    "totalSold": 53,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190314p",
+    "title": "Подвеска",
+    "categoryId": "pendants",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.771,
+    "totalSold": 143,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190365K",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.461,
+    "totalSold": 88,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190502",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.59,
+    "totalSold": 88,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190503",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.772,
+    "totalSold": 80,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190524",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 0.967,
+    "totalSold": 130,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190542",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.079,
+    "totalSold": 216,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190543",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.094,
+    "totalSold": 196,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190546",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.116,
+    "totalSold": 96,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190548",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.151,
+    "totalSold": 258,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190552",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.088,
+    "totalSold": 50,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190554",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.48,
+    "totalSold": 71,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190555",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.098,
+    "totalSold": 53,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190556",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.785,
+    "totalSold": 77,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190560",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.021,
+    "totalSold": 119,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190561",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.244,
+    "totalSold": 69,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190562",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.889,
+    "totalSold": 43,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190567",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.846,
+    "totalSold": 150,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190569",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.547,
+    "totalSold": 144,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190572",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.442,
+    "totalSold": 134,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190573",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.394,
+    "totalSold": 212,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190574",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 1.455,
+    "totalSold": 161,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190593",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.272,
+    "totalSold": 98,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190599",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.27,
+    "totalSold": 82,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  },
+  {
+    "sku": "Au190638",
+    "title": "Кольцо",
+    "categoryId": "rings",
+    "metal": {
+      "material": "gold",
+      "probe": 585,
+      "color": "rose"
+    },
+    "avgWeight": 2.095,
+    "totalSold": 53,
+    "stock": {},
+    "images": [],
+    "isHit": true
+  }
+]
